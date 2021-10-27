@@ -27,7 +27,9 @@
                     <li class="nav-item"><a class="nav-link" href="#">CONTACT US</a></li>
                     <?php
                     if (session()->get('isLogged')) {
-                        echo "<li class='nav-item'><a class='nav-link' href='#'>Welcome, " . session()->get('uname') . "</a></li>";
+                        echo "<li class='nav-item dropdown'><a class='nav-link' aria-expanded='false' data-bs-toggle='dropdown' href='#'>Welcome, " . session()->get('uname') . "</a>
+                        <div class='dropdown-menu'><a class='dropdown-item' href='/edit-profile'>edit profile</a></div>
+                        </li>";
                     }
                     ?>
                 </ul>

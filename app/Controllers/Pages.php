@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\UsersModel;
+
 class Pages extends BaseController
 {
     public function index()
@@ -24,8 +26,15 @@ class Pages extends BaseController
 
     public function editProfile()
     {
+        $model = new UsersModel();
+
         $data['title'] = "Edit Profile";
 
-        return view('pages/edit-profile', $data);
+        $data = [
+            'user' => $model->getUsers(session()->get('id')),
+            'title' => 'Edit Profile'
+        ];
+
+        return view('users/edit-profile', $data);
     }
 }

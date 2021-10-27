@@ -76,6 +76,7 @@ class UsersController extends BaseController
                         $validated = TRUE;
 
                         session()->set(['uname' => $user['first_name']]);
+                        session()->set(['id' => $user['user_id']]);
                         session()->set(['isLogged' => TRUE]);
 
                         $data['title'] = "Home";
@@ -110,13 +111,15 @@ class UsersController extends BaseController
 
         if ($this->request->getMethod() === 'post') {
             if ($this->request->getPost('pass') === $this->request->getPost('conf-pass')) {
-                $model->update([
+                $model->update($this->request->getPost('id'), [
                     'first_name' => $this->request->getPost('fname'),
                     'last_name' => $this->request->getPost('lname'),
                     'email' => $this->request->getPost('emailadd'),
                 ]);
 
-                return view('pages/login', ['title' => 'Login']);
+                echo "<script>alert('Update Successful')</script>";
+                //return view('pages/index', ['title' => 'Home']);
+                return redirect('/', ['title' => 'Home']);
             } else {
                 return view('users/failed');
                 //die("<script>alert('Passwords must match!'); document.location = '/pages/view/login';</script>");
