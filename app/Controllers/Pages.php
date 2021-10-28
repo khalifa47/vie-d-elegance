@@ -37,4 +37,18 @@ class Pages extends BaseController
 
         return view('users/edit-profile', $data);
     }
+
+    public function editPassword()
+    {
+        $model = new UsersModel();
+
+        $data['title'] = "Edit Password";
+
+        $data = [
+            'user' => $model->getUsers(session()->get('id')),
+            'title' => 'Edit Profile'
+        ];
+
+        return view('users/edit-password', $data);
+    }
 }

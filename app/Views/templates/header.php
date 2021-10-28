@@ -28,7 +28,7 @@
                     <?php
                     if (session()->get('isLogged')) {
                         echo "<li class='nav-item dropdown'><a class='nav-link' aria-expanded='false' data-bs-toggle='dropdown' href='#'>Welcome, " . session()->get('uname') . "</a>
-                        <div class='dropdown-menu'><a class='dropdown-item' href='/edit-profile'>edit profile</a></div>
+                        <div class='dropdown-menu'><a class='dropdown-item' href='/edit-profile'>edit profile</a><a class='dropdown-item' href='/edit-password'>edit password</a></div>
                         </li>";
                     }
                     ?>

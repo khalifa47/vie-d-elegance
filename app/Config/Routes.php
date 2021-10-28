@@ -36,6 +36,7 @@ $routes->get('users/(:segment)', 'UsersController::view/$1');
 $routes->get('users', 'UsersController::index');
 $routes->get('logout', 'UsersController::logout');
 $routes->get('/edit-profile', 'Pages::editProfile');
+$routes->get('/edit-password', 'Pages::editPassword');
 $routes->get('/', 'Pages::index');
 $routes->get('(:any)', 'Pages::view/$1');
 

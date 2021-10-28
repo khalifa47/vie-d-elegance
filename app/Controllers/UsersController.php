@@ -81,8 +81,8 @@ class UsersController extends BaseController
 
                         $data['title'] = "Home";
 
-                        //return view('pages/index', $data);
-                        return redirect('/', $data);
+                        return view('pages/index', $data);
+                        //return redirect('/', $data);
                     }
                 }
                 if (!$validated) {
@@ -110,19 +110,46 @@ class UsersController extends BaseController
         $model = new UsersModel();
 
         if ($this->request->getMethod() === 'post') {
-            if ($this->request->getPost('pass') === $this->request->getPost('conf-pass')) {
-                $model->update($this->request->getPost('id'), [
-                    'first_name' => $this->request->getPost('fname'),
-                    'last_name' => $this->request->getPost('lname'),
-                    'email' => $this->request->getPost('emailadd'),
-                ]);
+            $model->update($this->request->getPost('id'), [
+                'first_name' => $this->request->getPost('fname'),
+                'last_name' => $this->request->getPost('lname'),
+                'email' => $this->request->getPost('emailadd'),
+            ]);
 
-                echo "<script>alert('Update Successful')</script>";
-                //return view('pages/index', ['title' => 'Home']);
-                return redirect('/', ['title' => 'Home']);
-            } else {
+            echo "<script>alert('Update Successful')</script>";
+            //return view('pages/index', ['title' => 'Home']);
+            return redirect('/', ['title' => 'Home']);
+        } else {
+            return view('pages/login', ['title' => 'Register']);
+        }
+    }
+
+    public function editPass()
+    {
+        $model = new UsersModel();
+
+        if ($this->request->getMethod() === 'post') {
+            $user = $model->getUsers($this->request->getPost('id'));
+
+            if (empty($user)) {
                 return view('users/failed');
-                //die("<script>alert('Passwords must match!'); document.location = '/pages/view/login';</script>");
+            } else {
+                if (sha1($this->request->getPost('old-pass')) === $user['password']) {
+                    if ($this->request->getPost('new-pass') === $this->request->getPost('conf-new-pass')) {
+                        $model->update($this->request->getPost('id'), [
+                            'password' => sha1($this->request->getPost('new-pass'))
+                        ]);
+
+                        echo "<script>alert('Password Successfully Changed')</script>";
+                        return redirect('/', ['title' => 'Home']);
+                    } else {
+                        echo "<script>alert('Passwords must match!')</script>";
+                        return redirect('/edit-password', ['title' => 'Change Password']);
+                    }
+                } else {
+                    echo "<script>alert('Incorrect Password Entered')</script>";
+                    return redirect('/edit-password', ['title' => 'Change Password']);
+                }
             }
         } else {
             return view('pages/login', ['title' => 'Register']);
