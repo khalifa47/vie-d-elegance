@@ -22,13 +22,13 @@
     <h1 style="color: rgb(255,255,255);">Gallery</h1>
     <div class="row row-gallery">
         <div class="col-md-4">
-            <div class="card"><a href="../assets/img/man-2.jpg" target="_blank" data-lightbox="models"><img class="img-fluid" src="../assets/img/man-2.jpg"></a></div>
+            <div class="card"><a href="<?= base_url('assets/img/man-2.jpg') ?>" target="_blank" data-lightbox="models"><img class="img-fluid" src="<?= base_url('assets/img/man-2.jpg') ?>"></a></div>
         </div>
         <div class="col-md-4">
-            <div class="card"><a href="../assets/img/man-3.jpg" target="_blank" data-lightbox="models"><img class="img-fluid" src="../assets/img/man-3.jpg"></a></div>
+            <div class="card"><a href="<?= base_url('assets/img/man-3.jpg') ?>" target="_blank" data-lightbox="models"><img class="img-fluid" src="<?= base_url('assets/img/man-3.jpg') ?>"></a></div>
         </div>
         <div class="col-md-4">
-            <div class="card"><a href="../assets/img/woman-1.jpg" target="_blank" data-lightbox="models"><img class="img-fluid" src="../assets/img/woman-1.jpg"></a></div>
+            <div class="card"><a href="<?= base_url('assets/img/woman-1.jpg') ?>" target="_blank" data-lightbox="models"><img class="img-fluid" src="<?= base_url('assets/img/woman-1.jpg') ?>"></a></div>
         </div>
     </div>
     <div class="row row-gallery">

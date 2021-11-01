@@ -20,4 +20,11 @@ class UsersModel extends Model
             ->where(['user_id' => $id])
             ->first();
     }
+
+    public function checkEmail($email)
+    {
+        return $this->asArray()
+            ->where(['email' => $email])
+            ->first();
+    }
 }

@@ -30,7 +30,14 @@
                         echo "<li class='nav-item dropdown'><a class='nav-link' aria-expanded='false' data-bs-toggle='dropdown' href='#'>Welcome, " . session()->get('uname') . "</a>
                         <div class='dropdown-menu'><a class='dropdown-item' href='/edit-profile'>edit profile</a><a class='dropdown-item' href='/edit-password'>edit password</a></div>
                         </li>";
+
+                        if (session()->get('utype') == 1) {
+                            echo "<li class='nav-item dropdown'><a class='dropdown-toggle nav-link' aria-expanded='false' data-bs-toggle='dropdown' href='#'>Admin</a>
+                            <div class='dropdown-menu'><a class='dropdown-item' href='/add-item'>Add Item</a></div>
+                            </li>";
+                        }
                     }
+
                     ?>
                 </ul>
                 <?php
