@@ -15,7 +15,7 @@ class UsersController extends BaseController
             'title' => 'Users List'
         ];
 
-        return view('users/view-users', $data);
+        return view('users/admin/view-users', $data);
     }
     public function view($id = null)
     {
@@ -29,7 +29,7 @@ class UsersController extends BaseController
 
         $data['title'] = $data['user']['first_name'] . " " . $data['user']['last_name'];
 
-        return view('users/view-user', $data);
+        return view('users/admin/view-user', $data);
     }
 
     public function register()
@@ -124,50 +124,56 @@ class UsersController extends BaseController
     {
         $model = new UsersModel();
 
-        if ($this->request->getMethod() === 'post') {
+        $response = array(
+            'status' => 0,
+            'message' => ''
+        );
+
+        if ($model->checkEmail($this->request->getPost('emailadd'))) {
+            $response['message'] = "Email address already exists";
+        } else {
             $model->update($this->request->getPost('id'), [
                 'first_name' => $this->request->getPost('fname'),
                 'last_name' => $this->request->getPost('lname'),
                 'email' => $this->request->getPost('emailadd'),
             ]);
-
-            echo "<script>alert('Update Successful')</script>";
-            //return view('pages/index', ['title' => 'Home']);
-            return redirect('/', ['title' => 'Home']);
-        } else {
-            return view('pages/login', ['title' => 'Register']);
+            session()->set(['uname' => $this->request->getPost('fname')]);
+            $response['status'] = 1;
+            $response['message'] = "Update successful";
         }
+        echo json_encode($response);
     }
 
     public function editPass()
     {
         $model = new UsersModel();
 
-        if ($this->request->getMethod() === 'post') {
-            $user = $model->getUsers($this->request->getPost('id'));
+        $response = array(
+            'status' => 0,
+            'message' => ''
+        );
 
-            if (empty($user)) {
-                return view('users/failed');
-            } else {
-                if (sha1($this->request->getPost('old-pass')) === $user['password']) {
-                    if ($this->request->getPost('new-pass') === $this->request->getPost('conf-new-pass')) {
-                        $model->update($this->request->getPost('id'), [
-                            'password' => sha1($this->request->getPost('new-pass'))
-                        ]);
+        $user = $model->getUsers($this->request->getPost('id'));
 
-                        echo "<script>alert('Password Successfully Changed')</script>";
-                        return redirect('/', ['title' => 'Home']);
-                    } else {
-                        echo "<script>alert('Passwords must match!')</script>";
-                        return redirect('/edit-password', ['title' => 'Change Password']);
-                    }
-                } else {
-                    echo "<script>alert('Incorrect Password Entered')</script>";
-                    return redirect('/edit-password', ['title' => 'Change Password']);
-                }
-            }
+        if (empty($user)) {
+            $response['message'] = "Server error!";
         } else {
-            return view('pages/login', ['title' => 'Register']);
+            if (sha1($this->request->getPost('oldPass')) === $user['password']) {
+                if ($this->request->getPost('newPass') === $this->request->getPost('confNewPass')) {
+                    $model->update($this->request->getPost('id'), [
+                        'password' => sha1($this->request->getPost('newPass'))
+                    ]);
+
+                    $response['status'] = 1;
+                    $response['message'] = "Password Successfully Changed";
+                } else {
+                    $response['status'] = 0;
+                    $response['message'] = "Passwords must match";
+                }
+            } else {
+                $response['message'] = "Incorrect Password Entered";
+            }
         }
+        echo json_encode($response);
     }
 }

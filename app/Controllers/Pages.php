@@ -3,12 +3,19 @@
 namespace App\Controllers;
 
 use App\Models\UsersModel;
+use App\Models\CategoriesModel;
 
 class Pages extends BaseController
 {
     public function index()
     {
-        $data['title'] = "Home";
+        $model = new CategoriesModel();
+
+        $data = [
+            'categories' => $model->getCategories(),
+            'title' => 'Home'
+        ];
+
 
         return view('pages/index', $data);
     }
@@ -27,11 +34,11 @@ class Pages extends BaseController
     public function editProfile()
     {
         $model = new UsersModel();
-
-        $data['title'] = "Edit Profile";
+        $model = new CategoriesModel();
 
         $data = [
             'user' => $model->getUsers(session()->get('id')),
+            'categories' => $model->getCategories(),
             'title' => 'Edit Profile'
         ];
 
@@ -41,14 +48,26 @@ class Pages extends BaseController
     public function editPassword()
     {
         $model = new UsersModel();
-
-        $data['title'] = "Edit Password";
+        $model = new CategoriesModel();
 
         $data = [
             'user' => $model->getUsers(session()->get('id')),
-            'title' => 'Edit Profile'
+            'categories' => $model->getCategories(),
+            'title' => 'Edit Password'
         ];
 
         return view('users/edit-password', $data);
+    }
+
+    public function addCategory()
+    {
+        $model = new CategoriesModel();
+
+        $data = [
+            'categories' => $model->getCategories(),
+            'title' => 'Add Category'
+        ];
+
+        return view('items/admin/add-category', $data);
     }
 }

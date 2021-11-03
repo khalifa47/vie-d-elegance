@@ -82,7 +82,10 @@ body {
   margin-bottom: 0;
 }
 
-#login-and-register-bg {
+#login-and-register-bg,
+#edit-profile-bg,
+#edit-password-bg,
+#add-category-bg {
   height: 100%;
   width: 100%;
 }
@@ -117,7 +120,8 @@ body {
   outline: none;
 }
 
-#btn {
+#btn,
+#btn-categ {
   top: 0;
   left: 0;
   position: absolute;
@@ -128,6 +132,10 @@ body {
   transition: 0.5s;
 }
 
+#btn-categ {
+  width: 110px;
+}
+
 .inp-grp {
   top: 90px;
   position: absolute;
@@ -135,7 +143,11 @@ body {
   transition: 0.5s;
 }
 
-.inp-field {
+.inp-field,
+.inp-field:focus,
+.inp-field:visited,
+.inp-field:active {
+  color: white;
   width: 100%;
   padding: 10px 0;
   margin: 5px 0;
@@ -145,11 +157,21 @@ body {
   background: transparent;
 }
 
-#login {
+#assoc_categ {
+  color: black;
+}
+#assoc_categ:hover {
+  color: black;
+  cursor: pointer;
+}
+
+#login,
+#category {
   left: 50px;
 }
 
-#register {
+#register,
+#subcategory {
   left: 450px;
 }
 
@@ -163,6 +185,9 @@ body {
   position: relative;
   top: 60px;
   overflow: hidden;
+}
+#add-categ-box {
+  height: 350px;
 }
 
 @media (max-width: 768px) {
@@ -191,7 +216,8 @@ body {
 }
 
 #edit-profile-form,
-#edit-password-form {
+#edit-password-form,
+#add-category-form {
   margin-left: 50px;
 }
 

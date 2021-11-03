@@ -4,7 +4,7 @@
         <div class="button-box" style="width: 220px;box-shadow: 0px 0px 20px 9px #ff61241f;border-radius: 20px;">
             <div id="btn"></div><button class="btn btn-primary toggle-btn" type="button" onclick="login()">Log In</button><button class="btn btn-primary toggle-btn" type="button" onclick="register()">Register</button>
         </div>
-        <form id="login" class="inp-grp" style="text-align: center;"><input class="form-control inp-field" type="text" placeholder="Email" id="emailadd" name="emailadd" required=""><input class="form-control inp-field" type="password" id="pass" name="pass" placeholder="Password" required=""><button class="btn btn-primary" type="submit" style="background: rgb(86,198,198);margin-top: 22px;border-radius: 20px;">Log In</button>
+        <form id="login" class="inp-grp" style="text-align: center;"><input class="form-control inp-field" type="email" placeholder="Email" id="emailadd" name="emailadd" required=""><input class="form-control inp-field" type="password" id="pass" name="pass" placeholder="Password" required=""><button class="btn btn-primary" type="submit" style="background: rgb(86,198,198);margin-top: 22px;border-radius: 20px;">Log In</button>
             <div id="message-login" class="alert-box">
 
             </div>

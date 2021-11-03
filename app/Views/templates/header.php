@@ -22,7 +22,15 @@
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav me-auto" id="navb">
                     <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">categories</a>
-                        <div class="dropdown-menu"><a class="dropdown-item" href="#">men's wear</a><a class="dropdown-item" href="#">women's wear</a><a class="dropdown-item" href="#">children's wear</a><a class="dropdown-item" href="#">pet's wear</a></div>
+                        <div class="dropdown-menu">
+                            <?php if (!empty($categories)) : ?>
+                                <?php foreach ($categories as $category) : ?>
+                                    <a class="dropdown-item" href="#"><?= esc($category['category_name']) ?></a>
+                                <?php endforeach; ?>
+                            <?php else : ?>
+                                <a class="dropdown-item" href="#">No categories found</a>
+                            <?php endif; ?>
+                        </div>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="#">CONTACT US</a></li>
                     <?php
@@ -33,6 +41,7 @@
 
                         if (session()->get('utype') == 1) {
                             echo "<li class='nav-item dropdown'><a class='dropdown-toggle nav-link' aria-expanded='false' data-bs-toggle='dropdown' href='#'>Admin</a>
+                            <div class='dropdown-menu'><a class='dropdown-item' href='/add-category'>Add Category</a></div>
                             <div class='dropdown-menu'><a class='dropdown-item' href='/add-item'>Add Item</a></div>
                             </li>";
                         }
