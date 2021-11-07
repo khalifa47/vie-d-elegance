@@ -1,4 +1,4 @@
-var dt_allowed=false,readerfiles,drop,fileCount,fileinput,backdrop,notify,list,listwait,listsync=false,image_preview;
+var dt_allowed = false, readerfiles, drop, fileCount, fileinput, backdrop, notify, list, listwait, listsync = false, image_preview;
 
 addEventHandler(window, 'load', function () {
     init_elements();
@@ -13,7 +13,7 @@ addEventHandler(window, 'load', function () {
 
 function init_elements() {
     drop = document, // Drop Target
-    fileCount = document.getElementById('filecount');
+        fileCount = document.getElementById('filecount');
     fileinput = document.getElementById('form-files');
     backdrop = document.getElementById('backdrop');
     list = document.getElementById('list');
@@ -23,7 +23,7 @@ function init_elements() {
 }
 
 function init_fileinput() {
-    addEventHandler(fileinput,'change', function (e) {
+    addEventHandler(fileinput, 'change', function (e) {
         cancelDefault(e);
         if (!listsync) {
             addFiles(fileinput.files);
@@ -34,7 +34,7 @@ function init_fileinput() {
 
 function init_datatransfer() {
 
-    dt_allowed=true;
+    dt_allowed = true;
     readerfiles = new DataTransfer();
 
     addEventHandler(drop, 'dragover', function (e) {
@@ -61,8 +61,8 @@ function init_datatransfer() {
 
 
 function cancelDefault(e) {
-    e=e||window.event;
-    if (e&&e.preventDefault) {
+    e = e || window.event;
+    if (e && e.preventDefault) {
         e.preventDefault();
     }
     return false;
@@ -79,8 +79,8 @@ function addEventHandler(obj, evt, handler) {
     }
 }
 
-function clearFiles(){
-    fileinput.value='';
+function clearFiles() {
+    fileinput.value = '';
     if (dt_allowed) readerfiles = new DataTransfer();
     previewClose();
     notify_msg('Files removed.');
@@ -90,8 +90,8 @@ function clearFiles(){
 
 function addFiles(files) {
     files_text = 'Files add:</br>';
-    for (var i=0,l=files.length;i<l;i++) {
-        files_text+=' '+files[i].name+'</br>';
+    for (var i = 0, l = files.length; i < l; i++) {
+        files_text += ' ' + files[i].name + '</br>';
         if (dt_allowed) readerfiles.items.add(files[i]);
     }
     notify_msg(files_text);
@@ -101,38 +101,34 @@ function addFiles(files) {
 function remFile(file_i) {
     if (!dt_allowed) return;
     previewClose();
-    file_i=parseInt(file_i);
-    if (file_i<0||readerfiles.files.length-1<file_i) return;
-    notify_msg('File removed:</br>'+readerfiles.files[file_i].name);
+    file_i = parseInt(file_i);
+    if (file_i < 0 || readerfiles.files.length - 1 < file_i) return;
+    notify_msg('File removed:</br>' + readerfiles.files[file_i].name);
     readerfiles.items.remove(file_i);
     listFiles();
 }
 
-function listFiles(w=true) {
-    if (w||listwait) {
+function listFiles(w = true) {
+    if (w || listwait) {
         if (listwait) clearTimeout(listwait);
-        listwait=setTimeout(function(){ listwait=null; listFiles(false); },200);
+        listwait = setTimeout(function () { listwait = null; listFiles(false); }, 200);
         return;
     }
-    var thelist=dt_allowed? readerfiles : fileinput;
-    listsync=true;
-    fileCount.innerHTML=thelist.files.length+' files: '
-    list.innerHTML='';
-    for (var i=0,l=thelist.files.length;i<l;i++) {
+    var thelist = dt_allowed ? readerfiles : fileinput;
+    listsync = true;
+    fileCount.innerHTML = thelist.files.length + ' files: '
+    list.innerHTML = '';
+    for (var i = 0, l = thelist.files.length; i < l; i++) {
         var a = document.createElement('button');
-        a.setAttribute('type','button');
-        a.setAttribute('class','close');
-        a.setAttribute('aria-label','Close');
-        a.setAttribute('onclick','remFile('+i+')');
-        var s = document.createElement('span');
-        s.setAttribute('aria-hidden','true');
-        s.textContent='×';
-        a.appendChild(s);
+        a.setAttribute('type', 'button');
+        a.setAttribute('class', 'btn-close');
+        a.setAttribute('aria-label', 'Close');
+        a.setAttribute('onclick', 'remFile(' + i + ')');
         list.appendChild(a);
         var newFile = document.createElement('a');
         newFile.innerHTML = thelist.files[i].name + ' size ' + thelist.files[i].size + 'B';
-        newFile.setAttribute('href','#');
-        newFile.setAttribute('onclick','previewFile('+i+')');
+        newFile.setAttribute('href', '#');
+        newFile.setAttribute('onclick', 'previewFile(' + i + ')');
         list.appendChild(newFile);
         list.appendChild(document.createElement('br'));
 
@@ -143,8 +139,8 @@ function listFiles(w=true) {
         //list.appendChild(img);
 
     }
-    if (dt_allowed) fileinput.files=readerfiles.files;
-    listsync=false;
+    if (dt_allowed) fileinput.files = readerfiles.files;
+    listsync = false;
 }
 
 
@@ -156,22 +152,22 @@ function previewClose() {
 function previewFile(file_i) {
     previewClose();
     if (!dt_allowed) return;
-    file_i=parseInt(file_i);
-    if (file_i<0||readerfiles.files.length-1<file_i) return;
+    file_i = parseInt(file_i);
+    if (file_i < 0 || readerfiles.files.length - 1 < file_i) return;
     const reader = new FileReader();
-    if (!['png','svg','gif','jpg','jpeg','tiff'].includes(readerfiles.files[file_i].name.split('.',-1).pop().toLowerCase())) return;
-    reader.addEventListener('load',function(){
+    if (!['png', 'svg', 'gif', 'jpg', 'jpeg', 'tiff'].includes(readerfiles.files[file_i].name.split('.', -1).pop().toLowerCase())) return;
+    reader.addEventListener('load', function () {
         previewFileReader(reader.result);
-    },false);
+    }, false);
     reader.readAsDataURL(readerfiles.files[file_i]);
 }
 
 function previewFileReader(bin) {
-    image_preview.src=bin;
+    image_preview.src = bin;
     image_preview.parentElement.classList.remove('invisible');
 }
 
 function notify_msg(m) {
-    notify.innerHTML=m;
+    notify.innerHTML = m;
     notify.parentElement.classList.remove('invisible');
 }

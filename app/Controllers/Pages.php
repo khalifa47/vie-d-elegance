@@ -85,10 +85,12 @@ class Pages extends BaseController
 
     public function addItem()
     {
-        $model = new CategoriesModel();
+        $modelUsers = new UsersModel();
+        $modelCat = new CategoriesModel();
 
         $data = [
-            'categories' => $model->getCategories(),
+            'user' => $modelUsers->getUsers(session()->get('id')),
+            'categories' => $modelCat->getCategories(),
             'title' => 'Add Item'
         ];
 

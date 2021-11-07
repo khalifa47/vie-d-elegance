@@ -9,7 +9,12 @@
 
             </div>
         </form>
-        <form id="register" class="inp-grp" style="text-align: center;"><input class="form-control inp-field" type="text" placeholder="First Name" id="fname" name="fname" required=""><input class="form-control inp-field" type="text" placeholder="Last Name" id="lname" name="lname" required=""><input class="form-control inp-field" type="email" id="emailadd" name="emailadd" placeholder="E-mail" required=""><input class="form-control inp-field" type="password" id="pass" name="pass" placeholder="Password" required="" minlength="7"><input class="form-control inp-field" type="password" id="confpass" name="confpass" placeholder="Confirm Password" required="" minlength="7">
+        <form id="register" class="inp-grp" style="text-align: center;">
+            <input class="form-control inp-field" type="text" placeholder="First Name" id="fname" name="fname" required="">
+            <input class="form-control inp-field" type="text" placeholder="Last Name" id="lname" name="lname" required="">
+            <input class="form-control inp-field" type="email" id="emailadd" name="emailadd" placeholder="E-mail" required="">
+            <input class="form-control inp-field" type="password" id="pass" name="pass" placeholder="Password" required="" minlength="7">
+            <input class="form-control inp-field" type="password" id="confpass" name="confpass" placeholder="Confirm Password" required="" minlength="7">
             <div>
                 <div class="row">
                     <div class="col">

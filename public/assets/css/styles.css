@@ -269,3 +269,7 @@ body {
 .m-5 {
   text-align: center;
 }
+
+.margin-space {
+  margin-bottom: 10px;
+}
