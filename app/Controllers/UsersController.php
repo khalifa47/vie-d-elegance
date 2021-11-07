@@ -3,15 +3,19 @@
 namespace App\Controllers;
 
 use App\Models\UsersModel;
+use App\Models\CategoriesModel;
 
 class UsersController extends BaseController
 {
 
     public function index()
     {
-        $model = new UsersModel();
+        $modelUsers = new UsersModel();
+        $modelCat = new CategoriesModel();
+
         $data = [
-            'users' => $model->getUsers(),
+            'categories' => $modelCat->getCategories(),
+            'users' => $modelUsers->getUsers(),
             'title' => 'Users List'
         ];
 
@@ -19,9 +23,13 @@ class UsersController extends BaseController
     }
     public function view($id = null)
     {
-        $model = new UsersModel();
+        $modelUsers = new UsersModel();
+        $modelCat = new CategoriesModel();
 
-        $data['user'] = $model->getUsers($id);
+        $data = [
+            'categories' => $modelCat->getCategories(),
+            'user' => $modelUsers->getUsers($id)
+        ];
 
         if (empty($data['user'])) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('User does not exist: ' . $id);
@@ -96,11 +104,6 @@ class UsersController extends BaseController
 
                         $response['status'] = 1;
                         $response['message'] = "Login successful";
-
-                        // $data['title'] = "Home";
-
-                        // return view('pages/index', $data);
-                        //return redirect('/', $data);
                     }
                 }
             }
@@ -116,7 +119,6 @@ class UsersController extends BaseController
         session()->set(['isLogged' => FALSE]);
         session()->destroy();
 
-        //return view('pages/index', ['title' => 'Home']);
         return redirect('/', ['title' => 'Home']);
     }
 

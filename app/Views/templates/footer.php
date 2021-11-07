@@ -42,6 +42,15 @@
 </footer>
 <script src="<?= base_url('assets/bootstrap/js/bootstrap.min.js') ?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.js"></script>
+
+<script>
+    $(".edit").on("click", (e) => {
+        alert("Edit Clicked");
+    });
+    $(".delete").on("click", (e) => {
+        alert("Delete Clicked");
+    });
+</script>
 </body>
 
 </html>

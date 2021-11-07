@@ -238,3 +238,34 @@ body {
   border-color: red;
   display: none;
 }
+
+.control-div {
+  display: inline-flex;
+  margin: 0;
+  padding: 0;
+}
+.control-div:hover {
+  background: transparent;
+}
+.control-div a {
+  margin: 5px;
+  padding: 0;
+  color: black;
+}
+
+.item-name {
+  color: rgb(187, 187, 187);
+  text-decoration: none;
+}
+.item-name:hover {
+  color: #78e08f;
+}
+
+.form-check-inline {
+  font-size: 15px;
+  margin: 0;
+}
+
+.m-5 {
+  text-align: center;
+}

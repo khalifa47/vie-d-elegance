@@ -31,14 +31,26 @@ class Pages extends BaseController
         return view('pages/' . $page, $data);
     }
 
-    public function editProfile()
+    public function login()
     {
-        $model = new UsersModel();
         $model = new CategoriesModel();
 
         $data = [
-            'user' => $model->getUsers(session()->get('id')),
             'categories' => $model->getCategories(),
+            'title' => 'Login'
+        ];
+
+        return view('pages/login', $data);
+    }
+
+    public function editProfile()
+    {
+        $modelUsers = new UsersModel();
+        $modelCat = new CategoriesModel();
+
+        $data = [
+            'user' => $modelUsers->getUsers(session()->get('id')),
+            'categories' => $modelCat->getCategories(),
             'title' => 'Edit Profile'
         ];
 
@@ -47,12 +59,12 @@ class Pages extends BaseController
 
     public function editPassword()
     {
-        $model = new UsersModel();
-        $model = new CategoriesModel();
+        $modelUsers = new UsersModel();
+        $modelCat = new CategoriesModel();
 
         $data = [
-            'user' => $model->getUsers(session()->get('id')),
-            'categories' => $model->getCategories(),
+            'user' => $modelUsers->getUsers(session()->get('id')),
+            'categories' => $modelCat->getCategories(),
             'title' => 'Edit Password'
         ];
 
@@ -69,5 +81,17 @@ class Pages extends BaseController
         ];
 
         return view('items/admin/add-category', $data);
+    }
+
+    public function addItem()
+    {
+        $model = new CategoriesModel();
+
+        $data = [
+            'categories' => $model->getCategories(),
+            'title' => 'Add Item'
+        ];
+
+        return view('items/admin/add-items', $data);
     }
 }
