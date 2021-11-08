@@ -21,6 +21,13 @@ class SubcategoriesModel extends Model
             ->first();
     }
 
+    public function getSubcategoriesAtCategory($categ)
+    {
+        return $this->asArray()
+            ->where(['category' => $categ])
+            ->findAll();
+    }
+
     public function checkSubcategory($subcat, $cat)
     {
         return $this->asArray()

@@ -42,6 +42,7 @@ class CategoriesController extends BaseController
             'message' => ''
         );
 
+
         if (empty($_POST['subcateg']) || empty($_POST['assoc_categ'])) {
             $response['status'] = 0;
             $response['message'] = "All fields must be filled";

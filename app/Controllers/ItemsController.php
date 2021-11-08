@@ -3,6 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\CategoriesModel;
+use App\Models\SubcategoriesModel;
+
+use App\Models\ItemsModel;
+use App\Models\ImagesModel;
 
 class ItemsController extends BaseController
 {
@@ -31,5 +35,76 @@ class ItemsController extends BaseController
         // $data['title'] = $data['user']['first_name'] . " " . $data['user']['last_name'];
 
         return view('items/item', ['title' => 'Item']);
+    }
+    public function getSubcategories()
+    {
+        $model = new SubcategoriesModel();
+
+        $response = array(
+            'status' => 0,
+            'subcats' => ''
+        );
+
+        if (!empty($model->getSubcategoriesAtCategory($_POST['categ_id']))) {
+            $response['status'] = 1;
+            $response['subcats'] = $model->getSubcategoriesAtCategory($_POST['categ_id']);
+        } else {
+            $response['status'] = 0;
+        }
+        echo json_encode($response);
+    }
+
+    public function addItem()
+    {
+        $modelItems = new ItemsModel();
+        $modelImages = new ImagesModel();
+
+        $response = array(
+            'status' => 0,
+            'message' => ''
+        );
+
+        if ($_POST['subcat'] == 'def') {
+            $response['status'] = 0;
+            $response['message'] = "Select appropriate categories";
+        } else if ($_POST['uprice'] < 0) {
+            $response['status'] = 0;
+            $response['message'] = "Invalid price entered";
+        } else if ($_POST['av_q'] < 0) {
+            $response['status'] = 0;
+            $response['message'] = "Invalid quantity entered";
+        } else if (count($_FILES['item_images']['name']) > 5) {
+            $response['status'] = 0;
+            $response['message'] = "You can upload a maximum of 5 images";
+        } else {
+            //for the data
+            $modelItems->save([
+                "product_name" => $_POST['iname'],
+                "product_description" => $_POST['idesc'],
+                "product_image" => $_POST['alttext'],
+                "unit_price" => $_POST['uprice'],
+                "available_quantity" => $_POST['av_q'],
+                "subcategory_id" => $_POST['subcat'],
+                "added_by" => $_POST['admin_id']
+            ]);
+
+            //for the files
+            $files_upload_path = base_url("assets/items_img/");
+
+            for ($i = 0; $i < count($_FILES['item_images']['name']); $i++) {
+                $file_ext = strtolower(pathinfo($_FILES['item_images']['name'][$i], PATHINFO_EXTENSION));
+                $rand_fname = md5(rand() * time()) . ".$file_ext";
+                $filepath = $files_upload_path . $rand_fname;
+                if (!move_uploaded_file($_FILES['item_images']['tmp_name'][$i], $filepath)) {
+                    $response['message'] = "An error occurred while uploading the files";
+                }
+                $modelImages->save([
+                    "product_image" => $rand_fname,
+                    // "product_id" = , //pending thought process
+                    "added_by" => $_POST['admin_id']
+                ]);
+            }
+        }
+        echo json_encode($response);
     }
 }

@@ -273,3 +273,7 @@ body {
 .margin-space {
   margin-bottom: 10px;
 }
+
+select {
+  cursor: pointer;
+}
