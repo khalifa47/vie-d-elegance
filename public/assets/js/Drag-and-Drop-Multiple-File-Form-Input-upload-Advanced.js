@@ -80,11 +80,13 @@ function addEventHandler(obj, evt, handler) {
 }
 
 function clearFiles() {
-    fileinput.value = '';
-    if (dt_allowed) readerfiles = new DataTransfer();
-    previewClose();
-    notify_msg('Files removed.');
-    listFiles();
+    if (fileinput.value != '') {
+        fileinput.value = '';
+        if (dt_allowed) readerfiles = new DataTransfer();
+        previewClose();
+        notify_msg('Files removed.');
+        listFiles();
+    }
 }
 
 
