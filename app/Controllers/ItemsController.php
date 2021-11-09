@@ -73,7 +73,7 @@ class ItemsController extends BaseController
         } else if ($_POST['av_q'] < 0) {
             $response['status'] = 0;
             $response['message'] = "Invalid quantity entered";
-        } else if (count($_FILES['item_images']['name']) < 2) {
+        } else if (!isset($_FILES['item_images']['name']) || count($_FILES['item_images']['name']) < 2) {
             $response['status'] = 0;
             $response['message'] = "You have to upload at least 1 image";
         } else if (count($_FILES['item_images']['name']) > 5) {
