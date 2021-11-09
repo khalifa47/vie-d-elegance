@@ -35,7 +35,7 @@
                                     <div style="display: flex; justify-content:space-between;">
                                         <a class="dropdown-item" href="#"><?= esc($category['category_name']) ?>
 
-                                            <?php if (!session()->get('isLogged') && !session()->get('utype') == 1) : ?>
+                                            <?php if (session()->get('isLogged') && session()->get('utype') == 1) : ?>
                                                 <div class="control-div">
                                                     <a class="edit" role="button" href="#">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -68,8 +68,7 @@
 
                         if (session()->get('utype') == 1) {
                             echo "<li class='nav-item dropdown'><a class='dropdown-toggle nav-link' aria-expanded='false' data-bs-toggle='dropdown' href='#'>Admin</a>
-                            <div class='dropdown-menu'><a class='dropdown-item' href='/add-category'>Add Category</a></div>
-                            <div class='dropdown-menu'><a class='dropdown-item' href='/add-item'>Add Item</a></div>
+                            <div class='dropdown-menu'><a class='dropdown-item' href='/add-category'>Add Category</a><a class='dropdown-item' href='/add-item'>Add Item</a></div>
                             </li>";
                         }
                     }

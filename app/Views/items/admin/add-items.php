@@ -41,7 +41,7 @@
             </select>
 
             <!-- hidden input value -->
-            <input type="hidden" id="admin_id" name="admin_id">
+            <input type="hidden" id="admin_id" name="admin_id" value="<?= esc($user['user_id']) ?>">
             <hr>
             <button class="btn btn-outline-primary" type="submit">Submit</button>
             <button class="btn btn-danger" type="reset" onclick="clearFiles()">Reset</button>
@@ -99,8 +99,6 @@
 
             e.preventDefault();
 
-
-
             let form_data = new FormData();
             form_data.append("iname", item_name);
             form_data.append("idesc", item_desc);
@@ -130,18 +128,19 @@
                 success: (response) => {
                     if (response.status == 1) {
                         $('#add-items')[0].reset();
+                        clearFiles();
                         $(".alert-box").css({
                             'display': 'block',
                             'background-color': 'rgb(0, 247, 164)',
                             'color': 'green',
                             'border-color': 'green'
                         });
-                        //$('#message-add-items').html("<li>" + response.message + "</li>");
+                        $('#message-add-items').html("<li>" + response.message + "</li>");
                     } else {
                         $(".alert-box").css({
                             'display': 'block'
                         });
-                        //$('#message-add-items').html("<li>" + response.message + "</li>");
+                        $('#message-add-items').html("<li>" + response.message + "</li>");
                     }
                 }
 

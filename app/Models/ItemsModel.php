@@ -20,4 +20,10 @@ class ItemsModel extends Model
             ->where(['product_id' => $id])
             ->first();
     }
+
+    public function insertItem($data)
+    {
+        $this->save($data);
+        return $this->getInsertID();
+    }
 }
