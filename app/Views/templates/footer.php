@@ -42,7 +42,6 @@
 </footer>
 <script src="<?= base_url('assets/bootstrap/js/bootstrap.min.js') ?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.js"></script>
-<script src="<?= base_url('assets/js/Drag-and-Drop-Multiple-File-Form-Input-upload-Advanced.js') ?>"></script>
 
 <script>
     $(".edit").on("click", (e) => {

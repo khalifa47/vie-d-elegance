@@ -53,6 +53,7 @@
     </div>
     <div id="message-add-items" class="alert-box"></div>
 </div>
+<script src="<?= base_url('assets/js/Drag-and-Drop-Multiple-File-Form-Input-upload-Advanced.js') ?>"></script>
 <?php echo view('templates/footer'); ?>
 
 <script>

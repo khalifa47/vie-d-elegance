@@ -178,4 +178,39 @@ class UsersController extends BaseController
         }
         echo json_encode($response);
     }
+
+    public function forgetPassword()
+    {
+        $model = new UsersModel();
+
+        $response = array(
+            'status' => 0,
+            'message' => ''
+        );
+
+        $recovered = $model->checkEmail($_POST['recoveryEmail']);
+
+        if ($recovered) {
+            $newpass = md5(rand() * time());
+
+            $model->update($recovered['user_id'], [
+                'password' => sha1($newpass)
+            ]);
+            $to = $_POST['recoveryEmail'];
+            $subject = "Password Reset";
+            $content = wordwrap("Your new password is $newpass\n\nPlease reset it at the earliest convenience.");
+            $headers = "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type: text/html/charset=UTF-8" . "\r\n";
+            $headers .= "From: no.reply.vde123@gmail.com\r\nX-Mailer: PHP/" . phpversion();
+
+            mail($to, $subject, $content, $headers);
+
+            $response['status'] = 1;
+            $response['message'] = "Please check your email address for the recovery password. Make sure to check your spam folder as well.";
+        } else {
+            $response['status'] = 0;
+            $response['message'] = "Email address does not exist. Please register first";
+        }
+        echo json_encode($response);
+    }
 }

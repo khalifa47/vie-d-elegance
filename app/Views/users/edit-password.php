@@ -11,29 +11,6 @@
             <input class="form-control inp-field" type="password" id="conf-new-pass" name="conf-new-pass" placeholder="Confirm New Password" required="">
             <button class="btn btn-primary" type="submit" style="background: rgb(86,198,198);margin-top: 22px;border-radius: 20px;">Confirm Change</button>
             <br>
-            <!-- password forget plan -->
-            <style>
-                #forgot-pass {
-                    margin-top: 10px;
-                    padding: 0;
-                }
-
-                #forgot-pass:hover {
-                    color: cadetblue;
-                }
-            </style>
-            <a id="forgot-pass" href="#" class="btn" role="button">Forgotten Password?</a>
-
-            <?php
-            // $to = "somebody@example.com";
-            // $subject = "Password Reset";
-            // $content = wordwrap("Your new password is _________. Please reset it at the earliest convenience.");
-            // $headers = "From: no-reply-vde123@example.com";
-
-            // mail($to, $subject, $txt, $headers);
-            ?>
-
-            <!-- end of forgot password plan -->
 
             <div id="message-editpass" class="alert-box"></div>
         </form>

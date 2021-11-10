@@ -1,14 +1,69 @@
 <?php echo view('templates/header', ['title' => $title]); ?>
+<style>
+    #forgot-pass {
+        margin-top: 10px;
+        padding: 0;
+    }
+
+    #forgot-pass:hover {
+        color: cadetblue;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        overflow: hidden;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    #recovery-email {
+        margin: 10px;
+    }
+
+    #close-btn {
+        display: flex;
+        align-self: flex-end;
+    }
+</style>
+
 <div id="login-and-register-bg" style="height: 600px;background: url(&quot;<?= base_url("assets/img/sewing.jpg") ?>&quot;) center / cover no-repeat, linear-gradient(rgba(0,0,0,0.4) 100%, rgba(0,0,0,0.4) 100%, white 100%);">
     <div class="form-box">
         <div class="button-box" style="width: 220px;box-shadow: 0px 0px 20px 9px #ff61241f;border-radius: 20px;">
             <div id="btn"></div><button class="btn btn-primary toggle-btn" type="button" onclick="login()">Log In</button><button class="btn btn-primary toggle-btn" type="button" onclick="register()">Register</button>
         </div>
-        <form id="login" class="inp-grp" style="text-align: center;"><input class="form-control inp-field" type="email" placeholder="Email" id="emailadd" name="emailadd" required=""><input class="form-control inp-field" type="password" id="pass" name="pass" placeholder="Password" required=""><button class="btn btn-primary" type="submit" style="background: rgb(86,198,198);margin-top: 22px;border-radius: 20px;">Log In</button>
-            <div id="message-login" class="alert-box">
+        <form id="login" class="inp-grp" style="text-align: center;">
+            <input class="form-control inp-field" type="email" placeholder="Email" id="emailadd" name="emailadd" required="">
+            <input class="form-control inp-field" type="password" id="pass" name="pass" placeholder="Password" required="">
+            <button class="btn btn-primary" type="submit" style="background: rgb(86,198,198);margin-top: 22px;border-radius: 20px;">Log In</button>
+            <br><a id="forgot-pass" href="#" class="btn" role="button">Forgotten Password?</a>
 
-            </div>
+            <div id="message-login" class="alert-box"></div>
         </form>
+        <div id="forgotPassDialog" class="modal">
+            <div class="modal-content">
+                <button id="close-btn" type="button" class="btn-close" aria-label="Close"></button>
+                <form id="pass-recovery-form">
+                    <input type="email" class="form-control" id="recovery-email" placeholder="Enter recovery email address here..." required>
+                    <button type="submit" class="btn btn-primary">Send Recovery Password</button>
+                </form>
+                <div id="message-forget-pass" class="alert-box"></div>
+            </div>
+        </div>
         <form id="register" class="inp-grp" style="text-align: center;">
             <input class="form-control inp-field" type="text" placeholder="First Name" id="fname" name="fname" required="">
             <input class="form-control inp-field" type="text" placeholder="Last Name" id="lname" name="lname" required="">
@@ -34,6 +89,7 @@
 </div>
 <?php echo view('templates/footer'); ?>
 <script>
+    // move between login and register
     const x = $("#login")[0];
     const y = $("#register")[0];
     const z = $("#btn")[0];
@@ -52,7 +108,67 @@
         z.style.width = "95px";
     }
 
+    //display dialog if forgot password
+    const modal = $("#forgotPassDialog")[0];
+    const forgot_btn = $("#forgot-pass")[0];
+    const close_btn = $("#close-btn")[0];
+
+    forgot_btn.onclick = () => {
+        modal.style.display = "block"; // When the user clicks on the button, open the modal
+    }
+
+    close_btn.onclick = () => {
+        modal.style.display = "none"; // When the user clicks on x, close the modal
+    }
+
+    window.onclick = (event) => {
+        if (event.target == modal) {
+            modal.style.display = "none"; // When the user clicks anywhere outside of the modal, close it
+        }
+    }
+
+    //document ready
     $(document).ready(() => {
+        //on submitting password recovery
+        $("#pass-recovery-form").on("submit", (e) => {
+            const recoveryEmail = $('#recovery-email').val();
+
+            e.preventDefault();
+
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url('UsersController/forgetPassword') ?>',
+                data: {
+                    recoveryEmail: recoveryEmail
+                },
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                cache: false,
+
+                success: (response) => {
+                    if (response.status == 1) {
+                        $(".alert-box").css({
+                            'display': 'block',
+                            'background-color': 'rgb(0, 247, 164)',
+                            'color': 'green',
+                            'border-color': 'green'
+                        });
+                        $('#message-forget-pass').html("<li>" + response.message + "</li>");
+                    } else {
+                        $(".alert-box").css({
+                            'display': 'block'
+                        });
+                        $('#message-forget-pass').html("<li>" + response.message + "</li>");
+                    }
+                }
+
+            });
+        });
+
+        //on submitting register
         $("#register").on("submit", (e) => {
             const firstname = $('#fname').val();
             const lastname = $('#lname').val();
@@ -102,6 +218,7 @@
             });
         });
 
+        //on submitting login
         $("#login").on("submit", (e) => {
             const emailaddress = $('#emailadd').val();
             const pass = $('#pass').val();
