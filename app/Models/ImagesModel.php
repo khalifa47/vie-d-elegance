@@ -10,7 +10,7 @@ class ImagesModel extends Model
     protected $primaryKey = 'productimages_id';
     protected $allowedFields = ['product_image', 'product_id', 'created_at', 'updated_at', 'added_by', 'is_deleted'];
 
-    public function getImage($id = false)
+    public function getImages($id = false)
     {
         if ($id === false) {
             return $this->findAll();

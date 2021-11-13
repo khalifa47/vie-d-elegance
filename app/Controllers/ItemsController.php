@@ -12,10 +12,14 @@ class ItemsController extends BaseController
 {
     public function index()
     {
-        $model = new CategoriesModel();
+        $modelCategs = new CategoriesModel();
+        $modelImages = new ImagesModel();
+        $modelItems = new ItemsModel();
 
         $data = [
-            'categories' => $model->getCategories(),
+            'items' => $modelItems->getItems(),
+            'images' => $modelImages->getImages(),
+            'categories' => $modelCategs->getCategories(),
             'title' => 'Items'
         ];
 
@@ -23,18 +27,22 @@ class ItemsController extends BaseController
     }
     public function view($id = null)
     {
-        // $model = new CategoriesModel();
-        // $model = new UsersModel();
+        $modelCategs = new CategoriesModel();
+        $modelImages = new ImagesModel();
+        $modelItems = new ItemsModel();
 
-        // $data['user'] = $model->getUsers($id);
+        $data['item'] = $modelItems->getItems($id);
 
-        // if (empty($data['user'])) {
-        //     throw new \CodeIgniter\Exceptions\PageNotFoundException('Item does not exist: ' . $id);
-        // }
+        if (empty($data['item'])) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Item does not exist: ' . $id);
+        }
 
-        // $data['title'] = $data['user']['first_name'] . " " . $data['user']['last_name'];
+        $data = [
+            'categories' => $modelCategs->getCategories(),
+            'title' => $data['item']['product_name']
+        ];
 
-        return view('items/item', ['title' => 'Item']);
+        return view('items/item', $data);
     }
     public function getSubcategories()
     {

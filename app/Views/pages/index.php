@@ -3,7 +3,7 @@
 <div id="banner" style="height: 467.667px;">
     <div id="banner-text">
         <h1>Bringing out the best in you</h1>
-        <p>Be the best, stand out above the rest, and dress to impress</p><button class="btn btn-primary" type="button">Check out our products</button>
+        <p>Be the best, stand out above the rest, and dress to impress</p><a class="btn btn-primary" href="/items">Check out our products</a>
     </div>
 </div>
 

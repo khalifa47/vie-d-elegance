@@ -18,5 +18,5 @@
 
     <p>Unable to find any users for you.</p>
 
-<?php endif ?>
+<?php endif; ?>
 <?php echo view('templates/footer'); ?>
