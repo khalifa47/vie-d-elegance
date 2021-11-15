@@ -7,33 +7,26 @@
 <div class="container-fluid top-container" style="color: rgb(153,154,156);">
     <div class="row">
         <div class="col-12 col-md-6 col-xl-4 offset-xl-2">
-            <div class="img-container"><img class="rounded" id="expandedImg" style="width:100%" src="assets/img/img1-min.jpg">
+            <div class="img-container"><img class="rounded" id="expandedImg" style="width:100%; max-height: 400px; min-height:400px; object-fit:cover;" src="<?= base_url('assets/items_img/' . $images[0]['product_image']) ?>" alt="<?= $item['product_image'] ?>">
                 <div id="imgtext"></div>
             </div>
+
             <div class="row img-row" style="padding-right: 10px;padding-left: 10px;">
-                <div class="col column"><img class="img-thumbnail img-fluid" src="assets/img/img1-min.jpg" onclick="myFunction(this);" alt="image 1"></div>
-                <div class="col column"><img class="img-thumbnail img-fluid" src="assets/img/img2-min.jpg" onclick="myFunction(this);" alt="image 2"></div>
-                <div class="col column"><img class="img-thumbnail img-fluid" src="assets/img/img3-min.jpg" onclick="myFunction(this);" alt="image 3"></div>
-                <div class="col column"><img class="img-thumbnail img-fluid" src="assets/img/img4-min.jpg" onclick="myFunction(this);" alt="image 4"></div>
+                <?php $counter = 0; ?>
+                <?php foreach ($images as $image) : ?>
+                    <div class="col column"><img class="img-thumbnail img-fluid thumb" src="<?= base_url('assets/items_img/' . $image['product_image']) ?>" onclick="myFunction(this);" alt="image <?= $counter++ ?>"></div>
+                <?php endforeach; ?>
             </div>
         </div>
         <div class="col-sm-12 col-md-6 col-xl-4 offset-xl-0">
-            <h1>I am Your Bad Luck</h1><img src="<?= base_url('assets/img/5-star-rating.svg') ?>" width="120px" style="padding-bottom: 5px;">
-            <h2>$14.95</h2>
-            <p style="font-size: 20px;">Here goes your product description. Try to add your main keywords but remember that this is a text for humans, not robots. So write easy to read sentences that make sense.</p>
-            <p style="font-size: 20px;"><a href="https://1.envato.market/c/2052893/629767/10168">Click here</a> for thousands of top-notch T-SHIRT MOCKUPS to put your design on.</p>
-            <ul>
-                <li>Fit type: men, women, kids<br></li>
-                <li>Sizes: XS to 4XL<br></li>
-                <li>Machine wash cold, dry low heat<br></li>
-                <li>Double-needle sleeve and bottom hem<br></li>
-                <li>Lightweight<br></li>
-                <li>Classic fit<br></li>
-            </ul>
-            <div data-reflow-type="add-to-cart" style="color: rgb(153,154,156);text-align: center;"></div>
+            <h1><?= $item['product_name'] ?></h1><img src="<?= base_url('assets/img/5-star-rating.svg') ?>" width="120px" style="padding-bottom: 5px;">
+            <h2>Ksh. <?= $item['unit_price'] ?> </h2>
+            <!-- If admin -->
+            <h4>Available: <?= $item['available_quantity'] ?> units</h4>
+            <!-- end if admin -->
+            <p style="font-size: 20px;"><?= $item['product_description'] ?></p>
         </div>
     </div>
 </div>
-<script src="https://cdn.reflowhq.com/v1/toolkit.min.js"></script>
 <script src="<?= base_url('assets/js/Image-Tab-Gallery-Horizontal.js') ?>"></script>
 <?php echo view('templates/footer'); ?>

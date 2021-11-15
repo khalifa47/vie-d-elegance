@@ -35,7 +35,13 @@
   margin-top: 50px;
 }
 
-.h1, h1 {
+.h1,
+h1 {
   font-size: 2.3rem;
 }
 
+.thumb {
+  height: 70px;
+  width: 70px;
+  object-fit: cover;
+}

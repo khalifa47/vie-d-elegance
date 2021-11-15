@@ -31,16 +31,17 @@ class ItemsController extends BaseController
         $modelImages = new ImagesModel();
         $modelItems = new ItemsModel();
 
-        $data['item'] = $modelItems->getItems($id);
+        $data = [
+            'images' => $modelImages->getImages($id),
+            'categories' => $modelCategs->getCategories(),
+            'item' => $modelItems->getItems($id)
+        ];
 
         if (empty($data['item'])) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Item does not exist: ' . $id);
         }
 
-        $data = [
-            'categories' => $modelCategs->getCategories(),
-            'title' => $data['item']['product_name']
-        ];
+        $data['title'] = $data['item']['product_name'];
 
         return view('items/item', $data);
     }

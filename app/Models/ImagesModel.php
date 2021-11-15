@@ -17,7 +17,7 @@ class ImagesModel extends Model
         }
 
         return $this->asArray()
-            ->where(['productimages_id' => $id])
-            ->first();
+            ->where(['product_id' => $id])
+            ->findAll();
     }
 }
