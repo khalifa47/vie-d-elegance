@@ -96,4 +96,16 @@ class Pages extends BaseController
 
         return view('items/admin/add-items', $data);
     }
+
+    public function addUser()
+    {
+        $model = new CategoriesModel();
+
+        $data = [
+            'categories' => $model->getCategories(),
+            'title' => 'Add User'
+        ];
+
+        return view('users/admin/add-user', $data);
+    }
 }

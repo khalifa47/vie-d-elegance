@@ -38,6 +38,7 @@ $routes->get('users', 'UsersController::index');
 $routes->get('logout', 'UsersController::logout');
 $routes->get('/login', 'Pages::login');
 $routes->get('/register', 'Pages::login');
+$routes->get('/add-user', 'Pages::addUser');
 $routes->get('/edit-profile', 'Pages::editProfile');
 $routes->get('/edit-password', 'Pages::editPassword');
 $routes->get('/add-category', 'Pages::addCategory');

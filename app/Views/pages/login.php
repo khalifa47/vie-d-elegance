@@ -67,9 +67,10 @@
         <form id="register" class="inp-grp" style="text-align: center;">
             <input class="form-control inp-field" type="text" placeholder="First Name" id="fname" name="fname" required="">
             <input class="form-control inp-field" type="text" placeholder="Last Name" id="lname" name="lname" required="">
-            <input class="form-control inp-field" type="email" id="emailadd" name="emailadd" placeholder="E-mail" required="">
-            <input class="form-control inp-field" type="password" id="pass" name="pass" placeholder="Password" required="" minlength="7">
+            <input class="form-control inp-field" type="email" id="emailadd-reg" name="emailadd-reg" placeholder="E-mail" required="">
+            <input class="form-control inp-field" type="password" id="pass-reg" name="pass-reg" placeholder="Password" required="" minlength="7">
             <input class="form-control inp-field" type="password" id="confpass" name="confpass" placeholder="Confirm Password" required="" minlength="7">
+            <input type="hidden" id="role" value="2">
             <div>
                 <div class="row">
                     <div class="col">
@@ -172,10 +173,11 @@
         $("#register").on("submit", (e) => {
             const firstname = $('#fname').val();
             const lastname = $('#lname').val();
-            const emailaddress = $('#emailadd').val();
-            const pass = $('#pass').val();
+            const emailaddress = $('#emailadd-reg').val();
+            const pass = $('#pass-reg').val();
             const confPass = $('#confpass').val();
             const gender = $('input[name="gender"]:checked').val();
+            const role = $('#role').val();
 
             e.preventDefault();
 
@@ -188,7 +190,8 @@
                     emailadd: emailaddress,
                     pass: pass,
                     confpass: confPass,
-                    gender: gender
+                    gender: gender,
+                    role: role
                 },
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'

@@ -21,9 +21,7 @@
         <div class="col-sm-12 col-md-6 col-xl-4 offset-xl-0">
             <h1><?= $item['product_name'] ?></h1><img src="<?= base_url('assets/img/5-star-rating.svg') ?>" width="120px" style="padding-bottom: 5px;">
             <h2>Ksh. <?= $item['unit_price'] ?> </h2>
-            <!-- If admin -->
             <h4>Available: <?= $item['available_quantity'] ?> units</h4>
-            <!-- end if admin -->
             <p style="font-size: 20px;"><?= $item['product_description'] ?></p>
         </div>
     </div>

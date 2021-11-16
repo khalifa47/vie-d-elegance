@@ -49,8 +49,8 @@ class UsersController extends BaseController
             'message' => ''
         );
 
-        if ($this->request->getPost('pass') === $this->request->getPost('confpass')) {
-            if ($model->checkEmail($this->request->getPost('emailadd'))) {
+        if ($_POST['pass'] === $_POST['confpass']) {
+            if ($model->checkEmail($_POST['emailadd'])) {
                 $response['message'] = "Email address already exists";
             } else {
                 $model->save([
@@ -59,14 +59,14 @@ class UsersController extends BaseController
                     'email' => $_POST['emailadd'],
                     'password' => sha1($_POST['pass']),
                     'gender' => $_POST['gender'],
-                    'role' => 2
+                    'role' => $_POST['role']
                 ]);
 
                 $response['status'] = 1;
                 $response['message'] = "Registration successful";
-                //return view('pages/login', ['title' => 'Login']);
             }
         } else {
+            $response['status'] = 0;
             $response['message'] = "Passwords must match!";
         }
         echo json_encode($response);

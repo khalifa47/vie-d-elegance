@@ -1,7 +1,7 @@
 <?php echo view('templates/header', ['title' => $title]); ?>
 <div id="edit-profile-bg" style="height: 600px;background: url(&quot;assets/img/sewing.jpg&quot;) center / cover no-repeat, linear-gradient(rgba(0,0,0,0.4) 100%, rgba(0,0,0,0.4) 100%, white 100%);">
     <div class="form-box">
-        <div class="text-center text-white button-box" style="width: 220px;box-shadow: 0px 0px 20px 9px #ff61241f;border-radius: 20px;">
+        <div class="text-center text-white" style="width: 220px;box-shadow: 0px 0px 20px 9px #ff61241f;border-radius: 20px;">
             <h1>Edit Profile</h1>
         </div>
         <form id="edit-profile-form" class="inp-grp" style="text-align: center;">

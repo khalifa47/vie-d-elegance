@@ -85,7 +85,8 @@ body {
 #login-and-register-bg,
 #edit-profile-bg,
 #edit-password-bg,
-#add-category-bg {
+#add-category-bg,
+#add-user-bg {
   height: 100%;
   width: 100%;
 }
@@ -217,7 +218,8 @@ body {
 
 #edit-profile-form,
 #edit-password-form,
-#add-category-form {
+#add-category-form,
+#add-user-form {
   margin-left: 50px;
 }
 
@@ -243,6 +245,7 @@ body {
   display: inline-flex;
   margin: 0;
   padding: 0;
+  float: right;
 }
 .control-div:hover {
   background: transparent;
