@@ -169,7 +169,7 @@
 <script>
     const grid = $('#grid')[0];
 
-    const setItems = (item) => {
+    const setItems = (item, image1, image2) => {
         const maindiv = document.createElement('div');
 
         const div1 = document.createElement('div');
@@ -190,13 +190,13 @@
 
         const img1 = document.createElement('img');
         img1.setAttribute('class', 'pic-1');
-        img1.setAttribute('src', '../assets/img/woman-2.jpg');
-        img1.setAttribute('alt', 'random pic');
+        img1.setAttribute('src', `./assets/items_img/${image1}`);
+        img1.setAttribute('alt', `${item.product_image}`);
 
         const img2 = document.createElement('img');
         img2.setAttribute('class', 'pic-2');
-        img2.setAttribute('src', '../assets/img/woman-4.jpg');
-        img2.setAttribute('alt', 'random pic 2');
+        img2.setAttribute('src', `./assets/items_img/${image2}`);
+        img2.setAttribute('alt', `${item.product_image}`);
 
         const ul1 = document.createElement('ul');
         ul1.setAttribute('class', 'social');
@@ -269,6 +269,7 @@
     };
 
     $(document).ready(() => {
+        // filtering by categories
         $("#categories").on("submit", (e) => {
 
             const all = $('#all-cat').prop('checked') ? $('#all-cat').val() : null;
@@ -301,43 +302,73 @@
                         grid.innerHTML = "";
                         if (response.result_set.all.length !== 0) {
                             response.result_set.all.forEach(product => {
-                                setItems(product);
+                                const selected_images = [];
+
+                                response.images.forEach(image => {
+                                    if (product.product_id == image.product_id) {
+                                        selected_images.push(image.product_image);
+                                    }
+                                });
+
+                                setItems(product, selected_images[0], selected_images[1]);
                             });
                         } else {
                             if (response.result_set.men.length !== 0) {
-                                response.result_set.men.forEach(element => {
+                                response.result_set.men.forEach(product => {
+                                    const selected_images = [];
 
+                                    response.images.forEach(image => {
+                                        if (product[0].product_id == image.product_id) {
+                                            selected_images.push(image.product_image);
+                                        }
+                                    });
+
+                                    setItems(product[0], selected_images[0], selected_images[1]);
                                 });
                             }
                             if (response.result_set.women.length !== 0) {
-                                response.result_set.women.forEach(element => {
+                                response.result_set.women.forEach(product => {
+                                    const selected_images = [];
 
+                                    response.images.forEach(image => {
+                                        if (product[0].product_id == image.product_id) {
+                                            selected_images.push(image.product_image);
+                                        }
+                                    });
+
+                                    setItems(product[0], selected_images[0], selected_images[1]);
                                 });
                             }
                             if (response.result_set.children.length !== 0) {
-                                response.result_set.children.forEach(element => {
+                                response.result_set.children.forEach(product => {
+                                    const selected_images = [];
 
+                                    response.images.forEach(image => {
+                                        if (product[0].product_id == image.product_id) {
+                                            selected_images.push(image.product_image);
+                                        }
+                                    });
+
+                                    setItems(product[0], selected_images[0], selected_images[1]);
                                 });
                             }
                             if (response.result_set.pets.length !== 0) {
-                                response.result_set.pets.forEach(element => {
+                                response.result_set.pets.forEach(product => {
+                                    const selected_images = [];
 
+                                    response.images.forEach(image => {
+                                        if (product[0].product_id == image.product_id) {
+                                            selected_images.push(image.product_image);
+                                        }
+                                    });
+
+                                    setItems(product[0], selected_images[0], selected_images[1]);
                                 });
                             }
                         }
 
-
-
-
-
-
-
-
-
-
-
                     } else {
-
+                        grid.innerHTML = "<h3>An error occurred</h3>";
                     }
                 }
             });
