@@ -122,4 +122,77 @@ class ItemsController extends BaseController
         }
         echo json_encode($response);
     }
+
+    public function changeCateg()
+    {
+        $modelImages = new ImagesModel();
+        $modelItems = new ItemsModel();
+        $modelSubcategories = new SubcategoriesModel();
+
+        $items = array(
+            'all' => [],
+            'men' => [],
+            'women' => [],
+            'children' => [],
+            'pets' => []
+        );
+
+        $response = array(
+            'status' => 0,
+            'result_set' => '',
+            'images' => $modelImages->getImages()
+        );
+
+        if ($_POST['all_cat']) {
+            $items['all'] = $modelItems->getItems();
+            $response['status'] = 1;
+        }
+        if ($_POST['male']) {
+            $maleSubcats = $modelSubcategories->getSubcategoriesAtCategory($_POST['male']);
+            $maleItems = array();
+            foreach ($maleSubcats as $maleSubcat) {
+                if (!empty($modelItems->getItemsAtCateg($maleSubcat['subcategory_id']))) {
+                    array_push($maleItems, $modelItems->getItemsAtCateg($maleSubcat['subcategory_id']));
+                }
+            }
+            $items['men'] = $maleItems;
+            $response['status'] = 1;
+        }
+        if ($_POST['female']) {
+            $femaleSubcats = $modelSubcategories->getSubcategoriesAtCategory($_POST['female']);
+            $femaleItems = array();
+            foreach ($femaleSubcats as $femaleSubcat) {
+                if (!empty($modelItems->getItemsAtCateg($femaleSubcat['subcategory_id']))) {
+                    array_push($femaleItems, $modelItems->getItemsAtCateg($femaleSubcat['subcategory_id']));
+                }
+            }
+            $items['women'] = $femaleItems;
+            $response['status'] = 1;
+        }
+        if ($_POST['children']) {
+            $childrenSubcats = $modelSubcategories->getSubcategoriesAtCategory($_POST['children']);
+            $childrenItems = array();
+            foreach ($childrenSubcats as $childrenSubcat) {
+                if (!empty($modelItems->getItemsAtCateg($childrenSubcat['subcategory_id']))) {
+                    array_push($childrenItems, $modelItems->getItemsAtCateg($childrenSubcat['subcategory_id']));
+                }
+            }
+            $items['children'] = $childrenItems;
+            $response['status'] = 1;
+        }
+        if ($_POST['pets']) {
+            $petsSubcats = $modelSubcategories->getSubcategoriesAtCategory($_POST['pets']);
+            $petsItems = array();
+            foreach ($petsSubcats as $petsSubcat) {
+                if (!empty($modelItems->getItemsAtCateg($petsSubcat['subcategory_id']))) {
+                    array_push($petsItems, $modelItems->getItemsAtCateg($petsSubcat['subcategory_id']));
+                }
+            }
+            $items['pets'] = $petsItems;
+            $response['status'] = 1;
+        }
+
+        $response['result_set'] = $items;
+        echo json_encode($response);
+    }
 }

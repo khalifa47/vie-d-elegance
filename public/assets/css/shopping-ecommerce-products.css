@@ -91,7 +91,9 @@
   top: 10px;
   left: 10px;
 }
-
+.product-new-label {
+  z-index: 1;
+}
 .product-grid7 .product-content {
   text-align: center;
   padding: 20px 0 0;

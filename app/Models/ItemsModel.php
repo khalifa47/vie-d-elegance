@@ -26,4 +26,11 @@ class ItemsModel extends Model
         $this->save($data);
         return $this->getInsertID();
     }
+
+    public function getItemsAtCateg($categ_id)
+    {
+        return $this->asArray()
+            ->where(['subcategory_id' => $categ_id])
+            ->findAll();
+    }
 }

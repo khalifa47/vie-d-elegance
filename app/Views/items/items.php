@@ -17,82 +17,79 @@
             </select>
             <hr>
             <p class="lead text-center mb-0">Category:</p>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="all-cat" id="all-cat" checked>
-                <label class="form-check-label" for="all-cat">
-                    All
-                </label>
-            </div>
+            <form id="categories">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="all-cat" id="all-cat" checked>
+                    <label class="form-check-label" for="all-cat">
+                        All
+                    </label>
+                </div>
 
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="men" id="men">
-                <label class="form-check-label" for="men">
-                    Men
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="women" id="women">
-                <label class="form-check-label" for="women">
-                    Women
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="children" id="children">
-                <label class="form-check-label" for="children">
-                    Children
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="pets" id="pets">
-                <label class="form-check-label" for="pets">
-                    Pets
-                </label>
-            </div>
+                <?php if (!empty($categories)) : ?>
+                    <?php foreach ($categories as $category) : ?>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="<?= esc($category['category_id']) ?>" id="<?= esc($category['category_id']) ?>">
+                            <label class="form-check-label" for="<?= esc($category['category_id']) ?>">
+                                <?= ucwords(esc($category['category_name'])) ?>
+                            </label>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <p>No categories found</p>
+                <?php endif; ?>
+
+                <button type="submit" class="btn btn-primary">Apply</button>
+            </form>
             <hr>
             <p class="lead text-center mb-0">Subcategory:</p>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="all-subcat" id="all-subcat" checked>
-                <label class="form-check-label" for="all-subcat">
-                    All
-                </label>
-            </div>
+            <form id="subcategories">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="all-subcat" id="all-subcat" checked>
+                    <label class="form-check-label" for="all-subcat">
+                        All
+                    </label>
+                </div>
 
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="formal" id="formal">
-                <label class="form-check-label" for="men">
-                    Formal
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="casual" id="casual">
-                <label class="form-check-label" for="casual">
-                    Casual
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="sports" id="sports">
-                <label class="form-check-label" for="sports">
-                    Sports
-                </label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" value="dogs" id="dogs">
-                <label class="form-check-label" for="dogs">
-                    Dogs
-                </label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" value="cats" id="cats">
-                <label class="form-check-label" for="cats">
-                    Cats
-                </label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" value="other" id="other">
-                <label class="form-check-label" for="other">
-                    Other
-                </label>
-            </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="formal" id="formal">
+                    <label class="form-check-label" for="men">
+                        Formal
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="casual" id="casual">
+                    <label class="form-check-label" for="casual">
+                        Casual
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="sports" id="sports">
+                    <label class="form-check-label" for="sports">
+                        Sports
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="dogs" id="dogs">
+                    <label class="form-check-label" for="dogs">
+                        Dogs
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="cats" id="cats">
+                    <label class="form-check-label" for="cats">
+                        Cats
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="other" id="other">
+                    <label class="form-check-label" for="other">
+                        Other
+                    </label>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">Apply</button>
+            </form>
+
 
         </div>
 
@@ -100,13 +97,12 @@
             <div class="col-md-10 col-12">
                 <div class="shopping-grid">
                     <div class="container">
-                        <div class="row">
+                        <div class="row" id="grid">
                             <?php foreach ($items as $item) : ?>
                                 <div class="col-md-3 col-sm-6">
                                     <div class="product-grid7" style="font-family: Antonio, sans-serif;">
                                         <div class="product-image7">
                                             <a href="/items/<?= $item['product_id'] ?>">
-
 
                                                 <?php
                                                 $selected_images = array();
@@ -169,3 +165,182 @@
     </div>
 </div>
 <?php echo view('templates/footer'); ?>
+
+<script>
+    const grid = $('#grid')[0];
+
+    const setItems = (item) => {
+        const maindiv = document.createElement('div');
+
+        const div1 = document.createElement('div');
+        div1.setAttribute('class', 'col-md-3 col-sm-6');
+
+        const div2 = document.createElement('div');
+        div2.setAttribute('class', 'product-grid7');
+        div2.setAttribute('style', 'font-family: Antonio, sans-serif');
+
+        const div3 = document.createElement('div');
+        div3.setAttribute('class', 'product-image7');
+
+        const div4 = document.createElement('div');
+        div4.setAttribute('class', 'product-content');
+
+        const main_a = document.createElement('a');
+        main_a.setAttribute('href', `/items/${item.product_id}`);
+
+        const img1 = document.createElement('img');
+        img1.setAttribute('class', 'pic-1');
+        img1.setAttribute('src', '../assets/img/woman-2.jpg');
+        img1.setAttribute('alt', 'random pic');
+
+        const img2 = document.createElement('img');
+        img2.setAttribute('class', 'pic-2');
+        img2.setAttribute('src', '../assets/img/woman-4.jpg');
+        img2.setAttribute('alt', 'random pic 2');
+
+        const ul1 = document.createElement('ul');
+        ul1.setAttribute('class', 'social');
+
+        const li_ul1 = document.createElement('li');
+
+        const a_cart = document.createElement('a');
+        a_cart.setAttribute('role', 'button');
+        a_cart.setAttribute('class', 'fa fa-shopping-cart');
+
+        const new_span = document.createElement('span');
+        new_span.setAttribute('class', 'product-new-label');
+        new_span.innerText = "New";
+
+        const h3 = document.createElement('h3');
+        h3.setAttribute('class', 'title');
+        h3.setAttribute('style', 'font-family: Antonio, sans-serif;font-size: 26px;padding:0;color: rgb(187,187,187);');
+
+        const item_a = document.createElement('a');
+        item_a.setAttribute('class', 'item-name');
+        item_a.setAttribute('href', `/items/${item.product_id}`);
+        item_a.innerText = item.product_name;
+
+        const ul2 = document.createElement('ul');
+        ul2.setAttribute('class', 'rating');
+        ul2.setAttribute('style', 'color: #fbb03b');
+
+        const li1_ul2 = document.createElement('li');
+        const li2_ul2 = document.createElement('li');
+        const li3_ul2 = document.createElement('li');
+        const li4_ul2 = document.createElement('li');
+        const li5_ul2 = document.createElement('li');
+        li1_ul2.setAttribute('class', 'fa fa-star');
+        li2_ul2.setAttribute('class', 'fa fa-star');
+        li3_ul2.setAttribute('class', 'fa fa-star');
+        li4_ul2.setAttribute('class', 'fa fa-star');
+        li5_ul2.setAttribute('class', 'fa fa-star');
+
+        const div5 = document.createElement('div');
+        div5.setAttribute('class', 'price');
+        div5.setAttribute('style', 'font-family: Antonio, sans-serif;');
+
+        const price_span = document.createElement('div');
+        price_span.setAttribute('style', 'color: rgb(187,187,187)');
+        price_span.innerText = `Ksh. ${item.unit_price}`;
+
+        div5.appendChild(price_span);
+        ul2.appendChild(li5_ul2);
+        ul2.appendChild(li4_ul2);
+        ul2.appendChild(li3_ul2);
+        ul2.appendChild(li2_ul2);
+        ul2.appendChild(li1_ul2);
+        h3.appendChild(item_a);
+        div4.appendChild(h3);
+        div4.appendChild(ul2);
+        div4.appendChild(div5);
+        div3.appendChild(new_span);
+        li_ul1.appendChild(a_cart);
+        ul1.appendChild(li_ul1);
+        div3.appendChild(ul1);
+        main_a.appendChild(img2);
+        main_a.appendChild(img1);
+        div3.appendChild(main_a);
+        div2.appendChild(div3);
+        div2.appendChild(div4);
+        div1.appendChild(div2);
+        maindiv.appendChild(div1);
+
+        grid.innerHTML += maindiv.innerHTML;
+    };
+
+    $(document).ready(() => {
+        $("#categories").on("submit", (e) => {
+
+            const all = $('#all-cat').prop('checked') ? $('#all-cat').val() : null;
+            const male = $('#1').prop('checked') ? $('#1').val() : null;
+            const female = $('#2').prop('checked') ? $('#2').val() : null;
+            const children = $('#3').prop('checked') ? $('#3').val() : null;
+            const pet = $('#4').prop('checked') ? $('#4').val() : null;
+
+            e.preventDefault();
+
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url('ItemsController/changeCateg') ?>',
+                data: {
+                    all_cat: all,
+                    male: male,
+                    female: female,
+                    children: children,
+                    pets: pet
+                },
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                cache: false,
+
+                success: (response) => {
+                    if (response.status == 1) {
+                        grid.innerHTML = "";
+                        if (response.result_set.all.length !== 0) {
+                            response.result_set.all.forEach(product => {
+                                setItems(product);
+                            });
+                        } else {
+                            if (response.result_set.men.length !== 0) {
+                                response.result_set.men.forEach(element => {
+
+                                });
+                            }
+                            if (response.result_set.women.length !== 0) {
+                                response.result_set.women.forEach(element => {
+
+                                });
+                            }
+                            if (response.result_set.children.length !== 0) {
+                                response.result_set.children.forEach(element => {
+
+                                });
+                            }
+                            if (response.result_set.pets.length !== 0) {
+                                response.result_set.pets.forEach(element => {
+
+                                });
+                            }
+                        }
+
+
+
+
+
+
+
+
+
+
+
+                    } else {
+
+                    }
+                }
+            });
+        });
+    });
+</script>
