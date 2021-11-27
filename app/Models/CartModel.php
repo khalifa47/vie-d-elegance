@@ -7,12 +7,13 @@ use CodeIgniter\Model;
 class CartModel extends Model
 {
     protected $table = 'tbl_cart';
-    protected $allowedFields = ['user_id', 'product_id', 'quantity', 'price'];
+    protected $primaryKey = 'cart_id';
+    protected $allowedFields = ['user_id', 'product_id'];
 
     public function getCartAtUser($uid)
     {
         return $this->asArray()
-            ->where(['category_name' => $uid])
+            ->where(['user_id' => $uid])
             ->findAll();
     }
 }

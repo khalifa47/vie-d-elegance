@@ -137,7 +137,7 @@
                                             </a>
                                             <ul class="social">
                                                 <li>
-                                                    <a role="button" class="fa fa-shopping-cart" onclick="logToCart(<?= $item['product_id'] ?>)"></a>
+                                                    <a role="button" class="fa fa-shopping-cart" onclick="addToCart(<?= $item['product_id'] ?>)"></a>
                                                 </li>
                                             </ul>
                                             <span class="product-new-label">New</span>
@@ -173,8 +173,41 @@
 <script>
     const grid = $('#grid')[0];
 
-    const logToCart = (cartItem) => {
-        console.log(cartItem);
+    const addToCart = (cartItem) => {
+        $.ajax({
+            type: 'POST',
+            url: '<?= base_url('CartController/addToCart') ?>',
+            data: {
+                productID: cartItem
+            },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded',
+            cache: false,
+
+            success: (response) => {
+                if (response.status == 1) {
+                    // $(".alert-box").css({
+                    //     'display': 'block',
+                    //     'background-color': 'rgb(0, 247, 164)',
+                    //     'color': 'green',
+                    //     'border-color': 'green'
+                    // });
+                    // $('#message-add-user').html("<li>" + response.message + "</li>");
+                    alert(response.message);
+                } else {
+                    // $(".alert-box").css({
+                    //     'display': 'block'
+                    // });
+                    // $('#message-add-user').html("<li>" + response.message + "</li>");
+                    alert(response.message);
+                    location.replace('/login');
+                }
+            }
+
+        });
     };
 
     const setItems = (item, image1, image2) => {
