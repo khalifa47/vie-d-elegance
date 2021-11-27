@@ -136,7 +136,9 @@
 
                                             </a>
                                             <ul class="social">
-                                                <li><a role="button" class="fa fa-shopping-cart"></a></li>
+                                                <li>
+                                                    <a role="button" class="fa fa-shopping-cart" onclick="logToCart(<?= $item['product_id'] ?>)"></a>
+                                                </li>
                                             </ul>
                                             <span class="product-new-label">New</span>
                                         </div>
@@ -170,6 +172,10 @@
 
 <script>
     const grid = $('#grid')[0];
+
+    const logToCart = (cartItem) => {
+        console.log(cartItem);
+    };
 
     const setItems = (item, image1, image2) => {
         const maindiv = document.createElement('div');
