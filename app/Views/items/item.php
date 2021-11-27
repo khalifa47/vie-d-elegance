@@ -7,7 +7,8 @@
 <div class="container-fluid top-container" style="color: rgb(153,154,156);">
     <div class="row">
         <div class="col-12 col-md-6 col-xl-4 offset-xl-2">
-            <div class="img-container"><img class="rounded" id="expandedImg" style="width:100%; max-height: 400px; min-height:400px; object-fit:cover;" src="<?= base_url('assets/items_img/' . $images[0]['product_image']) ?>" alt="<?= $item['product_image'] ?>">
+            <div class="img-container">
+                <img class="rounded" id="expandedImg" style="width:100%; max-height: 400px; min-height:400px; object-fit:cover;" src="<?= base_url('assets/items_img/' . $images[0]['product_image']) ?>" alt="<?= $item['product_image'] ?>">
                 <div id="imgtext"></div>
             </div>
 
@@ -23,6 +24,7 @@
             <h2>Ksh. <?= $item['unit_price'] ?> </h2>
             <h4>Available: <?= $item['available_quantity'] ?> units</h4>
             <p style="font-size: 20px;"><?= $item['product_description'] ?></p>
+            <button class="btn btn-primary" type="submit" style="background: rgb(86,198,198);border-radius: 20px; margin-left: 150px; margin-bottom: 50px;">Add To Cart</button>
         </div>
     </div>
 </div>

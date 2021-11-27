@@ -250,10 +250,16 @@ body {
 .control-div:hover {
   background: transparent;
 }
-.control-div a {
-  margin: 5px;
+.control-div button {
+  position: relative;
+  top: 5px;
+  margin: 2px;
   padding: 0;
-  color: black;
+  border: none;
+  outline: none;
+}
+.control-div button:hover {
+  color: rgb(85, 94, 218);
 }
 
 .item-name {

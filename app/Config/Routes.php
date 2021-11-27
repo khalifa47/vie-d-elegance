@@ -36,6 +36,7 @@ $routes->get('items', 'ItemsController::index');
 $routes->get('users/(:segment)', 'UsersController::view/$1');
 $routes->get('users', 'UsersController::index');
 $routes->get('logout', 'UsersController::logout');
+$routes->get('/cart', 'Pages::cart');
 $routes->get('/login', 'Pages::login');
 $routes->get('/register', 'Pages::login');
 $routes->get('/add-user', 'Pages::addUser');
