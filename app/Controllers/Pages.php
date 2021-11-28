@@ -108,16 +108,4 @@ class Pages extends BaseController
 
         return view('users/admin/add-user', $data);
     }
-
-    public function cart()
-    {
-        $model = new CategoriesModel();
-
-        $data = [
-            'categories' => $model->getCategories(),
-            'title' => 'My Cart'
-        ];
-
-        return view('items/cart', $data);
-    }
 }

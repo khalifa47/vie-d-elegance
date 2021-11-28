@@ -3,9 +3,38 @@
 namespace App\Controllers;
 
 use App\Models\CartModel;
+use App\Models\CategoriesModel;
+
+use App\Models\ItemsModel;
+use App\Models\ImagesModel;
 
 class CartController extends BaseController
 {
+    public function index()
+    {
+        $modelCategories = new CategoriesModel();
+        $modelCart = new CartModel();
+        $modelItems = new ItemsModel();
+        $modelImages = new ImagesModel();
+
+        $cartItems = array();
+        $cartImages = array();
+
+        foreach ($modelCart->getCartAtUser(session()->get('id')) as $item) {
+            array_push($cartItems, $modelItems->getItems($item['product_id']));
+            array_push($cartImages, $modelImages->getImages($item['product_id'])[0]);
+        }
+
+        $data = [
+            'categories' => $modelCategories->getCategories(),
+            'cartItems' => $cartItems,
+            'cartImages' => $cartImages,
+            'title' => 'My Cart'
+        ];
+
+        return view('items/cart', $data);
+    }
+
     public function addToCart()
     {
         $model = new CartModel();
