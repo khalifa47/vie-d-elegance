@@ -31,7 +31,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php $subtotalprice = 0; ?>
                                     <?php foreach ($cartItems as $cartItem) : ?>
+                                        <?php $subtotalprice += $cartItem['unit_price'] ?>
                                         <tr>
                                             <th scope="row" class="border-0">
                                                 <div class="p-2">
@@ -46,8 +48,8 @@
                                                 </div>
                                             </th>
                                             <td class="border-0 align-middle"><strong>Ksh. <?= $cartItem['unit_price'] ?> </strong></td>
-                                            <td class="border-0 align-middle"><input class="form-control" type="number" name="quantity" id="quantity<?= $cartItem['product_id'] ?>" value="1" style="max-width: 100px;" min="1" max="<?= $cartItem['available_quantity'] ?>" required onchange="changeSubtotal(<?= $cartItem['unit_price'] ?>, $('#quantity<?= $cartItem['product_id'] ?>').val(), $('#subtotal<?= $cartItem['product_id'] ?>')[0])"></td>
-                                            <td class="border-0 align-middle"><strong><span id="subtotal<?= $cartItem['product_id'] ?>">Ksh. <?= $cartItem['unit_price'] ?></span></strong></td>
+                                            <td class="border-0 align-middle"><input class="form-control" type="number" name="quantity" id="quantity<?= $cartItem['product_id'] ?>" value="1" style="max-width: 100px;" min="1" max="<?= $cartItem['available_quantity'] ?>" required onchange="changeSubtotal(<?= $cartItem['unit_price'] ?>, $('#quantity<?= $cartItem['product_id'] ?>').val(), $('#subtotal<?= $cartItem['product_id'] ?>')[0], $('#subtotalinfo<?= $cartItem['product_id'] ?>'))"></td>
+                                            <td class="border-0 align-middle"><input type="hidden" id="subtotalinfo<?= $cartItem['product_id'] ?>" value="<?= $cartItem['unit_price'] ?>"><strong><span id="subtotal<?= $cartItem['product_id'] ?>">Ksh. <?= $cartItem['unit_price'] ?></span></strong></td>
                                             <td class="border-0 align-middle"><a href="#" class="text-dark"><i class="fa fa-trash"></i></a></td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -70,22 +72,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Instructions for seller</div>
-                        <div class="p-4">
-                            <p class="font-italic mb-4">If you have some information for the seller you can leave them in the box below</p>
-                            <textarea name="" cols="30" rows="2" class="form-control"></textarea>
-                        </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Order summary </div>
                         <div class="p-4">
                             <p class="font-italic mb-4">Shipping and additional costs are calculated based on values you have entered.</p>
                             <ul class="list-unstyled mb-4">
-                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Order Subtotal </strong><strong>$390.00</strong></li>
-                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Shipping and handling</strong><strong>$10.00</strong></li>
-                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Tax</strong><strong>$0.00</strong></li>
+                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Order Subtotal </strong><strong><span id="order_subtotal">Ksh. <span id="order_subtotal"><?= $subtotalprice ?></span></strong></li>
+                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Shipping and handling</strong><strong>Ksh. <span id="shipping">100</span></strong></li>
+                                <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Tax</strong><strong>Ksh. 0</strong></li>
                                 <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
-                                    <h5 class="font-weight-bold">$400.00</h5>
+                                    <h5 class="font-weight-bold">Ksh. <span id="total_price"><?= $subtotalprice + 100 ?></span></h5>
                                 </li>
                             </ul><a href="#" class="btn btn-dark rounded-pill py-2 btn-block">Procceed to checkout</a>
                         </div>
@@ -99,7 +96,16 @@
 
 <?php echo view('templates/footer'); ?>
 <script>
-    const changeSubtotal = (priceVal, quantityVal, elemToChange) => {
+    {
+        var subtotalprice = <?= $subtotalprice ?>;
+    }
+
+    const changeSubtotal = (priceVal, quantityVal, elemToChange, valueToChange) => {
         elemToChange.innerText = "Ksh. " + (quantityVal * priceVal);
+        this.subtotalprice -= parseInt(valueToChange.val());
+        valueToChange.attr('value', (quantityVal * priceVal));
+        this.subtotalprice += parseInt(valueToChange.val());
+        $('#order_subtotal')[0].innerText = this.subtotalprice;
+        $('#total_price')[0].innerText = this.subtotalprice + parseInt($('#shipping')[0].innerText);
     };
 </script>
