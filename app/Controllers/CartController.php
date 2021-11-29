@@ -58,4 +58,24 @@ class CartController extends BaseController
 
         echo json_encode($response);
     }
+
+    public function deleteCartItem()
+    {
+        $model = new CartModel();
+
+        $response = array(
+            'status' => 0,
+            'message' => ''
+        );
+
+        if ($model->delete($model->getCartID($_POST['userID'], $_POST['productID'])['cart_id'])) {
+            $response['status'] = 1;
+            $response['message'] = "Delete successful";
+        } else {
+            $response['status'] = 0;
+            $response['message'] = "Delete falied";
+        }
+
+        echo json_encode($response);
+    }
 }

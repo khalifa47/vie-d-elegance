@@ -50,7 +50,7 @@
                                             <td class="border-0 align-middle"><strong>Ksh. <?= $cartItem['unit_price'] ?> </strong></td>
                                             <td class="border-0 align-middle"><input class="form-control" type="number" name="quantity" id="quantity<?= $cartItem['product_id'] ?>" value="1" style="max-width: 100px;" min="1" max="<?= $cartItem['available_quantity'] ?>" required onchange="changeSubtotal(<?= $cartItem['unit_price'] ?>, $('#quantity<?= $cartItem['product_id'] ?>').val(), $('#subtotal<?= $cartItem['product_id'] ?>')[0], $('#subtotalinfo<?= $cartItem['product_id'] ?>'))"></td>
                                             <td class="border-0 align-middle"><input type="hidden" id="subtotalinfo<?= $cartItem['product_id'] ?>" value="<?= $cartItem['unit_price'] ?>"><strong><span id="subtotal<?= $cartItem['product_id'] ?>">Ksh. <?= $cartItem['unit_price'] ?></span></strong></td>
-                                            <td class="border-0 align-middle"><a href="#" class="text-dark"><i class="fa fa-trash"></i></a></td>
+                                            <td class="border-0 align-middle"><a role="button" class="text-dark" onclick="deleteCartItem(<?= $cartItem['product_id'] ?>)"><i class="fa fa-trash"></i></a></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -107,5 +107,32 @@
         this.subtotalprice += parseInt(valueToChange.val());
         $('#order_subtotal')[0].innerText = this.subtotalprice;
         $('#total_price')[0].innerText = this.subtotalprice + parseInt($('#shipping')[0].innerText);
+    };
+
+    const deleteCartItem = (productID) => {
+        $.ajax({
+            type: 'POST',
+            url: '<?= base_url('CartController/deleteCartItem') ?>',
+            data: {
+                productID: productID,
+                userID: <?= session()->get('id') ?>
+            },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded',
+            cache: false,
+
+            success: (response) => {
+                if (response.status == 1) {
+                    alert(response.message);
+                    location.reload();
+                } else {
+                    alert(response.message);
+                }
+            }
+
+        });
     };
 </script>

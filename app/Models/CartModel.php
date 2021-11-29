@@ -16,4 +16,12 @@ class CartModel extends Model
             ->where(['user_id' => $uid])
             ->findAll();
     }
+
+    public function getCartID($uid, $pid)
+    {
+        return $this->asArray()
+            ->where(['user_id' => $uid])
+            ->where(['product_id' => $pid])
+            ->first();
+    }
 }

@@ -286,3 +286,7 @@ body {
 select {
   cursor: pointer;
 }
+
+.ms {
+  margin-right: 10px;
+}
