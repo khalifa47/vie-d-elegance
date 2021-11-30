@@ -250,16 +250,13 @@ body {
 .control-div:hover {
   background: transparent;
 }
-.control-div button {
+.control-div a {
   position: relative;
   top: 5px;
   margin: 2px;
   padding: 0;
-  border: none;
-  outline: none;
-  background-color: transparent;
 }
-.control-div button:hover {
+.control-div a:hover {
   color: rgb(85, 94, 218);
 }
 
@@ -290,4 +287,18 @@ select {
 
 .ms {
   margin-right: 10px;
+}
+
+.editcategform {
+  display: inline-flex;
+  justify-content: space-between;
+}
+
+.editcategfield {
+  margin: 0;
+  padding: 0;
+  margin-left: 10px;
+  padding-left: 10px;
+  border: none;
+  outline: none;
 }

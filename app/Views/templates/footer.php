@@ -44,11 +44,69 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.js"></script>
 
 <script>
-    const editCateg = (categID) => {
-        console.log(categID);
+    const editCateg = (categID, categName) => {
+        const form = `<form id='editForm${categID}' class='editcategform'>
+            <input type='text' class='form-control editcategfield' value="${categName}" id='categField${categID}' required>
+            <button type='submit' class='btn'><i class='fa fa-check' aria-hidden='true'></i></button>
+        </form>`;
+        $(`#categ_div${categID}`).html(form);
+
+        $(`#editForm${categID}`).on("submit", (e) => {
+            const new_categ_name = $(`#categField${categID}`).val();
+
+            e.preventDefault();
+
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url('CategoriesController/editCategory') ?>',
+                data: {
+                    categoryID: categID,
+                    categoryName: new_categ_name
+                },
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                cache: false,
+
+                success: (response) => {
+                    if (response.status == 1) {
+                        alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
+                }
+
+            });
+
+        });
     };
     const deleteCateg = (categID) => {
-        console.log(categID);
+        if (confirm(`Confirm deletion of category with ID: ${categID}?`)) {
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url('CategoriesController/deleteCategory') ?>',
+                data: {
+                    categoryID: categID
+                },
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                cache: false,
+
+                success: (response) => {
+                    if (response.status == 1) {
+                        alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
+                }
+
+            });
+        }
     };
 
     const goToCateg = (categID) => {

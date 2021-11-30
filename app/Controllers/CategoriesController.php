@@ -64,4 +64,46 @@ class CategoriesController extends BaseController
         }
         echo json_encode($response);
     }
+
+    public function editCategory()
+    {
+        $model = new CategoriesModel();
+
+        $response = array(
+            'status' => 0,
+            'message' => ''
+        );
+
+        if ($model->update($_POST['categoryID'], [
+            'category_name' => $_POST['categoryName']
+        ])) {
+            $response['status'] = 1;
+            $response['message'] = "Category name updated to " . $_POST['categoryName'];
+        } else {
+            $response['status'] = 0;
+            $response['message'] = "Category name update failed!";
+        }
+
+        echo json_encode($response);
+    }
+
+    public function deleteCategory()
+    {
+        $model = new CategoriesModel();
+
+        $response = array(
+            'status' => 0,
+            'message' => ''
+        );
+
+        if ($model->delete($_POST['categoryID'])) {
+            $response['status'] = 1;
+            $response['message'] = "Category deleted successfully";
+        } else {
+            $response['status'] = 0;
+            $response['message'] = "Category deletion failed!";
+        }
+
+        echo json_encode($response);
+    }
 }
