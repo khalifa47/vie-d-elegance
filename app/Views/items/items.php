@@ -171,6 +171,7 @@
 <?php echo view('templates/footer'); ?>
 
 <script>
+    // from clicking categories on navbar
     if (window.location.href.includes('?')) {
         const url = window.location.href.split("?");
 
@@ -183,10 +184,7 @@
         });
     }
 
-
-
-    const grid = $('#grid')[0];
-
+    //add to cart
     const addToCart = (cartItem) => {
         $.ajax({
             type: 'POST',
@@ -223,6 +221,9 @@
 
         });
     };
+
+    // filtering implentation
+    const grid = $('#grid')[0];
 
     const setItems = (item, image1, image2) => {
         const maindiv = document.createElement('div');
