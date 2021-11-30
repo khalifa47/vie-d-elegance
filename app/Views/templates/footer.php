@@ -44,12 +44,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.js"></script>
 
 <script>
-    $(".edit").on("click", (e) => {
-        alert("Edit Clicked");
-    });
-    $(".delete").on("click", (e) => {
-        alert("Delete Clicked");
-    });
+    const editCateg = (categID) => {
+        console.log(categID);
+    };
+    const deleteCateg = (categID) => {
+        console.log(categID);
+    };
+
+    const goToCateg = (categID) => {
+        window.location.href = `/items?${categID}`;
+    };
 </script>
 </body>
 

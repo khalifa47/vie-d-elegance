@@ -171,6 +171,20 @@
 <?php echo view('templates/footer'); ?>
 
 <script>
+    if (window.location.href.includes('?')) {
+        const url = window.location.href.split("?");
+
+        const categs = <?= json_encode($categories) ?>;
+        categs.forEach(categ => {
+            if (url[1].includes(`${categ.category_id}`)) {
+                $(`#${categ.category_id}`).attr('checked', true);
+                $('#all-cat').attr('checked', false);
+            }
+        });
+    }
+
+
+
     const grid = $('#grid')[0];
 
     const addToCart = (cartItem) => {

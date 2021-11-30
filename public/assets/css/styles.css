@@ -257,6 +257,7 @@ body {
   padding: 0;
   border: none;
   outline: none;
+  background-color: transparent;
 }
 .control-div button:hover {
   color: rgb(85, 94, 218);
