@@ -77,22 +77,6 @@
                             </a>
                         </li>";
                     ?>
-                        <div class="modal fade" role="dialog" tabindex="-1" id="wallet-modal" style="text-align: center;">
-                            <div class="modal-dialog modal-sm" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" style="color: black;">top up wallet</h4>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form class="d-inline-flex">
-                                            <input id="topUpInput" class="form-control" type="number" min="100" placeholder="Min: 100">
-                                            <button class="btn btn-primary" type="button">Load</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     <?php
 
                         if (session()->get('utype') == 1) {
@@ -118,3 +102,21 @@
             </div>
         </div>
     </nav>
+    <?php if (session()->get('isLogged')) : ?>
+        <div class="modal fade" role="dialog" tabindex="-1" id="wallet-modal" style="text-align: center;">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" style="color: black;">TOP UP WALLET</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="d-inline-flex">
+                            <input id="topUpInput" class="form-control" type="number" min="100" placeholder="Min: 100">
+                            <button class="btn btn-primary" type="button">Load</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
