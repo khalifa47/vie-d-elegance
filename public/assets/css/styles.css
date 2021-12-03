@@ -187,6 +187,7 @@ body {
   top: 60px;
   overflow: hidden;
 }
+
 #add-categ-box {
   height: 350px;
 }
@@ -301,4 +302,8 @@ select {
   padding-left: 10px;
   border: none;
   outline: none;
+}
+
+.inp-label {
+  color: white;
 }

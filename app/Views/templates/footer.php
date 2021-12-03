@@ -44,6 +44,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.js"></script>
 
 <script>
+    // $('#wallet-modal').on('shown.bs.modal', () => {
+    //     $('#topUpInput').trigger('focus');
+    // });
+
     const editCateg = (categID, categName) => {
         const form = `<form id='editForm${categID}' class='editcategform'>
             <input type='text' class='form-control editcategfield' value="${categName}" id='categField${categID}' required>

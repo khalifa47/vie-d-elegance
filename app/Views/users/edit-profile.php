@@ -1,14 +1,39 @@
 <?php echo view('templates/header', ['title' => $title]); ?>
 <div id="edit-profile-bg" style="height: 600px;background: url(&quot;assets/img/sewing.jpg&quot;) center / cover no-repeat, linear-gradient(rgba(0,0,0,0.4) 100%, rgba(0,0,0,0.4) 100%, white 100%);">
     <div class="form-box">
-        <div class="text-center text-white" style="width: 220px;box-shadow: 0px 0px 20px 9px #ff61241f;border-radius: 20px;">
-            <h1>Edit Profile</h1>
+        <div class="text-center text-white button-box" style="width: 220px;border-radius: 20px;">
+            <h1 style="color: rgba(255, 255, 255, 0.6)">Edit Profile</h1>
         </div>
         <form id="edit-profile-form" class="inp-grp" style="text-align: center;">
             <input type="hidden" id="id" name="id" value="<?= esc($user['user_id']) ?>">
+            <label class="form-label inp-label" for="fname">First Name:</label>
             <input class="form-control inp-field" type="text" value="<?= esc($user['first_name']) ?>" id="fname" name="fname" required="">
+
+            <label class="form-label inp-label" for="lname">Last Name:</label>
             <input class="form-control inp-field" type="text" value="<?= esc($user['last_name']) ?>" id="lname" name="lname" required="">
+
+            <label class="form-label inp-label" for="emailadd">Email:</label>
             <input class="form-control inp-field" type="email" id="emailadd" name="emailadd" value="<?= esc($user['email']) ?>" required="">
+
+            <button class="btn btn-primary" type="submit" style="background: rgb(86,198,198);margin-top: 22px;border-radius: 20px;">Save Changes</button>
+            <div id="message-edit" class="alert-box"></div>
+        </form>
+    </div>
+    <div class="form-box">
+        <div class="text-center text-white button-box" style="width: 220px;border-radius: 20px;">
+            <h1 style="color: rgba(255, 255, 255, 0.6)">Edit Profile</h1>
+        </div>
+        <form id="edit-profile-form" class="inp-grp" style="text-align: center;">
+            <input type="hidden" id="id" name="id" value="<?= esc($user['user_id']) ?>">
+            <label class="form-label inp-label" for="fname">First Name:</label>
+            <input class="form-control inp-field" type="text" value="<?= esc($user['first_name']) ?>" id="fname" name="fname" required="">
+
+            <label class="form-label inp-label" for="lname">Last Name:</label>
+            <input class="form-control inp-field" type="text" value="<?= esc($user['last_name']) ?>" id="lname" name="lname" required="">
+
+            <label class="form-label inp-label" for="emailadd">Email:</label>
+            <input class="form-control inp-field" type="email" id="emailadd" name="emailadd" value="<?= esc($user['email']) ?>" required="">
+
             <button class="btn btn-primary" type="submit" style="background: rgb(86,198,198);margin-top: 22px;border-radius: 20px;">Save Changes</button>
             <div id="message-edit" class="alert-box"></div>
         </form>

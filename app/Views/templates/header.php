@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="<?= base_url('assets/fonts/font-awesome.min.css') ?>">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
-    <link rel="stylesheet" href="https://cdn.reflowhq.com/v1/toolkit.min.css">
 
     <link rel="stylesheet" href="<?= base_url('assets/css/Bold-BS4-Footer-Big-Logo.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/Keet-Testimonial-01.css') ?>">
@@ -68,9 +67,33 @@
                         <div class='dropdown-menu'>
                             <a class='dropdown-item' href='/edit-profile'><i class='fa fa-user-circle ms' aria-hidden='true'></i>edit profile</a>
                             <a class='dropdown-item' href='/edit-password'><i class='fa fa-unlock ms' aria-hidden='true'></i>edit password</a>
+                            <a class='dropdown-item' href='/wallet'><i class='fa fa-google-wallet ms' aria-hidden='true'></i>V-Wallet</a>
                             <a class='dropdown-item' href='/cart'><i class='fa fa-shopping-cart ms' aria-hidden='true'></i>My Cart</a>
                         </div>
+                        </li>
+                        <li class='nav-item'>
+                            <a class='nav-link' role='button' data-bs-toggle='modal' data-bs-target='#wallet-modal'>
+                                <i class='fa fa-google-wallet ms' aria-hidden='true'></i>Ksh. 0
+                            </a>
                         </li>";
+                    ?>
+                        <div class="modal fade" role="dialog" tabindex="-1" id="wallet-modal" style="text-align: center;">
+                            <div class="modal-dialog modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" style="color: black;">top up wallet</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="d-inline-flex">
+                                            <input id="topUpInput" class="form-control" type="number" min="100" placeholder="Min: 100">
+                                            <button class="btn btn-primary" type="button">Load</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php
 
                         if (session()->get('utype') == 1) {
                             echo "<li class='nav-item dropdown'><a class='dropdown-toggle nav-link' aria-expanded='false' data-bs-toggle='dropdown' href='#'>Admin</a>

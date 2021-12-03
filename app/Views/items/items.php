@@ -204,19 +204,8 @@
 
             success: (response) => {
                 if (response.status == 1) {
-                    // $(".alert-box").css({
-                    //     'display': 'block',
-                    //     'background-color': 'rgb(0, 247, 164)',
-                    //     'color': 'green',
-                    //     'border-color': 'green'
-                    // });
-                    // $('#message-add-user').html("<li>" + response.message + "</li>");
                     alert(response.message);
                 } else {
-                    // $(".alert-box").css({
-                    //     'display': 'block'
-                    // });
-                    // $('#message-add-user').html("<li>" + response.message + "</li>");
                     alert(response.message);
                     location.replace('/login');
                 }
