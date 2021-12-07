@@ -136,23 +136,23 @@
                             </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
-                    <button type="button" class="btn rounded-circle" style="color:blue; font-size:xx-large;" data-bs-toggle='modal' data-bs-target='#add-payment-type-modal'><i class="fa fa-plus-square-o" aria-hidden="true"></i></button>
+                    <button type="button" class="btn rounded-circle" style="color:blue; font-size:xx-large;" data-bs-dismiss="modal" data-bs-toggle='modal' data-bs-target='#add-payment-type-modal'><i class="fa fa-plus-square-o" aria-hidden="true"></i></button>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="modal fade" role="dialog" tabindex="-1" id="add-payment-type-modal" style="text-align: center;">
-        <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title text-dark">Add Payment Type</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="addPaymentForm" class="d-inline-flex">
-                        <input type="text" class="form-control" id="payment-name" placeholder="Payment Name">
-                        <input type="text" class="form-control" id="payment-desc" placeholder="Payment Description">
+                    <form id="addPaymentForm">
+                        <input type="text" class="form-control margin-space" id="payment-name" placeholder="Payment Name" required>
+                        <input type="text" class="form-control margin-space" id="payment-desc" placeholder="Payment Description" required>
                         <button class="btn btn-primary" type="submit">Submit</button>
                     </form>
                 </div>

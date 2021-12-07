@@ -118,6 +118,7 @@
     };
 
     $(document).ready(() => {
+        // load wallet form
         $('#walletForm').on('submit', (e) => {
             const uid = $('#walletUid').val();
             const amount = $('#topUpInput').val();
@@ -146,6 +147,40 @@
                     if (response.status == 1) {
                         alert(response.message);
                         $('#walletBalance')[0].innerHTML = response.newBal;
+                    } else {
+                        alert(response.message);
+                    }
+                }
+
+            });
+        });
+
+        // add payment form
+        $('#addPaymentForm').on('submit', (e) => {
+            const payment_name = $('#payment-name').val();
+            const payment_desc = $('#payment-desc').val();
+
+
+            e.preventDefault();
+
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url('PaymentController/addPaymentType') ?>',
+                data: {
+                    paymentName: payment_name,
+                    paymentDesc: payment_desc
+                },
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                cache: false,
+
+                success: (response) => {
+                    if (response.status == 1) {
+                        alert(response.message);
+                        location.reload();
                     } else {
                         alert(response.message);
                     }
