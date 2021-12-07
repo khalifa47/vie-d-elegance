@@ -60,7 +60,6 @@
 
                         </div>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="#">CONTACT US</a></li>
                     <?php
                     if (session()->get('isLogged')) {
                         echo "<li class='nav-item dropdown'><a class='nav-link' aria-expanded='false' data-bs-toggle='dropdown' href='#'>Welcome, " . session()->get('uname') . "</a>
@@ -84,6 +83,7 @@
                                 <a class='dropdown-item' href='/add-category'>Add Category</a>
                                 <a class='dropdown-item' href='/add-item'>Add Item</a>
                                 <a class='dropdown-item' href='/add-user'>Add User</a>
+                                <a class='dropdown-item' role='button' data-bs-toggle='modal' data-bs-target='#payment-types-modal'>Payment Types</a>
                             </div>
                             </li>";
                         }
@@ -114,6 +114,46 @@
                         <input type="hidden" id="current-balance" value="<?= session()->get('walletBal') ?>">
                         <input id="topUpInput" class="form-control" type="number" min="100" placeholder="Min: 100">
                         <button class="btn btn-primary" type="submit">Load</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="payment-types-modal" style="text-align: center;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-dark">Payment Types</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <?php if (!empty($paymenttypes)) : ?>
+                        <?php foreach ($paymenttypes as $paymenttype) : ?>
+                            <div>
+                                <h4><?= $paymenttype['paymenttype_name'] ?></h4>
+                                <p><?= $paymenttype['description'] ?></p>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                    <button type="button" class="btn rounded-circle" style="color:blue; font-size:xx-large;" data-bs-toggle='modal' data-bs-target='#add-payment-type-modal'><i class="fa fa-plus-square-o" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="add-payment-type-modal" style="text-align: center;">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-dark">Add Payment Type</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addPaymentForm" class="d-inline-flex">
+                        <input type="text" class="form-control" id="payment-name" placeholder="Payment Name">
+                        <input type="text" class="form-control" id="payment-desc" placeholder="Payment Description">
+                        <button class="btn btn-primary" type="submit">Submit</button>
                     </form>
                 </div>
             </div>

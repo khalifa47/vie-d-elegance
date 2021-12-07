@@ -8,10 +8,13 @@ use App\Models\CategoriesModel;
 use App\Models\ItemsModel;
 use App\Models\ImagesModel;
 
+use App\Models\PaymentTypesModel;
+
 class CartController extends BaseController
 {
     public function index()
     {
+        $modelPayment = new PaymentTypesModel();
         $modelCategories = new CategoriesModel();
         $modelCart = new CartModel();
         $modelItems = new ItemsModel();
@@ -27,6 +30,7 @@ class CartController extends BaseController
 
         $data = [
             'categories' => $modelCategories->getCategories(),
+            'paymenttypes' => $modelPayment->getPaymentTypes(),
             'cartItems' => $cartItems,
             'cartImages' => $cartImages,
             'title' => 'My Cart'

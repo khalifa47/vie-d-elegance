@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\UsersModel;
 use App\Models\CategoriesModel;
 use App\Models\WalletModel;
+use App\Models\PaymentTypesModel;
 
 class UsersController extends BaseController
 {
@@ -13,9 +14,11 @@ class UsersController extends BaseController
     {
         $modelUsers = new UsersModel();
         $modelCat = new CategoriesModel();
+        $modelPayment = new PaymentTypesModel();
 
         $data = [
             'categories' => $modelCat->getCategories(),
+            'paymenttypes' => $modelPayment->getPaymentTypes(),
             'users' => $modelUsers->getUsers(),
             'title' => 'Users List'
         ];
@@ -26,9 +29,11 @@ class UsersController extends BaseController
     {
         $modelUsers = new UsersModel();
         $modelCat = new CategoriesModel();
+        $modelPayment = new PaymentTypesModel();
 
         $data = [
             'categories' => $modelCat->getCategories(),
+            'paymenttypes' => $modelPayment->getPaymentTypes(),
             'user' => $modelUsers->getUsers($id)
         ];
 

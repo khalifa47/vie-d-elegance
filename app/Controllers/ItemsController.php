@@ -7,12 +7,14 @@ use App\Models\SubcategoriesModel;
 
 use App\Models\ItemsModel;
 use App\Models\ImagesModel;
+use App\Models\PaymentTypesModel;
 
 class ItemsController extends BaseController
 {
     public function index()
     {
         $modelCategs = new CategoriesModel();
+        $modelPayment = new PaymentTypesModel();
         $modelImages = new ImagesModel();
         $modelItems = new ItemsModel();
 
@@ -20,6 +22,7 @@ class ItemsController extends BaseController
             'items' => $modelItems->getItems(),
             'images' => $modelImages->getImages(),
             'categories' => $modelCategs->getCategories(),
+            'paymenttypes' => $modelPayment->getPaymentTypes(),
             'title' => 'Items'
         ];
 
@@ -28,12 +31,14 @@ class ItemsController extends BaseController
     public function view($id = null)
     {
         $modelCategs = new CategoriesModel();
+        $modelPayment = new PaymentTypesModel();
         $modelImages = new ImagesModel();
         $modelItems = new ItemsModel();
 
         $data = [
             'images' => $modelImages->getImages($id),
             'categories' => $modelCategs->getCategories(),
+            'paymenttypes' => $modelPayment->getPaymentTypes(),
             'item' => $modelItems->getItems($id)
         ];
 

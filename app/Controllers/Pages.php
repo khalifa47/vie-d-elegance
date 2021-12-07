@@ -4,15 +4,18 @@ namespace App\Controllers;
 
 use App\Models\UsersModel;
 use App\Models\CategoriesModel;
+use App\Models\PaymentTypesModel;
 
 class Pages extends BaseController
 {
     public function index()
     {
-        $model = new CategoriesModel();
+        $modelCategories = new CategoriesModel();
+        $modelPayment = new PaymentTypesModel();
 
         $data = [
-            'categories' => $model->getCategories(),
+            'categories' => $modelCategories->getCategories(),
+            'paymenttypes' => $modelPayment->getPaymentTypes(),
             'title' => 'Home'
         ];
 
@@ -33,10 +36,12 @@ class Pages extends BaseController
 
     public function login()
     {
-        $model = new CategoriesModel();
+        $modelCategories = new CategoriesModel();
+        $modelPayment = new PaymentTypesModel();
 
         $data = [
-            'categories' => $model->getCategories(),
+            'categories' => $modelCategories->getCategories(),
+            'paymenttypes' => $modelPayment->getPaymentTypes(),
             'title' => 'Login'
         ];
 
@@ -47,10 +52,12 @@ class Pages extends BaseController
     {
         $modelUsers = new UsersModel();
         $modelCat = new CategoriesModel();
+        $modelPayment = new PaymentTypesModel();
 
         $data = [
             'user' => $modelUsers->getUsers(session()->get('id')),
             'categories' => $modelCat->getCategories(),
+            'paymenttypes' => $modelPayment->getPaymentTypes(),
             'title' => 'Edit Profile'
         ];
 
@@ -61,10 +68,12 @@ class Pages extends BaseController
     {
         $modelUsers = new UsersModel();
         $modelCat = new CategoriesModel();
+        $modelPayment = new PaymentTypesModel();
 
         $data = [
             'user' => $modelUsers->getUsers(session()->get('id')),
             'categories' => $modelCat->getCategories(),
+            'paymenttypes' => $modelPayment->getPaymentTypes(),
             'title' => 'Edit Password'
         ];
 
@@ -73,10 +82,12 @@ class Pages extends BaseController
 
     public function addCategory()
     {
-        $model = new CategoriesModel();
+        $modelCategories = new CategoriesModel();
+        $modelPayment = new PaymentTypesModel();
 
         $data = [
-            'categories' => $model->getCategories(),
+            'categories' => $modelCategories->getCategories(),
+            'paymenttypes' => $modelPayment->getPaymentTypes(),
             'title' => 'Add Category'
         ];
 
@@ -87,10 +98,12 @@ class Pages extends BaseController
     {
         $modelUsers = new UsersModel();
         $modelCat = new CategoriesModel();
+        $modelPayment = new PaymentTypesModel();
 
         $data = [
             'user' => $modelUsers->getUsers(session()->get('id')),
             'categories' => $modelCat->getCategories(),
+            'paymenttypes' => $modelPayment->getPaymentTypes(),
             'title' => 'Add Item'
         ];
 
@@ -99,10 +112,12 @@ class Pages extends BaseController
 
     public function addUser()
     {
-        $model = new CategoriesModel();
+        $modelCategories = new CategoriesModel();
+        $modelPayment = new PaymentTypesModel();
 
         $data = [
-            'categories' => $model->getCategories(),
+            'categories' => $modelCategories->getCategories(),
+            'paymenttypes' => $modelPayment->getPaymentTypes(),
             'title' => 'Add User'
         ];
 
