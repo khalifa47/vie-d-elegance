@@ -67,13 +67,12 @@
                         <div class='dropdown-menu'>
                             <a class='dropdown-item' href='/edit-profile'><i class='fa fa-user-circle ms' aria-hidden='true'></i>edit profile</a>
                             <a class='dropdown-item' href='/edit-password'><i class='fa fa-unlock ms' aria-hidden='true'></i>edit password</a>
-                            <a class='dropdown-item' href='/wallet'><i class='fa fa-google-wallet ms' aria-hidden='true'></i>V-Wallet</a>
                             <a class='dropdown-item' href='/cart'><i class='fa fa-shopping-cart ms' aria-hidden='true'></i>My Cart</a>
                         </div>
                         </li>
                         <li class='nav-item'>
                             <a class='nav-link' role='button' data-bs-toggle='modal' data-bs-target='#wallet-modal'>
-                                <i class='fa fa-google-wallet ms' aria-hidden='true'></i>Ksh. 0
+                                <i class='fa fa-google-wallet ms' aria-hidden='true'></i>Ksh. <span id='walletBalance'>" . session()->get('walletBal') . "</span>
                             </a>
                         </li>";
                     ?>
@@ -102,21 +101,21 @@
             </div>
         </div>
     </nav>
-    <?php if (session()->get('isLogged')) : ?>
-        <div class="modal fade" role="dialog" tabindex="-1" id="wallet-modal" style="text-align: center;">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" style="color: black;">TOP UP WALLET</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form class="d-inline-flex">
-                            <input id="topUpInput" class="form-control" type="number" min="100" placeholder="Min: 100">
-                            <button class="btn btn-primary" type="button">Load</button>
-                        </form>
-                    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="wallet-modal" style="text-align: center;">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-dark">TOP UP WALLET</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="walletForm" class="d-inline-flex">
+                        <input type="hidden" id="walletUid" value="<?= session()->get('id') ?>">
+                        <input type="hidden" id="current-balance" value="<?= session()->get('walletBal') ?>">
+                        <input id="topUpInput" class="form-control" type="number" min="100" placeholder="Min: 100">
+                        <button class="btn btn-primary" type="submit">Load</button>
+                    </form>
                 </div>
             </div>
         </div>
-    <?php endif; ?>
+    </div>

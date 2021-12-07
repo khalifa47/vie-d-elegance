@@ -3,21 +3,37 @@
 namespace App\Controllers;
 
 use App\Models\WalletModel;
-use App\Models\CategoriesModel;
 
 class WalletController extends BaseController
 {
-    public function index()
+    public function topup()
     {
-        // $modelCategs = new CategoriesModel();
-        // $modelWallet = new WalletModel();
+        $modelWallet = new WalletModel();
 
-        // $data = [
-        //     'wallet' => $modelWallet->getWalletAtUser(session()->get('id')),
-        //     'categories' => $modelCategs->getCategories(),
-        //     'title' => 'V-Wallet'
-        // ];
 
-        // return view('transactions/wallet', $data);
+        $response = array(
+            'status' => 0,
+            'message' => '',
+            'newBal' => 0
+        );
+
+        if ($_POST['amount'] < 100) {
+            $response['status'] = 0;
+            $response['message'] = "Amount must be at least Ksh. 100";
+        } else if ($_POST['amount'] > 50000) {
+            $response['status'] = 0;
+            $response['message'] = "Amount cannot exceed Ksh. 50000";
+        } else {
+            $modelWallet->update($modelWallet->getWalletAtUser($_POST['uid'])['wallet_id'], [
+                'amount_available' => $_POST['newBalance']
+            ]);
+
+            session()->set(['walletBal' => $_POST['newBalance']]);
+
+            $response['status'] = 1;
+            $response['message'] = "Top up successful";
+            $response['newBal'] = $_POST['newBalance'];
+        }
+        echo json_encode($response);
     }
 }

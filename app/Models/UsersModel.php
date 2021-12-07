@@ -27,4 +27,10 @@ class UsersModel extends Model
             ->where(['email' => $email])
             ->first();
     }
+
+    public function insertUser($data)
+    {
+        $this->save($data);
+        return $this->getInsertID();
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\UsersModel;
 use App\Models\CategoriesModel;
+use App\Models\WalletModel;
 
 class UsersController extends BaseController
 {
@@ -42,7 +43,8 @@ class UsersController extends BaseController
 
     public function register()
     {
-        $model = new UsersModel();
+        $modelUsers = new UsersModel();
+        $modelWallet = new WalletModel();
 
         $response = array(
             'status' => 0,
@@ -50,16 +52,20 @@ class UsersController extends BaseController
         );
 
         if ($_POST['pass'] === $_POST['confpass']) {
-            if ($model->checkEmail($_POST['emailadd'])) {
+            if ($modelUsers->checkEmail($_POST['emailadd'])) {
                 $response['message'] = "Email address already exists";
             } else {
-                $model->save([
+                $insertedUid = $modelUsers->insertUser([
                     'first_name' => $_POST['fname'],
                     'last_name' => $_POST['lname'],
                     'email' => $_POST['emailadd'],
                     'password' => sha1($_POST['pass']),
                     'gender' => $_POST['gender'],
                     'role' => $_POST['role']
+                ]);
+
+                $modelWallet->save([
+                    'customer_id' => $insertedUid
                 ]);
 
                 $response['status'] = 1;
@@ -74,14 +80,15 @@ class UsersController extends BaseController
 
     public function login()
     {
-        $model = new UsersModel();
+        $modelUsers = new UsersModel();
+        $modelWallet = new WalletModel();
 
         $response = array(
             'status' => 0,
             'message' => ''
         );
 
-        $users = $model->getUsers();
+        $users = $modelUsers->getUsers();
 
         if (empty($users)) {
             $response['message'] = "Server error!";
@@ -90,7 +97,6 @@ class UsersController extends BaseController
 
             foreach ($users as $user) {
                 if ($this->request->getPost('emailadd') === $user['email'] && sha1($this->request->getPost('pass')) === $user['password']) {
-                    //$_SESSION['uname'] = $this->request->getPost('uname');
                     $validated = TRUE;
 
                     if (session()->get('isLogged')) {
@@ -100,6 +106,7 @@ class UsersController extends BaseController
                         session()->set(['uname' => $user['first_name']]);
                         session()->set(['id' => $user['user_id']]);
                         session()->set(['utype' => $user['role']]);
+                        session()->set(['walletBal' => $modelWallet->getWalletAtUser($user['user_id'])['amount_available']]);
                         session()->set(['isLogged' => TRUE]);
 
                         $response['status'] = 1;

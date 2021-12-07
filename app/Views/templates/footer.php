@@ -44,9 +44,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.js"></script>
 
 <script>
-    // $('#wallet-modal').on('shown.bs.modal', () => {
-    //     $('#topUpInput').trigger('focus');
-    // });
+    $('#wallet-modal').on('shown.bs.modal', () => {
+        $('#topUpInput').trigger('focus');
+    });
 
     const editCateg = (categID, categName) => {
         const form = `<form id='editForm${categID}' class='editcategform'>
@@ -116,6 +116,44 @@
     const goToCateg = (categID) => {
         window.location.href = `/items?${categID}`;
     };
+
+    $(document).ready(() => {
+        $('#walletForm').on('submit', (e) => {
+            const uid = $('#walletUid').val();
+            const amount = $('#topUpInput').val();
+            const current_bal = $('#current-balance').val();
+
+            const newBal = parseFloat(current_bal) + parseFloat(amount);
+
+            e.preventDefault();
+
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url('WalletController/topup') ?>',
+                data: {
+                    uid: uid,
+                    amount: amount,
+                    newBalance: newBal
+                },
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                cache: false,
+
+                success: (response) => {
+                    if (response.status == 1) {
+                        alert(response.message);
+                        $('#walletBalance')[0].innerHTML = response.newBal;
+                    } else {
+                        alert(response.message);
+                    }
+                }
+
+            });
+        });
+    });
 </script>
 </body>
 
