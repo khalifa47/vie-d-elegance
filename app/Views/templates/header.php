@@ -36,17 +36,12 @@
 
                                             <?php if (session()->get('isLogged') && session()->get('utype') == 1) : ?>
                                                 <div class="control-div">
-                                                    <a role="button" onclick="editCateg(<?= esc($category['category_id']) ?>, `<?= esc($category['category_name']) ?>`)">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                                        </svg>
+                                                    <a class="control-a" role="button" onclick="editCateg(<?= esc($category['category_id']) ?>, `<?= esc($category['category_name']) ?>`)">
+                                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                     </a>
 
-                                                    <a role="button" onclick="deleteCateg(<?= esc($category['category_id']) ?>)">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-                                                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
-                                                        </svg>
+                                                    <a class="control-a" role="button" onclick="deleteCateg(<?= esc($category['category_id']) ?>)">
+                                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
                                                     </a>
 
                                                 </div>
@@ -101,6 +96,8 @@
             </div>
         </div>
     </nav>
+
+    <!-- wallet modal -->
     <div class="modal fade" role="dialog" tabindex="-1" id="wallet-modal" style="text-align: center;">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -120,7 +117,8 @@
         </div>
     </div>
 
-    <div class="modal fade" role="dialog" tabindex="-1" id="payment-types-modal" style="text-align: center;">
+    <!-- payment types modal -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="payment-types-modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -130,18 +128,28 @@
                 <div class="modal-body">
                     <?php if (!empty($paymenttypes)) : ?>
                         <?php foreach ($paymenttypes as $paymenttype) : ?>
-                            <div>
-                                <h4><?= $paymenttype['paymenttype_name'] ?></h4>
-                                <p><?= $paymenttype['description'] ?></p>
+                            <div style="display: flex; justify-content:space-between;">
+                                <div>
+                                    <h4><?= $paymenttype['paymenttype_name'] ?></h4>
+                                    <p><?= $paymenttype['description'] ?></p>
+                                </div>
+                                <div class="control-div">
+                                    <a role="button" class="control-a"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                    <a role="button" class="control-a"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                </div>
                             </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
-                    <button type="button" class="btn rounded-circle" style="color:blue; font-size:xx-large;" data-bs-dismiss="modal" data-bs-toggle='modal' data-bs-target='#add-payment-type-modal'><i class="fa fa-plus-square-o" aria-hidden="true"></i></button>
+                    <div style="text-align: center;">
+                        <button type="button" class="btn rounded-circle" style="color:blue; font-size:xx-large;" data-bs-dismiss="modal" data-bs-toggle='modal' data-bs-target='#add-payment-type-modal'><i class="fa fa-plus-square-o" aria-hidden="true"></i></button>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- add payment types modal -->
     <div class="modal fade" role="dialog" tabindex="-1" id="add-payment-type-modal" style="text-align: center;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

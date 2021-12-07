@@ -15,7 +15,10 @@ class PaymentController extends BaseController
             'message' => ''
         );
 
-        if ($model->save([
+        if ($model->checkPaymentType($_POST['paymentName'])) {
+            $response['status'] = 0;
+            $response['message'] = "Payment type: " . $_POST['paymentName'] . " already exists";
+        } else if ($model->save([
             'paymenttype_name' => $_POST['paymentName'],
             'description' => $_POST['paymentDesc']
         ])) {

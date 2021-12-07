@@ -251,13 +251,16 @@ body {
 .control-div:hover {
   background: transparent;
 }
-.control-div a {
+.control-a {
+  width: 16px;
+  height: 16px;
+  color: black;
   position: relative;
-  top: 5px;
+  top: 8px;
   margin: 2px;
   padding: 0;
 }
-.control-div a:hover {
+.control-a:hover {
   color: rgb(85, 94, 218);
 }
 

@@ -20,4 +20,11 @@ class PaymentTypesModel extends Model
             ->where(['paymenttype_id' => $id])
             ->first();
     }
+
+    public function checkPaymentType($payment_name)
+    {
+        return $this->asArray()
+            ->where(['paymenttype_name' => $payment_name])
+            ->first();
+    }
 }
