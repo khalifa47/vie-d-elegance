@@ -200,6 +200,8 @@
             success: (response) => {
                 if (response.status == 1) {
                     alert(response.message);
+                } else if (response.status == 2) {
+                    alert(response.message);
                 } else {
                     alert(response.message);
                     location.replace('/login');

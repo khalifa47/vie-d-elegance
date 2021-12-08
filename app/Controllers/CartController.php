@@ -49,12 +49,17 @@ class CartController extends BaseController
         );
 
         if (session()->get('isLogged')) {
-            $model->save([
-                'user_id' => session()->get('id'),
-                'product_id' => $_POST['productID']
-            ]);
-            $response['status'] = 1;
-            $response['message'] = "Added to cart!";
+            if ($model->getCartID(session()->get('id'), $_POST['productID'])) {
+                $response['status'] = 2;
+                $response['message'] = "Item is already in the cart!";
+            } else {
+                $model->save([
+                    'user_id' => session()->get('id'),
+                    'product_id' => $_POST['productID']
+                ]);
+                $response['status'] = 1;
+                $response['message'] = "Added to cart!";
+            }
         } else {
             $response['status'] = 0;
             $response['message'] = "You must be logged in first!";
