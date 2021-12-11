@@ -142,6 +142,7 @@
                                     </a>
                                 </div>
                             </div>
+                            <hr>
                         <?php endforeach; ?>
                     <?php endif; ?>
                     <div style="text-align: center;">
