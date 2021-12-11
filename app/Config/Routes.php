@@ -40,6 +40,7 @@ $routes->get('/cart', 'CartController::index');
 $routes->get('/login', 'Pages::login');
 $routes->get('/register', 'Pages::login');
 $routes->get('/add-user', 'Pages::addUser');
+$routes->get('/address', 'AddressController::index');
 $routes->get('/edit-profile', 'Pages::editProfile');
 $routes->get('/edit-password', 'Pages::editPassword');
 $routes->get('/add-category', 'Pages::addCategory');

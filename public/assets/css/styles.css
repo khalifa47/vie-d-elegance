@@ -86,7 +86,8 @@ body {
 #edit-profile-bg,
 #edit-password-bg,
 #add-category-bg,
-#add-user-bg {
+#add-user-bg,
+#address-bg {
   height: 100%;
   width: 100%;
 }
