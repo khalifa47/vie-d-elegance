@@ -48,9 +48,10 @@
         $('#topUpInput').trigger('focus');
     });
 
+    // categories
     const editCateg = (categID, categName) => {
-        const form = `<form id='editForm${categID}' class='editcategform'>
-            <input type='text' class='form-control editcategfield' value="${categName}" id='categField${categID}' required>
+        const form = `<form id='editForm${categID}' class='editform'>
+            <input type='text' class='form-control editfield' value="${categName}" id='categField${categID}' required>
             <button type='submit' class='btn'><i class='fa fa-check' aria-hidden='true'></i></button>
         </form>`;
         $(`#categ_div${categID}`).html(form);
@@ -115,6 +116,75 @@
 
     const goToCateg = (categID) => {
         window.location.href = `/items?${categID}`;
+    };
+
+    // payments
+    const editPaymentType = (paymentTypeID, paymentTypeName, paymentTypeDesc) => {
+        const form = `<form id='editPaymentType${paymentTypeID}' class='editform' style='width: 100%'>
+            <input type='text' class='form-control editfield' style='width: 25%' value='${paymentTypeName}' id='paymentTypeField${paymentTypeID}' required>
+            <input type='text' class='form-control editfield' style='width: 75%' value='${paymentTypeDesc}' id='paymentDescField${paymentTypeID}' required>
+            <button type='submit' class='btn'><i class='fa fa-check' aria-hidden='true'></i></button>
+        </form>`;
+        $(`#paymenttype_div${paymentTypeID}`).html(form);
+
+        $(`#editPaymentType${paymentTypeID}`).on("submit", (e) => {
+            const new_paymentTypeName = $(`#paymentTypeField${paymentTypeID}`).val();
+            const new_paymentTypeDesc = $(`#paymentDescField${paymentTypeID}`).val();
+
+            e.preventDefault();
+
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url('PaymentController/editPaymentType') ?>',
+                data: {
+                    ptypeID: paymentTypeID,
+                    ptypeName: new_paymentTypeName,
+                    ptypeDesc: new_paymentTypeDesc
+                },
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                cache: false,
+
+                success: (response) => {
+                    if (response.status == 1) {
+                        alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
+                }
+
+            });
+
+        });
+    };
+    const deletePaymentType = (paymentTypeID) => {
+        if (confirm(`Confirm deletion of payment type with ID: ${paymentTypeID}?`)) {
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url('PaymentController/deletePaymentType') ?>',
+                data: {
+                    pTypeID: paymentTypeID
+                },
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                cache: false,
+
+                success: (response) => {
+                    if (response.status == 1) {
+                        alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
+                }
+
+            });
+        }
     };
 
     $(document).ready(() => {

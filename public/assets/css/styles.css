@@ -294,12 +294,12 @@ select {
   margin-right: 10px;
 }
 
-.editcategform {
+.editform {
   display: inline-flex;
   justify-content: space-between;
 }
 
-.editcategfield {
+.editfield {
   margin: 0;
   padding: 0;
   margin-left: 10px;

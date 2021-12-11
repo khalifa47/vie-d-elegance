@@ -128,14 +128,18 @@
                 <div class="modal-body">
                     <?php if (!empty($paymenttypes)) : ?>
                         <?php foreach ($paymenttypes as $paymenttype) : ?>
-                            <div style="display: flex; justify-content:space-between;">
+                            <div id="paymenttype_div<?= esc($paymenttype['paymenttype_id']) ?>" style="display: flex; justify-content:space-between;">
                                 <div>
                                     <h4><?= $paymenttype['paymenttype_name'] ?></h4>
                                     <p><?= $paymenttype['description'] ?></p>
                                 </div>
                                 <div class="control-div">
-                                    <a role="button" class="control-a"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    <a role="button" class="control-a"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                    <a role="button" class="control-a" onclick="editPaymentType(<?= esc($paymenttype['paymenttype_id']) ?>, `<?= esc($paymenttype['paymenttype_name']) ?>`, `<?= esc($paymenttype['description']) ?>`)">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    </a>
+                                    <a role="button" class="control-a" onclick="deletePaymentType(<?= esc($paymenttype['paymenttype_id']) ?>)">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </a>
                                 </div>
                             </div>
                         <?php endforeach; ?>
