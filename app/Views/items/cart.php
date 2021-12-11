@@ -86,7 +86,22 @@
                                         <h5 class="font-weight-bold">Ksh. <span id="total_price"><?= $subtotalprice + 100 ?></span></h5>
                                     </li>
                                 </ul>
-                                <a href="#" class="btn btn-dark rounded-pill py-2 btn-block">Proceed to checkout</a>
+                                <div style="width: 90%; margin: 10px auto;">
+                                    <select class="form-select rounded-pill" id="paymentmethod" required>
+                                        <option disabled selected value="def">Choose a payment method:</option>
+                                        <?php if (!empty($paymenttypes)) : ?>
+                                            <?php foreach ($paymenttypes as $paymenttype) : ?>
+                                                <option value="<?= esc($paymenttype['paymenttype_id']) ?>">
+                                                    <p><?= esc($paymenttype['paymenttype_name']) ?><?php echo " => " ?><?= esc($paymenttype['description']) ?></p>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </select>
+                                </div>
+                                <div style="text-align:center; margin: 10px auto;">
+                                    <a role="button" class="btn btn-dark rounded-pill py-2 btn-block">Checkout</a>
+                                </div>
+
                             </div>
                         </div>
                     </div>
