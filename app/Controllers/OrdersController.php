@@ -64,6 +64,8 @@ class OrdersController extends BaseController
                 $modelCart->delete($modelCart->getCartID($_POST['userID'], $cartItem['product_id'])['cart_id']);
             }
 
+            // deduct wallet
+
             $response['status'] = 1;
             $response['message'] = "Order completed successfully!";
         }
