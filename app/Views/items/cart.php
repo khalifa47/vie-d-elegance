@@ -88,7 +88,7 @@
                                 </ul>
                                 <div style="width: 90%; margin: 10px auto;">
                                     <select class="form-select rounded-pill" id="paymentmethod" required>
-                                        <option disabled selected value="def">Choose a payment method:</option>
+                                        <option selected value="def" style="color: grey;">Choose a payment method:</option>
                                         <?php if (!empty($paymenttypes)) : ?>
                                             <?php foreach ($paymenttypes as $paymenttype) : ?>
                                                 <option value="<?= esc($paymenttype['paymenttype_id']) ?>">
@@ -99,7 +99,12 @@
                                     </select>
                                 </div>
                                 <div style="text-align:center; margin: 10px auto;">
-                                    <a role="button" class="btn btn-dark rounded-pill py-2 btn-block">Checkout</a>
+
+                                    <form id="cartForm">
+                                        <input type="hidden" id="uid" value="<?= session()->get('id') ?>">
+                                        <button type="submit" class="btn btn-dark rounded-pill py-2 btn-block">Checkout</button>
+                                    </form>
+
                                 </div>
 
                             </div>
@@ -110,6 +115,7 @@
             </div>
         </div>
     </div>
+    <?php echo view('templates/footer'); ?>
     <script>
         {
             var subtotalprice = <?= $subtotalprice ?>;
@@ -150,11 +156,52 @@
 
             });
         };
+
+        $(document).ready(() => {
+            $('#cartForm').on('submit', (e) => {
+                const uid = $('#uid').val();
+                const ptype = $('#paymentmethod').val();
+
+                const cartItems = <?= json_encode($cartItems) ?>;
+
+                e.preventDefault();
+
+                cartItems.forEach(cartItem => {
+                    cartItem.quantityVal = $(`#quantity${cartItem.product_id}`).val();
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '<?= base_url('OrdersController/checkout') ?>',
+                    data: {
+                        userID: uid,
+                        orderAmt: this.subtotalprice + 100,
+                        ptype: ptype,
+                        cartItems: cartItems
+                    },
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    dataType: 'json',
+                    contentType: 'application/x-www-form-urlencoded',
+                    cache: false,
+
+                    success: (response) => {
+                        if (response.status == 1) {
+                            alert(response.message);
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    }
+                });
+            });
+        });
     </script>
 <?php else : ?>
     <div style="text-align: center; color:whitesmoke; padding-top: 150px; height: 500px; background: url(&quot;<?= base_url("assets/img/oops.jpg") ?>&quot;) center / cover no-repeat;">
         <h4>Oops. Your cart is empty. Add items first then come back.</h4>
         <a href="/items" role="button" class="btn btn-primary">Go to Shop</a>
     </div>
+    <?php echo view('templates/footer'); ?>
 <?php endif; ?>
-<?php echo view('templates/footer'); ?>

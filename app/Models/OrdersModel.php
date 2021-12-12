@@ -26,4 +26,10 @@ class OrdersModel extends Model
             ->where(['customer_id' => $uid])
             ->findAll();
     }
+
+    public function insertOrder($data)
+    {
+        $this->save($data);
+        return $this->getInsertID();
+    }
 }
