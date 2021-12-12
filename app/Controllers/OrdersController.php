@@ -9,6 +9,7 @@ use App\Models\CartModel;
 
 use App\Models\CategoriesModel;
 use App\Models\PaymentTypesModel;
+use App\Models\WalletModel;
 
 class OrdersController extends BaseController
 {
@@ -31,6 +32,7 @@ class OrdersController extends BaseController
         $modelOrders = new OrdersModel();
         $modelOrderDetails = new OrderDetailsModel();
         $modelCart = new CartModel();
+        $modelWallet = new WalletModel();
 
         $response = array(
             'status' => 0,
@@ -39,13 +41,27 @@ class OrdersController extends BaseController
 
         $orderStatus = 'pending_payment';
 
-        if ($_POST['ptype'] == 4) {
-            $orderStatus = 'paid';
-        }
         if ($_POST['ptype'] == 'def') {
             $response['status'] = 0;
             $response['message'] = 'Please select a payment type';
         } else {
+            if ($_POST['ptype'] == 4) {
+                $orderStatus = 'paid';
+                $balance = $modelWallet->getWalletAtUser($_POST['userID'])['amount_available'];
+                $newBalance = $balance - $_POST['orderAmt'];
+                if ($newBalance < 0) {
+                    $response['status'] = 0;
+                    $response['message'] = 'Insufficient balance in the wallet. Please top up or select a different payment type.';
+                    echo json_encode($response);
+                    return;
+                } else {
+                    $modelWallet->update($modelWallet->getWalletAtUser($_POST['userID'])['wallet_id'], [
+                        'amount_available' => $newBalance
+                    ]);
+
+                    session()->set(['walletBal' => $newBalance]);
+                }
+            }
             $orderID = $modelOrders->insertOrder([
                 'customer_id' => $_POST['userID'],
                 'order_amount' => $_POST['orderAmt'],
@@ -63,8 +79,6 @@ class OrdersController extends BaseController
                 ]);
                 $modelCart->delete($modelCart->getCartID($_POST['userID'], $cartItem['product_id'])['cart_id']);
             }
-
-            // deduct wallet
 
             $response['status'] = 1;
             $response['message'] = "Order completed successfully!";
