@@ -113,7 +113,7 @@ class OrdersController extends BaseController
         $dompdf->loadHtml(view('items/receipt', $data));
         $dompdf->setPaper('A4');
         $dompdf->render();
-        $dompdf->stream("receipt" . $orderID . ".pdf");
+        $dompdf->stream("receipt#" . $orderID . ".pdf");
     }
     // public function view($id = null)
     // {
