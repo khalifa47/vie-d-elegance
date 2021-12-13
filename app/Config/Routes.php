@@ -36,6 +36,7 @@ $routes->get('items', 'ItemsController::index');
 $routes->get('users/(:segment)', 'UsersController::view/$1');
 $routes->get('users', 'UsersController::index');
 $routes->get('logout', 'UsersController::logout');
+$routes->get('receipt/(:segment)', 'OrdersController::generateReceipt/$1');
 $routes->get('/cart', 'CartController::index');
 $routes->get('/login', 'Pages::login');
 $routes->get('/register', 'Pages::login');

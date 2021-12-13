@@ -2,6 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Models\AddressModel;
+use Dompdf\Dompdf;
+
 use App\Models\OrdersModel;
 use App\Models\OrderDetailsModel;
 
@@ -9,10 +12,13 @@ use App\Models\CartModel;
 
 use App\Models\CategoriesModel;
 use App\Models\PaymentTypesModel;
+use App\Models\UsersModel;
 use App\Models\WalletModel;
 
 class OrdersController extends BaseController
 {
+
+
     public function index()
     {
         $modelCategs = new CategoriesModel();
@@ -36,7 +42,8 @@ class OrdersController extends BaseController
 
         $response = array(
             'status' => 0,
-            'message' => ''
+            'message' => '',
+            'orderID' => 0
         );
 
         $orderStatus = 'pending_payment';
@@ -82,8 +89,31 @@ class OrdersController extends BaseController
 
             $response['status'] = 1;
             $response['message'] = "Order completed successfully!";
+            $response['orderID'] = $orderID;
         }
         echo json_encode($response);
+    }
+
+    public function generateReceipt($orderID)
+    {
+        $modelOrderDetails = new OrderDetailsModel();
+        $modelOrder = new OrdersModel();
+        $modelUser = new UsersModel();
+        $modelAddress = new AddressModel();
+
+        $data = [
+            'order' => $modelOrder->getOrders($orderID),
+            'orderItems' => $modelOrderDetails->getOrderDetailsAtOrder($orderID),
+            'user' => $modelUser->getUsers(session()->get('id')),
+            'address' => $modelAddress->getAddressAtUser(session()->get('id')),
+            'title' => 'Order Receipt'
+        ];
+
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml(view('items/receipt', $data));
+        $dompdf->setPaper('A4');
+        $dompdf->render();
+        $dompdf->stream("receipt" . $orderID . ".pdf");
     }
     // public function view($id = null)
     // {

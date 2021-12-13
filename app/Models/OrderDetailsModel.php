@@ -14,6 +14,7 @@ class OrderDetailsModel extends Model
     {
         return $this->asArray()
             ->where(['order_id' => $orderID])
+            ->join('tbl_product', 'tbl_product.product_id = tbl_orderdetails.product_id')
             ->findAll();
     }
     public function getOrdersWithProduct($productID)

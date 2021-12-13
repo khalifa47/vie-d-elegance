@@ -190,6 +190,7 @@
                         if (response.status == 1) {
                             alert(response.message);
                             location.reload();
+                            location.replace(`/receipt/${response.orderID}`);
                         } else {
                             alert(response.message);
                         }
