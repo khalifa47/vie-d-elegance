@@ -23,12 +23,22 @@ class OrdersController extends BaseController
     {
         $modelCategs = new CategoriesModel();
         $modelPayment = new PaymentTypesModel();
+        $modelOrders = new OrdersModel();
+        $modelOrderDetails = new OrderDetailsModel();
 
         $data = [
             'categories' => $modelCategs->getCategories(),
             'paymenttypes' => $modelPayment->getPaymentTypes(),
-            'title' => 'Orders'
+            'orders' => $modelOrders->getOrdersAtUser(3),
+            'orderdetails' => [],
+            'title' => 'My Orders'
         ];
+
+
+
+        foreach ($data['orders'] as $order) {
+            array_push($data['orderdetails'], [$order['order_id'], $modelOrderDetails->getOrderDetailsAtOrder($order['order_id'])]);
+        }
 
         return view('items/orders', $data);
     }
