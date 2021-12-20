@@ -125,22 +125,49 @@ class OrdersController extends BaseController
         $dompdf->render();
         $dompdf->stream("receipt#" . $orderID . ".pdf");
     }
-    // public function view($id = null)
-    // {
-    //     $modelCategs = new CategoriesModel();
-    //     $modelPayment = new PaymentTypesModel();
 
-    //     $data = [
-    //         'categories' => $modelCategs->getCategories(),
-    //         'paymenttypes' => $modelPayment->getPaymentTypes()
-    //     ];
+    public function cancelOrder()
+    {
+        $modelOrder = new OrdersModel();
 
-    //     if (empty($data['item'])) {
-    //         throw new \CodeIgniter\Exceptions\PageNotFoundException('Item does not exist: ' . $id);
-    //     }
+        $response = array(
+            'status' => 0,
+            'message' => ''
+        );
 
-    //     $data['title'] = $data['item']['product_name'];
+        if ($modelOrder->update($_POST['orderID'], ['order_status' => 'cancelled'])) {
+            $response['status'] = 1;
+            $response['message'] = "Order cancelled successfully";
+        } else {
+            $response['status'] = 0;
+            $response['message'] = "Delete falied";
+        }
 
-    //     return view('items/order', $data);
-    // }
+        echo json_encode($response);
+    }
+
+    public function deleteOrderItem()
+    {
+        $modelOrderDetails = new OrderDetailsModel();
+        $modelOrders = new OrdersModel();
+
+        $response = array(
+            'status' => 0,
+            'message' => ''
+        );
+
+        $response['message'] = $modelOrders->getOrders($_POST['orderID'])['order_amount'] - $modelOrderDetails->getOrderDetail($_POST['orderItemID'])['orderdetails_total'];
+
+
+
+        if ($modelOrders->update($_POST['orderID'], ['order_amount' => $modelOrders->getOrders($_POST['orderID'])['order_amount'] - $modelOrderDetails->getOrderDetail($_POST['orderItemID'])['orderdetails_total']]) && $modelOrderDetails->delete($_POST['orderItemID'])) {
+            $response['status'] = 1;
+            $response['message'] = "Item removed successfully";
+        } else {
+            $response['status'] = 0;
+            $response['message'] = "Delete failed";
+        }
+
+        echo json_encode($response);
+    }
 }

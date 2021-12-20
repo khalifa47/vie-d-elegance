@@ -10,6 +10,13 @@ class OrderDetailsModel extends Model
     protected $primaryKey = 'orderdetails_id';
     protected $allowedFields = ['order_id', 'product_id', 'product_price', 'order_quantity', 'orderdetails_total', 'created_at', 'updated_at', 'is_deleted'];
 
+    public function getOrderDetail($orderdetails_id)
+    {
+        return $this->asArray()
+            ->where(['orderdetails_id' => $orderdetails_id])
+            ->first();
+    }
+
     public function getOrderDetailsAtOrder($orderID)
     {
         return $this->asArray()
