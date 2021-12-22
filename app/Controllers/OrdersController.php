@@ -156,13 +156,14 @@ class OrdersController extends BaseController
             'message' => ''
         );
 
-        $response['message'] = $modelOrders->getOrders($_POST['orderID'])['order_amount'] - $modelOrderDetails->getOrderDetail($_POST['orderItemID'])['orderdetails_total'];
-
-
-
         if ($modelOrders->update($_POST['orderID'], ['order_amount' => $modelOrders->getOrders($_POST['orderID'])['order_amount'] - $modelOrderDetails->getOrderDetail($_POST['orderItemID'])['orderdetails_total']]) && $modelOrderDetails->delete($_POST['orderItemID'])) {
+            if (empty($modelOrderDetails->getOrderDetailsAtOrder($_POST['orderID']))) {
+                $modelOrders->delete($_POST['orderID']);
+                $response['message'] = "Order completely deleted!";
+            } else {
+                $response['message'] = "Item removed successfully";
+            }
             $response['status'] = 1;
-            $response['message'] = "Item removed successfully";
         } else {
             $response['status'] = 0;
             $response['message'] = "Delete failed";

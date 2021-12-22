@@ -13,7 +13,9 @@ class OrdersModel extends Model
     public function getOrders($id = false)
     {
         if ($id === false) {
-            return $this->findAll();
+            return $this
+                ->orderby('created_at', 'DESC')
+                ->findAll();
         }
 
         return $this->asArray()
@@ -23,6 +25,7 @@ class OrdersModel extends Model
     public function getOrdersAtUser($uid)
     {
         return $this->asArray()
+            ->orderby('created_at', 'DESC')
             ->where(['customer_id' => $uid])
             ->findAll();
     }
