@@ -62,6 +62,8 @@
                             <a class='dropdown-item' href='/edit-profile'><i class='fa fa-user-circle ms' aria-hidden='true'></i>edit profile</a>
                             <a class='dropdown-item' href='/edit-password'><i class='fa fa-unlock ms' aria-hidden='true'></i>edit password</a>
                             <a class='dropdown-item' href='/cart'><i class='fa fa-shopping-cart ms' aria-hidden='true'></i>My Cart</a>
+                            <a class='dropdown-item' href='/orders'><i class='fa fa-shopping-basket ms' aria-hidden='true'></i>My Orders</a>
+                            <a class='dropdown-item' href='/address'><i class='fa fa-map-marker ms' aria-hidden='true'></i>Delivery Address</a>
                         </div>
                         </li>
                         <li class='nav-item'>
@@ -78,6 +80,7 @@
                                 <a class='dropdown-item' href='/add-category'>Add Category</a>
                                 <a class='dropdown-item' href='/add-item'>Add Item</a>
                                 <a class='dropdown-item' href='/add-user'>Add User</a>
+                                <a class='dropdown-item' href='/analytics'>Analytics</a>
                                 <a class='dropdown-item' role='button' data-bs-toggle='modal' data-bs-target='#payment-types-modal'>Payment Types</a>
                             </div>
                             </li>";

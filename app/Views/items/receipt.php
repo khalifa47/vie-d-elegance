@@ -68,7 +68,7 @@
         <li><strong>Order ID:</strong> <?= $order['order_id'] ?></li>
         <li><strong>Placed:</strong> <?= $order['created_at'] ?></li>
         <li><strong>Order Status:</strong> <?= $order['order_status'] ?></li>
-        <li><strong>Paid by:</strong> Ptype</li>
+        <li><strong>Paid by:</strong> <?= $paymenttype ?></li>
       </ul>
     </div>
     <div class="column">

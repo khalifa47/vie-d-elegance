@@ -29,7 +29,7 @@ class OrdersController extends BaseController
         $data = [
             'categories' => $modelCategs->getCategories(),
             'paymenttypes' => $modelPayment->getPaymentTypes(),
-            'orders' => $modelOrders->getOrdersAtUser(3),
+            'orders' => $modelOrders->getOrdersAtUser(session()->get('id')),
             'orderdetails' => [],
             'title' => 'My Orders'
         ];
@@ -110,14 +110,18 @@ class OrdersController extends BaseController
         $modelOrder = new OrdersModel();
         $modelUser = new UsersModel();
         $modelAddress = new AddressModel();
+        $modelPayment = new PaymentTypesModel();
 
         $data = [
             'order' => $modelOrder->getOrders($orderID),
             'orderItems' => $modelOrderDetails->getOrderDetailsAtOrder($orderID),
             'user' => $modelUser->getUsers(session()->get('id')),
             'address' => $modelAddress->getAddressAtUser(session()->get('id')),
+            'paymenttype' => '',
             'title' => 'Order Receipt'
         ];
+
+        $data['paymenttype'] = $modelPayment->getPaymentTypes($data['order']['payment_type'])['paymenttype_name'];
 
         $dompdf = new Dompdf();
         $dompdf->loadHtml(view('items/receipt', $data));
