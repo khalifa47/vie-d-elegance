@@ -10,11 +10,16 @@ class OrdersModel extends Model
     protected $primaryKey = 'order_id';
     protected $allowedFields = ['customer_id', 'order_amount', 'order_status', 'payment_type', 'created_at', 'updated_at', 'is_deleted'];
 
-    public function getOrders($id = false)
+    public function getOrders($id = false, $limit5 = false)
     {
-        if ($id === false) {
+        if ($id === false && $limit5 === false) {
             return $this
                 ->orderby('created_at', 'DESC')
+                ->findAll();
+        } else if ($id === false && $limit5 !== false) {
+            return $this
+                ->orderby('created_at', 'DESC')
+                ->limit(5)
                 ->findAll();
         }
 
@@ -34,5 +39,12 @@ class OrdersModel extends Model
     {
         $this->save($data);
         return $this->getInsertID();
+    }
+
+    public function getSalesTotal()
+    {
+        return $this->asArray()
+            ->selectSum('order_amount')
+            ->findAll();
     }
 }

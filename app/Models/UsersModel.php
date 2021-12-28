@@ -33,4 +33,16 @@ class UsersModel extends Model
         $this->save($data);
         return $this->getInsertID();
     }
+
+    public function getTopSpendingUsers()
+    {
+        return $this->asArray()
+            ->join('tbl_order', 'tbl_order.customer_id = tbl_users.user_id')
+            ->selectSum('order_amount')
+            ->select(['user_id', 'first_name', 'last_name', 'email', 'gender'])
+            ->groupby('customer_id')
+            ->orderby('order_amount', 'DESC')
+            ->limit(5)
+            ->findAll();
+    }
 }

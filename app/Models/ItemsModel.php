@@ -33,4 +33,16 @@ class ItemsModel extends Model
             ->where(['subcategory_id' => $categ_id])
             ->findAll();
     }
+
+    public function getTopPerformingProducts()
+    {
+        return $this->asArray()
+            ->join('tbl_orderdetails', 'tbl_orderdetails.product_id = tbl_product.product_id')
+            ->selectSum('orderdetails_total')
+            ->select(['tbl_product.product_id', 'product_name', 'unit_price', 'available_quantity'])
+            ->groupby('tbl_orderdetails.product_id')
+            ->orderby('orderdetails_total', 'DESC')
+            ->limit(5)
+            ->findAll();
+    }
 }

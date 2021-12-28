@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Models\UsersModel;
 use App\Models\CategoriesModel;
+use App\Models\ItemsModel;
+use App\Models\OrdersModel;
 use App\Models\PaymentTypesModel;
 
 class Pages extends BaseController
@@ -122,5 +124,28 @@ class Pages extends BaseController
         ];
 
         return view('users/admin/add-user', $data);
+    }
+
+    public function analytics()
+    {
+        $modelCategories = new CategoriesModel();
+        $modelPayment = new PaymentTypesModel();
+        $modelOrders = new OrdersModel();
+        $modelUsers = new UsersModel();
+        $modelItems = new ItemsModel();
+
+        $data = [
+            'categories' => $modelCategories->getCategories(),
+            'paymenttypes' => $modelPayment->getPaymentTypes(),
+            'orders' => $modelOrders->getOrders(false, true),
+            'users' => $modelUsers->getTopSpendingUsers(),
+            'topproducts' => $modelItems->getTopPerformingProducts(),
+            'salestotal' => $modelOrders->getSalesTotal(),
+            'ordercount' => $modelOrders->countAll(),
+            'userscount' => $modelUsers->countAll(),
+            'title' => 'Analytics'
+        ];
+
+        return view('pages/admin/analytics', $data);
     }
 }
