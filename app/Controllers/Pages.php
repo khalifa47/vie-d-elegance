@@ -143,6 +143,7 @@ class Pages extends BaseController
             'salestotal' => $modelOrders->getSalesTotal(),
             'ordercount' => $modelOrders->countAll(),
             'userscount' => $modelUsers->countAll(),
+            'categoryrevenue' => $modelItems->getRevenueByCategory(),
             'title' => 'Analytics'
         ];
 

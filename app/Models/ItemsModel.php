@@ -45,4 +45,16 @@ class ItemsModel extends Model
             ->limit(5)
             ->findAll();
     }
+
+    public function getRevenueByCategory()
+    {
+        return $this->asArray()
+            ->join('tbl_orderdetails', 'tbl_orderdetails.product_id = tbl_product.product_id')
+            ->join('tbl_subcategories', 'tbl_subcategories.subcategory_id = tbl_product.subcategory_id')
+            ->join('tbl_categories', 'tbl_subcategories.category = tbl_categories.category_id')
+            ->selectSum('orderdetails_total')
+            ->select('tbl_categories.category_name')
+            ->groupby('tbl_categories.category_id')
+            ->findAll();
+    }
 }

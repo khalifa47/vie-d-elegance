@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">E-commerce Dashboard Template </h2>
+                            <h2 class="pageheader-title">Vie d'Elegance Admin Dashboard</h2>
                         </div>
                     </div>
                 </div>
@@ -350,6 +350,15 @@
     <!-- end wrapper  -->
     <!-- ============================================================== -->
 </div>
+
+<script>
+    const categoryrevenue = <?php echo json_encode($categoryrevenue); ?>;
+    const rev_array = [];
+    categoryrevenue.forEach(element => {
+        rev_array.push([element.category_name.toUpperCase(), parseFloat(element.orderdetails_total)]);
+    });
+</script>
+
 <?php echo view('templates/footer'); ?>
 <script src="<?= base_url('assets/js/charts/c3.min.js') ?>"></script>
 <script src="<?= base_url('assets/js/charts/C3chartjs.js') ?>"></script>
@@ -359,6 +368,3 @@
 <script src="<?= base_url('assets/js/charts/jquery.sparkline.js') ?>"></script>
 <script src="<?= base_url('assets/js/charts/chartist.min.js') ?>"></script>
 <script src="<?= base_url('assets/js/charts/dashboard-ecommerce.js') ?>"></script>
-<script>
-    // script comes here
-</script>
