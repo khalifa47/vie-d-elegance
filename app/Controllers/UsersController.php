@@ -6,6 +6,7 @@ use App\Models\UsersModel;
 use App\Models\CategoriesModel;
 use App\Models\WalletModel;
 use App\Models\PaymentTypesModel;
+use App\Models\UserloginModel;
 
 class UsersController extends BaseController
 {
@@ -87,6 +88,7 @@ class UsersController extends BaseController
     {
         $modelUsers = new UsersModel();
         $modelWallet = new WalletModel();
+        $modelUserLogin = new UserloginModel();
 
         $response = array(
             'status' => 0,
@@ -114,6 +116,13 @@ class UsersController extends BaseController
                         session()->set(['walletBal' => $modelWallet->getWalletAtUser($user['user_id'])['amount_available']]);
                         session()->set(['isLogged' => TRUE]);
 
+
+                        $sessionID = $modelUserLogin->insertUserLogin([
+                            'user_id' => $user['user_id'],
+                            'user_ip' => $_SERVER['REMOTE_ADDR']
+                        ]);
+                        session()->set(['session_id' => $sessionID]);
+
                         $response['status'] = 1;
                         $response['message'] = "Login successful";
                     }
@@ -128,6 +137,10 @@ class UsersController extends BaseController
 
     public function logout()
     {
+        $modelUserLogin = new UserloginModel();
+
+        $modelUserLogin->update(session()->get('session_id'), ['is_deleted' => 1]);
+
         session()->set(['isLogged' => FALSE]);
         session()->destroy();
 
