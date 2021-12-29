@@ -361,7 +361,6 @@
 
 <?php echo view('templates/footer'); ?>
 <script src="<?= base_url('assets/js/charts/c3.min.js') ?>"></script>
-<script src="<?= base_url('assets/js/charts/C3chartjs.js') ?>"></script>
 <script src="<?= base_url('assets/js/charts/d3-5.4.0.min.js') ?>"></script>
 <script src="<?= base_url('assets/js/charts/morris.js') ?>"></script>
 <script src="<?= base_url('assets/js/charts/raphael.min.js') ?>"></script>
