@@ -1,4 +1,4 @@
-# La Vie d'Elegance ![VE](public\assets\img\logo.png)
+# La Vie d'Elegance ![VE](/public/assets/img/logo.png)
 
 ## Dress to Impress
 
