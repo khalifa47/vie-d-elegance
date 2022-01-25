@@ -84,46 +84,60 @@ class Pages extends BaseController
 
     public function addCategory()
     {
-        $modelCategories = new CategoriesModel();
-        $modelPayment = new PaymentTypesModel();
+        if (session()->get('utype') == 1) {
+            $modelCategories = new CategoriesModel();
+            $modelPayment = new PaymentTypesModel();
 
-        $data = [
-            'categories' => $modelCategories->getCategories(),
-            'paymenttypes' => $modelPayment->getPaymentTypes(),
-            'title' => 'Add Category'
-        ];
+            $data = [
+                'categories' => $modelCategories->getCategories(),
+                'paymenttypes' => $modelPayment->getPaymentTypes(),
+                'title' => 'Add Category'
+            ];
 
-        return view('items/admin/add-category', $data);
+            return view('items/admin/add-category', $data);
+        } else {
+            return view('errors/html/unauthorized');
+        }
     }
 
     public function addItem()
     {
-        $modelUsers = new UsersModel();
-        $modelCat = new CategoriesModel();
-        $modelPayment = new PaymentTypesModel();
+        if (session()->get('utype') == 1) {
+            $modelUsers = new UsersModel();
+            $modelCat = new CategoriesModel();
+            $modelPayment = new PaymentTypesModel();
 
-        $data = [
-            'user' => $modelUsers->getUsers(session()->get('id')),
-            'categories' => $modelCat->getCategories(),
-            'paymenttypes' => $modelPayment->getPaymentTypes(),
-            'title' => 'Add Item'
-        ];
+            $data = [
+                'user' => $modelUsers->getUsers(session()->get('id')),
+                'categories' => $modelCat->getCategories(),
+                'paymenttypes' => $modelPayment->getPaymentTypes(),
+                'title' => 'Add Item'
+            ];
 
-        return view('items/admin/add-items', $data);
+            return view('items/admin/add-items', $data);
+        } else {
+            return view('errors/html/unauthorized');
+        }
     }
 
     public function addUser()
     {
-        $modelCategories = new CategoriesModel();
-        $modelPayment = new PaymentTypesModel();
+        if (session()->get('utype') == 1) {
+            $modelUsers = new UsersModel();
+            $modelCategories = new CategoriesModel();
+            $modelPayment = new PaymentTypesModel();
 
-        $data = [
-            'categories' => $modelCategories->getCategories(),
-            'paymenttypes' => $modelPayment->getPaymentTypes(),
-            'title' => 'Add User'
-        ];
+            $data = [
+                'user' => $modelUsers->getUsers(session()->get('id')),
+                'categories' => $modelCategories->getCategories(),
+                'paymenttypes' => $modelPayment->getPaymentTypes(),
+                'title' => 'Add User'
+            ];
 
-        return view('users/admin/add-user', $data);
+            return view('users/admin/add-user', $data);
+        } else {
+            return view('errors/html/unauthorized');
+        }
     }
 
     public function analytics()

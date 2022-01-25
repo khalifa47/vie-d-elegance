@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\UsersModel;
+use App\Models\APIusersModel;
 use App\Models\CategoriesModel;
 use App\Models\WalletModel;
 use App\Models\PaymentTypesModel;
@@ -80,6 +81,30 @@ class UsersController extends BaseController
         } else {
             $response['status'] = 0;
             $response['message'] = "Passwords must match!";
+        }
+        echo json_encode($response);
+    }
+
+    public function registerAPIuser()
+    {
+        $modelAPIusers = new APIusersModel();
+
+        $response = array(
+            'status' => 0,
+            'message' => ''
+        );
+
+        if ($modelAPIusers->getApiUsers($_POST['uname'])) {
+            $response['status'] = 0;
+            $response['message'] = "Username already exists";
+        } else {
+            $modelAPIusers->save([
+                'username' => $_POST['uname'],
+                'key' => sha1(md5(time() * time() * 24)),
+                'added_by' => $_POST['admin_id']
+            ]);
+            $response['status'] = 1;
+            $response['message'] = "Registration successful";
         }
         echo json_encode($response);
     }
