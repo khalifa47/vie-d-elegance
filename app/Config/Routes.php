@@ -31,6 +31,16 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
+
+// api routes
+
+$routes->get('/api/users/(:num)', 'api\UsersAPI::single/$1');
+$routes->get('/api/users/(:segment)', 'api\UsersAPI::multiple/$1');
+$routes->get('/api/users', 'api\UsersAPI::multiple');
+
+
+
+// page routes
 $routes->get('items/(:segment)', 'ItemsController::view/$1');
 $routes->get('items', 'ItemsController::index');
 $routes->get('users/(:segment)', 'UsersController::view/$1');
