@@ -37,6 +37,7 @@ $routes->setAutoRoute(true);
 $routes->get('/api/users/(:num)', 'api\UsersAPI::single/$1');
 $routes->get('/api/users/(:segment)', 'api\UsersAPI::multiple/$1');
 $routes->get('/api/users', 'api\UsersAPI::multiple');
+$routes->get('/api/(:segment)', 'api\UsersAPI::portal/$1');
 
 
 
