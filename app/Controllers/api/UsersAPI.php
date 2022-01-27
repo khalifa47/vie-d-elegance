@@ -82,13 +82,29 @@ class UsersAPI extends BaseController
     }
     public function single($uid)
     {
-        $usersModel = new UsersModel();
+        $apiUsers = new APIusersModel();
+        $apiTokens = new APItokensModel();
 
-        return $this->respond($usersModel->getMinUsers($uid), 200);
+        date_default_timezone_set('Africa/Nairobi');
 
-        // echo $uid;
-        // echo $_GET['uname'];
-        // echo $_GET['key'];
-        // echo $_GET['token'];
+        $authUser = $this->request->getGet('uname') && $this->request->getGet('uname') == $apiUsers->getApiUsers($this->request->getGet('uname'))['username'];
+
+        if ($authUser) {
+            $authKey = $this->request->getGet('key') && $this->request->getGet('key') == $apiUsers->getApiUsers($this->request->getGet('uname'))['key'];
+            $authToken = $this->request->getGet('token') && $this->request->getGet('token') == $apiTokens->getSpecificToken($apiUsers->getApiUsers($this->request->getGet('uname'))['apiuser_id'], 1)['api_token'];
+            if ($authKey && $authToken) {
+                $tokenValid = $apiTokens->getSpecificToken($apiUsers->getApiUsers($this->request->getGet('uname'))['apiuser_id'], 1)['expires_on'] > date('Y-m-d H:i:s');
+                if ($tokenValid) {
+                    $usersModel = new UsersModel();
+                    return $this->respond($usersModel->getMinUsers($uid), 200);
+                } else {
+                    return $this->failUnauthorized("Expired token. Please generate a new token");
+                }
+            } else {
+                return $this->failUnauthorized("Invalid key/token combination");
+            }
+        }
+
+        return $this->failUnauthorized('Unauthorized! Please check your query arguments. Check the documentation for reference.');
     }
 }
