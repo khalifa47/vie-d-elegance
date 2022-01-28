@@ -39,6 +39,10 @@ $routes->get('/api/users/(:segment)', 'api\UsersAPI::multiple/$1');
 $routes->get('/api/users', 'api\UsersAPI::multiple');
 $routes->get('/api/(:segment)', 'api\UsersAPI::portal/$1');
 
+$routes->post('/api/generateToken', 'api\UsersAPI::generateToken');
+$routes->post('/api/generateKey', 'api\UsersAPI::generateKey');
+
+
 
 
 // page routes

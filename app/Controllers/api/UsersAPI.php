@@ -3,6 +3,7 @@
 namespace App\Controllers\api;
 
 use App\Controllers\BaseController;
+use App\Models\APIproductsModel;
 use App\Models\APItokensModel;
 use App\Models\APIusersModel;
 use App\Models\UsersModel;
@@ -20,26 +21,52 @@ class UsersAPI extends BaseController
         if ($this->request->getGet('key')) {
             $apiUsers = new APIusersModel();
             $apiTokens = new APItokensModel();
+            $apiProducts = new APIproductsModel();
 
             if ($_GET['key'] == $apiUsers->getApiUsers($uname)['key']) {
-                // $apiproductstokens = $apiTokens->getTokensForUser($apiUsers->getApiUsers($uname)['apiuser_id']);
-
                 $data = [
                     'key' => $_GET['key'],
-                    'products' => $apiTokens->getTokensForUser($apiUsers->getApiUsers($uname)['apiuser_id'])
+                    'userid' => $apiUsers->getApiUsers($uname)['apiuser_id'],
+                    'products' => []
                 ];
-                // foreach ($apiproductstokens as $prod) {
-                //     foreach ($data['products'] as $newprod) {
-                //         if ($prod['productname'] != $newprod['productname']) {
-                //             array_push($data['products'], $prod);
-                //         }
-                //     }
-                // }
+
+                for ($i = 1; $i < 4; $i++) {
+                    array_push($data['products'], [
+                        "productname" => $apiProducts->getApiProducts($i)['productname'],
+                        "productid" => $apiProducts->getApiProducts($i)['apiproduct_id'],
+                        "api_token" => $apiTokens->getSpecificToken($apiUsers->getApiUsers($uname)['apiuser_id'], $i)['api_token']
+                    ]);
+                }
+
                 return view('api/api-user', $data);
             }
         }
 
         return view('errors/html/unauthorized');
+    }
+
+    public function generateToken()
+    {
+        $apiTokens = new APItokensModel();
+
+        $insertedToken = $apiTokens->insertToken([
+            'api_productid' => $_POST['pid'],
+            'api_userid' => $_POST['uid'],
+            'api_token' => md5(sha1(time() * time() * 452))
+        ]);
+
+        echo json_encode(['newToken' => $apiTokens->getApiTokens($insertedToken)['api_token']]);
+    }
+
+    public function generateKey()
+    {
+        $apiUsers = new APIusersModel();
+
+        $apiUsers->update($_POST['uid'], [
+            'key' => sha1(md5(time() * time() * 45))
+        ]);
+
+        echo json_encode(['newKey' => $apiUsers->getApiUserById($_POST['uid'])['key']]);
     }
 
     public function multiple($sort_option = 'user_id')

@@ -40,4 +40,10 @@ class APItokensModel extends Model
             ->where(['api_userid' => $uid, 'api_productid' => $pid])
             ->first();
     }
+
+    public function insertToken($data)
+    {
+        $this->save($data);
+        return $this->getInsertID();
+    }
 }

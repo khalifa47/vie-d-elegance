@@ -20,4 +20,11 @@ class APIusersModel extends Model
             ->where(['username' => $uname])
             ->first();
     }
+
+    public function getApiUserById($id)
+    {
+        return $this->asArray()
+            ->where(['apiuser_id' => $id])
+            ->first();
+    }
 }

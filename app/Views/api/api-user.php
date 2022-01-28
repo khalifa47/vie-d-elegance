@@ -23,7 +23,8 @@
 
     <div>
         <div class="d-flex flex-grow-1 justify-content-around">
-            <p style="font-size: 17px;">My Key: <span><?= $key ?></span></p><button class="btn btn-primary btn-sm d-sm-flex align-items-sm-center" type="button" style="height: 28px;">Generate New Key</button>
+            <p style="font-size: 17px;">My Key: <span id="key"><?= $key ?></span></p>
+            <button onclick="generateKey(<?= $userid ?>)" class="btn btn-primary btn-sm d-sm-flex align-items-sm-center" type="button" style="height: 28px;">Generate New Key</button>
         </div>
     </div>
     <hr>
@@ -31,20 +32,56 @@
         <h5>Registered API Products</h5>
         <?php foreach ($products as $product) : ?>
             <div class="d-flex flex-grow-1 justify-content-between" style="height: 30.5px;">
-                <p style="font-size: 17px;"><?= ucwords($product['productname']) ?>: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?= $product['api_token'] ?></span></p><button class="btn btn-primary btn-sm d-sm-flex align-items-sm-center" type="button" style="height: 28px;">Generate New Token</button>
+                <p style="font-size: 17px;"><?= ucwords($product['productname']) ?>: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="token<?= $product['productid'] ?>"><?= $product['api_token'] ?></span></p>
+                <button onclick="generateToken(<?= $product['productid'] ?>, <?= $userid ?>)" class="btn btn-primary btn-sm d-sm-flex align-items-sm-center" type="button" style="height: 28px;">Generate New Token</button>
             </div>
         <?php endforeach; ?>
     </div>
-    <hr>
-    <div>
-        <form class="d-flex"><select class="form-select">
-                <optgroup label="This is a group">
-                    <option value="12" selected="">This is item 1</option>
-                    <option value="13">This is item 2</option>
-                    <option value="14">This is item 3</option>
-                </optgroup>
-            </select><button class="btn btn-primary" type="button">Register</button></form>
-    </div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.js"></script>
+<script>
+    const generateToken = (prodID, userID) => {
+        $.ajax({
+            type: 'POST',
+            url: '/api/generateToken',
+            data: {
+                pid: prodID,
+                uid: userID
+            },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded',
+            cache: false,
+
+            success: (response) => {
+                $(`#token${prodID}`).html(response.newToken);
+            }
+
+        });
+    };
+
+    const generateKey = (userID) => {
+        $.ajax({
+            type: 'POST',
+            url: '/api/generateKey',
+            data: {
+                uid: userID
+            },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded',
+            cache: false,
+
+            success: (response) => {
+                $('#key').html(response.newKey);
+            }
+
+        });
+    };
+</script>
 
 </html>

@@ -53,6 +53,8 @@ class UsersModel extends Model
         if ($id === false) {
             if ($sort == 'latest_active') {
                 $sort = 'tbl_order.order_id';
+            } else if ($sort == 'last_login') {
+                $sort = 'login_time';
             }
             if ($filter_option == 'tbl_orderdetails.created_at') {
                 $filter_option = 'DATE(' . $filter_option . ')';
@@ -62,6 +64,7 @@ class UsersModel extends Model
                     ->join('tbl_order', 'tbl_order.customer_id = tbl_users.user_id', 'left')
                     ->join('tbl_orderdetails', 'tbl_orderdetails.order_id = tbl_order.order_id')
                     ->join('tbl_product', 'tbl_product.product_id = tbl_orderdetails.product_id')
+                    ->join('tbl_userlogins', 'tbl_userlogins.user_id = tbl_users.user_id')
                     ->select(['user_id', 'first_name', 'last_name', 'email', 'gender'])
                     ->where([$filter_option => $filter_value])
                     ->distinct()
