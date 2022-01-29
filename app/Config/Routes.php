@@ -34,13 +34,27 @@ $routes->setAutoRoute(true);
 
 // api routes
 
+// users api
 $routes->get('/api/users/(:num)', 'api\UsersAPI::single/$1');
 $routes->get('/api/users/(:segment)', 'api\UsersAPI::multiple/$1');
 $routes->get('/api/users', 'api\UsersAPI::multiple');
-$routes->get('/api/(:segment)', 'api\UsersAPI::portal/$1');
 
+// products api
+$routes->get('/api/products/(:num)', 'api\ProductsAPI::single/$1');
+$routes->get('/api/products/(:segment)', 'api\ProductsAPI::multiple/$1');
+$routes->get('/api/products', 'api\ProductsAPI::multiple');
+
+// transactions api
+// $routes->get('/api/users/(:num)', 'api\UsersAPI::single/$1');
+// $routes->get('/api/users/(:segment)', 'api\UsersAPI::multiple/$1');
+// $routes->get('/api/users', 'api\UsersAPI::multiple');
+
+// api portal
+$routes->get('/api/(:segment)', 'api\UsersAPI::portal/$1');
 $routes->post('/api/generateToken', 'api\UsersAPI::generateToken');
 $routes->post('/api/generateKey', 'api\UsersAPI::generateKey');
+
+
 
 
 

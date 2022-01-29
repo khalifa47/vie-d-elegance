@@ -46,7 +46,7 @@ class UsersModel extends Model
             ->findAll();
     }
 
-    // api functions
+    // api function
 
     public function getMinUsers($id = false, $sort = 'user_id', $filter_option = null, $filter_value = null)
     {
@@ -56,10 +56,10 @@ class UsersModel extends Model
             } else if ($sort == 'last_login') {
                 $sort = 'login_time';
             }
-            if ($filter_option == 'tbl_orderdetails.created_at') {
-                $filter_option = 'DATE(' . $filter_option . ')';
-            }
             if ($filter_option != null && $filter_value != null) {
+                if ($filter_option == 'tbl_orderdetails.created_at') {
+                    $filter_option = 'DATE(' . $filter_option . ')';
+                }
                 return $this->asArray()
                     ->join('tbl_order', 'tbl_order.customer_id = tbl_users.user_id', 'left')
                     ->join('tbl_orderdetails', 'tbl_orderdetails.order_id = tbl_order.order_id')

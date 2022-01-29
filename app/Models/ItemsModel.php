@@ -57,4 +57,47 @@ class ItemsModel extends Model
             ->groupby('tbl_categories.category_id')
             ->findAll();
     }
+
+    // api function
+
+    public function getMinProducts($id = false, $sort = 'product_id', $filter_option = null, $filter_value = null)
+    {
+        if ($id === false) {
+            if ($sort == 'sales') {
+                $sort = 'orderdetails_total';
+            }
+            if ($filter_option != null && $filter_value != null) {
+                return $this->asArray()
+                    ->join('tbl_order', 'tbl_order.customer_id = tbl_users.user_id')
+                    ->join('tbl_orderdetails', 'tbl_orderdetails.order_id = tbl_order.order_id')
+                    ->join('tbl_product', 'tbl_product.product_id = tbl_orderdetails.product_id')
+                    ->select(['product_id', 'product_name', 'product_description', 'unit_price', 'available_quantity', 'subcategory_id'])
+                    ->where([$filter_option => $filter_value])
+                    ->distinct()
+                    ->orderby($sort, 'DESC')
+                    ->findAll();
+            }
+            return $this->asArray()
+                ->join('tbl_subcategories', 'tbl_subcategories.subcategory_id = tbl_product.subcategory_id')
+                ->join('tbl_categories', 'tbl_subcategories.category = tbl_categories.category_id')
+                ->join('tbl_orderdetails', 'tbl_product.product_id = tbl_orderdetails.product_id', 'left')
+                ->select(['tbl_product.product_id', 'product_name', 'product_description', 'unit_price', 'available_quantity', 'tbl_product.subcategory_id'])
+                ->selectSum('orderdetails_total')
+                ->groupby('product_id')
+                ->orderby($sort, 'DESC')
+                ->findAll();
+        }
+        return $this->asArray()
+            ->select(['product_id', 'product_name', 'product_description', 'unit_price', 'available_quantity', 'subcategory_id'])
+            ->where(['product_id' => $id])
+            ->first();
+    }
+
+    public function searchProduct($searchval)
+    {
+        return $this->asArray()
+            ->select(['product_id', 'product_name', 'product_description', 'unit_price', 'available_quantity', 'subcategory_id'])
+            ->like('product_name', $searchval, 'both')
+            ->findAll();
+    }
 }
