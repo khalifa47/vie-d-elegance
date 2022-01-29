@@ -47,4 +47,38 @@ class OrdersModel extends Model
             ->selectSum('order_amount')
             ->findAll();
     }
+
+    public function getMinTransactions($id = false, $sort = 'order_id', $filter_option = null, $filter_value = null)
+    {
+        if ($id === false) {
+            if ($filter_option != null && $filter_value != null) {
+                $filterClause = "$filter_option='$filter_value'";
+
+                if ($filter_option == 'tbl_order.created_at') {
+                    if (strpos($filter_value, ' ') != false) {
+                        $dateArr = explode(' ', $filter_value);
+                        $filterClause = "tbl_order.created_at BETWEEN DATE('" . $dateArr[0] . "') AND DATE('" . $dateArr[1] . "')";
+                    }
+                }
+                return $this->asArray()
+                    ->join('tbl_orderdetails', 'tbl_orderdetails.order_id = tbl_order.order_id')
+                    ->join('tbl_product', 'tbl_product.product_id = tbl_orderdetails.product_id')
+                    ->join('tbl_subcategories', 'tbl_subcategories.subcategory_id = tbl_product.subcategory_id')
+                    ->join('tbl_categories', 'tbl_subcategories.category = tbl_categories.category_id')
+                    ->select(['tbl_order.order_id', 'customer_id', 'order_amount', 'order_status', 'payment_type', 'tbl_order.created_at'])
+                    ->where($filterClause)
+                    ->distinct()
+                    ->orderby($sort, 'DESC')
+                    ->findAll();
+            }
+            return $this->asArray()
+                ->select(['tbl_order.order_id', 'customer_id', 'order_amount', 'order_status', 'payment_type', 'created_at'])
+                ->orderby($sort, 'DESC')
+                ->findAll();
+        }
+        return $this->asArray()
+            ->select(['tbl_order.order_id', 'customer_id', 'order_amount', 'order_status', 'payment_type', 'created_at'])
+            ->where(['order_id' => $id])
+            ->first();
+    }
 }

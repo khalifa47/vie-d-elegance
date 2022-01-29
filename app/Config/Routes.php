@@ -45,9 +45,9 @@ $routes->get('/api/products/(:segment)', 'api\ProductsAPI::multiple/$1');
 $routes->get('/api/products', 'api\ProductsAPI::multiple');
 
 // transactions api
-// $routes->get('/api/users/(:num)', 'api\UsersAPI::single/$1');
-// $routes->get('/api/users/(:segment)', 'api\UsersAPI::multiple/$1');
-// $routes->get('/api/users', 'api\UsersAPI::multiple');
+$routes->get('/api/transactions/(:num)', 'api\TransactionAPI::single/$1');
+$routes->get('/api/transactions/(:segment)', 'api\TransactionAPI::multiple/$1');
+$routes->get('/api/transactions', 'api\TransactionAPI::multiple');
 
 // api portal
 $routes->get('/api/(:segment)', 'api\UsersAPI::portal/$1');

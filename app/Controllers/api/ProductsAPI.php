@@ -30,9 +30,9 @@ class ProductsAPI extends BaseController
             }
 
             $authKey = $this->request->getGet('key') && $this->request->getGet('key') == $apiUsers->getApiUsers($this->request->getGet('uname'))['key'];
-            $authToken = $this->request->getGet('token') && $this->request->getGet('token') == $apiTokens->getSpecificToken($apiUsers->getApiUsers($this->request->getGet('uname'))['apiuser_id'], 1)['api_token'];
+            $authToken = $this->request->getGet('token') && $this->request->getGet('token') == $apiTokens->getSpecificToken($apiUsers->getApiUsers($this->request->getGet('uname'))['apiuser_id'], 2)['api_token'];
             if ($authKey && $authToken) {
-                $tokenValid = $apiTokens->getSpecificToken($apiUsers->getApiUsers($this->request->getGet('uname'))['apiuser_id'], 1)['expires_on'] > date('Y-m-d H:i:s');
+                $tokenValid = $apiTokens->getSpecificToken($apiUsers->getApiUsers($this->request->getGet('uname'))['apiuser_id'], 2)['expires_on'] > date('Y-m-d H:i:s');
                 if ($tokenValid) {
                     if ($this->request->getGet('userid')) {
                         return $this->respond($itemsModel->getMinProducts(false, $sort_option, 'user_id', $_GET['userid']), 200);
