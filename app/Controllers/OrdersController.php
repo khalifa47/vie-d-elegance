@@ -112,6 +112,9 @@ class OrdersController extends BaseController
                         'orderdetails_total' => ($cartItem['unit_price'] * $cartItem['quantityVal'])
                     ]);
                     $modelCart->delete($modelCart->getCartID($_POST['userID'], $cartItem['product_id'])['cart_id']);
+                    $modelProducts->update($cartItem['product_id'], [
+                        'available_quantity' => $modelProducts->getItems($cartItem['product_id'])['available_quantity'] - $cartItem['quantityVal']
+                    ]);
                 }
 
                 $response['status'] = 1;
