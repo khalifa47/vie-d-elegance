@@ -75,7 +75,7 @@ class UsersModel extends Model
             return $this->asArray()
                 ->join('tbl_order', 'tbl_order.customer_id = tbl_users.user_id', 'left')
                 ->join('tbl_orderdetails', 'tbl_orderdetails.order_id = tbl_order.order_id', 'left')
-                ->join('tbl_userlogins', 'tbl_userlogins.user_id = tbl_users.user_id')
+                ->join('tbl_userlogins', 'tbl_userlogins.user_id = tbl_users.user_id', 'left')
                 ->select(['tbl_users.user_id', 'first_name', 'last_name', 'email', 'gender'])
                 ->distinct()
                 ->orderby($sort, 'DESC')
