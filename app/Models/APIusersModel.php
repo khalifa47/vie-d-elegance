@@ -27,4 +27,10 @@ class APIusersModel extends Model
             ->where(['apiuser_id' => $id])
             ->first();
     }
+
+    public function insertApiUser($data)
+    {
+        $this->save($data);
+        return $this->getInsertID();
+    }
 }

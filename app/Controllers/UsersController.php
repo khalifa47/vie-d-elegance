@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\APItokensModel;
 use App\Models\UsersModel;
 use App\Models\APIusersModel;
 use App\Models\CategoriesModel;
@@ -96,6 +97,7 @@ class UsersController extends BaseController
     public function registerAPIuser()
     {
         $modelAPIusers = new APIusersModel();
+        $modelTokens = new APItokensModel();
 
         $response = array(
             'status' => 0,
@@ -106,11 +108,21 @@ class UsersController extends BaseController
             $response['status'] = 0;
             $response['message'] = "Username already exists";
         } else {
-            $modelAPIusers->save([
+            $apiUserID = $modelAPIusers->insertApiUser([
                 'username' => $_POST['uname'],
                 'key' => sha1(md5(time() * time() * 24)),
                 'added_by' => $_POST['admin_id']
             ]);
+
+            for ($i = 1; $i < 4; $i++) {
+                $modelTokens->save([
+                    'api_userid' => $apiUserID,
+                    'api_product_id' => $i,
+                    'api_token' => NULL
+                ]);
+            }
+
+
             $response['status'] = 1;
             $response['message'] = "Registration successful";
         }
