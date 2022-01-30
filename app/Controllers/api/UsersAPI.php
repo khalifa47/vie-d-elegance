@@ -89,8 +89,8 @@ class UsersAPI extends BaseController
                     if ($this->request->getGet('productid')) {
                         return $this->respond($usersModel->getMinUsers(false, $sort_option, 'tbl_product.product_id', $_GET['productid']), 200);
                     }
-                    if ($this->request->getGet('subcategory')) {
-                        return $this->respond($usersModel->getMinUsers(false, $sort_option, 'tbl_product.subcategory_id', $_GET['subcategory']), 200);
+                    if ($this->request->getGet('category')) {
+                        return $this->respond($usersModel->getMinUsers(false, $sort_option, 'tbl_subcategories.category', $_GET['category']), 200);
                     }
                     if ($this->request->getGet('datepurchased')) {
                         return $this->respond($usersModel->getMinUsers(false, $sort_option, 'tbl_orderdetails.created_at', $_GET['datepurchased']), 200);
