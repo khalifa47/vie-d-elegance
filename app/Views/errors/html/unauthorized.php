@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Unauthorized</title>
     <link rel="icon" href="<?= base_url('assets/img/logo.png') ?>">
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= base_url('assets/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Antonio&amp;display=swap">
 </head>
 
@@ -19,7 +19,7 @@
     <div class="container w-100 h-100" style="width: 100%;height: 100%;">
         <div class="col">
             <div class="row">
-                <div class="col" style="text-align: center;"><img src="assets/img/sadpanda_vector.svg" style="width: 400px;text-align: center;"></div>
+                <div class="col" style="text-align: center;"><img src="<?= base_url('assets/img/sadpanda_vector.svg') ?>" style="width: 400px;text-align: center;"></div>
             </div>
             <div class="row">
                 <div class="col">

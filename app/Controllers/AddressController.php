@@ -11,18 +11,22 @@ class AddressController extends BaseController
 {
     public function index()
     {
-        $modelCat = new CategoriesModel();
-        $modelPayment = new PaymentTypesModel();
-        $modelAddress = new AddressModel();
+        if (session()->get('isLogged')) {
+            $modelCat = new CategoriesModel();
+            $modelPayment = new PaymentTypesModel();
+            $modelAddress = new AddressModel();
 
-        $data = [
-            'categories' => $modelCat->getCategories(),
-            'paymenttypes' => $modelPayment->getPaymentTypes(),
-            'address' => $modelAddress->getAddressAtUser(session()->get('id')),
-            'title' => 'Address'
-        ];
+            $data = [
+                'categories' => $modelCat->getCategories(),
+                'paymenttypes' => $modelPayment->getPaymentTypes(),
+                'address' => $modelAddress->getAddressAtUser(session()->get('id')),
+                'title' => 'Address'
+            ];
 
-        return view('users/address', $data);
+            return view('users/address', $data);
+        } else {
+            return redirect()->to('/login');
+        }
     }
 
     public function addAddress()

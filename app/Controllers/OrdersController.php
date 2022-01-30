@@ -21,26 +21,30 @@ class OrdersController extends BaseController
 
     public function index()
     {
-        $modelCategs = new CategoriesModel();
-        $modelPayment = new PaymentTypesModel();
-        $modelOrders = new OrdersModel();
-        $modelOrderDetails = new OrderDetailsModel();
+        if (session()->get('isLogged')) {
+            $modelCategs = new CategoriesModel();
+            $modelPayment = new PaymentTypesModel();
+            $modelOrders = new OrdersModel();
+            $modelOrderDetails = new OrderDetailsModel();
 
-        $data = [
-            'categories' => $modelCategs->getCategories(),
-            'paymenttypes' => $modelPayment->getPaymentTypes(),
-            'orders' => $modelOrders->getOrdersAtUser(session()->get('id')),
-            'orderdetails' => [],
-            'title' => 'My Orders'
-        ];
+            $data = [
+                'categories' => $modelCategs->getCategories(),
+                'paymenttypes' => $modelPayment->getPaymentTypes(),
+                'orders' => $modelOrders->getOrdersAtUser(session()->get('id')),
+                'orderdetails' => [],
+                'title' => 'My Orders'
+            ];
 
 
 
-        foreach ($data['orders'] as $order) {
-            array_push($data['orderdetails'], [$order['order_id'], $modelOrderDetails->getOrderDetailsAtOrder($order['order_id'])]);
+            foreach ($data['orders'] as $order) {
+                array_push($data['orderdetails'], [$order['order_id'], $modelOrderDetails->getOrderDetailsAtOrder($order['order_id'])]);
+            }
+
+            return view('items/orders', $data);
+        } else {
+            return redirect()->to('/login');
         }
-
-        return view('items/orders', $data);
     }
 
     public function checkout()

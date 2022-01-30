@@ -14,29 +14,33 @@ class CartController extends BaseController
 {
     public function index()
     {
-        $modelPayment = new PaymentTypesModel();
-        $modelCategories = new CategoriesModel();
-        $modelCart = new CartModel();
-        $modelItems = new ItemsModel();
-        $modelImages = new ImagesModel();
+        if (session()->get('isLogged')) {
+            $modelPayment = new PaymentTypesModel();
+            $modelCategories = new CategoriesModel();
+            $modelCart = new CartModel();
+            $modelItems = new ItemsModel();
+            $modelImages = new ImagesModel();
 
-        $cartItems = array();
-        $cartImages = array();
+            $cartItems = array();
+            $cartImages = array();
 
-        foreach ($modelCart->getCartAtUser(session()->get('id')) as $item) {
-            array_push($cartItems, $modelItems->getItems($item['product_id']));
-            array_push($cartImages, $modelImages->getImages($item['product_id'])[0]);
+            foreach ($modelCart->getCartAtUser(session()->get('id')) as $item) {
+                array_push($cartItems, $modelItems->getItems($item['product_id']));
+                array_push($cartImages, $modelImages->getImages($item['product_id'])[0]);
+            }
+
+            $data = [
+                'categories' => $modelCategories->getCategories(),
+                'paymenttypes' => $modelPayment->getPaymentTypes(),
+                'cartItems' => $cartItems,
+                'cartImages' => $cartImages,
+                'title' => 'My Cart'
+            ];
+
+            return view('items/cart', $data);
+        } else {
+            return redirect()->to('/login');
         }
-
-        $data = [
-            'categories' => $modelCategories->getCategories(),
-            'paymenttypes' => $modelPayment->getPaymentTypes(),
-            'cartItems' => $cartItems,
-            'cartImages' => $cartImages,
-            'title' => 'My Cart'
-        ];
-
-        return view('items/cart', $data);
     }
 
     public function addToCart()

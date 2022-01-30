@@ -31,7 +31,7 @@ class Pages extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException($page);
         }
 
-        $data['title'] = ucfirst($page); // Capitalize the first letter
+        $data['title'] = ucfirst($page);
 
         return view('pages/' . $page, $data);
     }
@@ -52,34 +52,42 @@ class Pages extends BaseController
 
     public function editProfile()
     {
-        $modelUsers = new UsersModel();
-        $modelCat = new CategoriesModel();
-        $modelPayment = new PaymentTypesModel();
+        if (session()->get('isLogged')) {
+            $modelUsers = new UsersModel();
+            $modelCat = new CategoriesModel();
+            $modelPayment = new PaymentTypesModel();
 
-        $data = [
-            'user' => $modelUsers->getUsers(session()->get('id')),
-            'categories' => $modelCat->getCategories(),
-            'paymenttypes' => $modelPayment->getPaymentTypes(),
-            'title' => 'Edit Profile'
-        ];
+            $data = [
+                'user' => $modelUsers->getUsers(session()->get('id')),
+                'categories' => $modelCat->getCategories(),
+                'paymenttypes' => $modelPayment->getPaymentTypes(),
+                'title' => 'Edit Profile'
+            ];
 
-        return view('users/edit-profile', $data);
+            return view('users/edit-profile', $data);
+        } else {
+            return redirect()->to('/login');
+        }
     }
 
     public function editPassword()
     {
-        $modelUsers = new UsersModel();
-        $modelCat = new CategoriesModel();
-        $modelPayment = new PaymentTypesModel();
+        if (session()->get('isLogged')) {
+            $modelUsers = new UsersModel();
+            $modelCat = new CategoriesModel();
+            $modelPayment = new PaymentTypesModel();
 
-        $data = [
-            'user' => $modelUsers->getUsers(session()->get('id')),
-            'categories' => $modelCat->getCategories(),
-            'paymenttypes' => $modelPayment->getPaymentTypes(),
-            'title' => 'Edit Password'
-        ];
+            $data = [
+                'user' => $modelUsers->getUsers(session()->get('id')),
+                'categories' => $modelCat->getCategories(),
+                'paymenttypes' => $modelPayment->getPaymentTypes(),
+                'title' => 'Edit Password'
+            ];
 
-        return view('users/edit-password', $data);
+            return view('users/edit-password', $data);
+        } else {
+            return redirect()->to('/login');
+        }
     }
 
     public function addCategory()
@@ -142,25 +150,29 @@ class Pages extends BaseController
 
     public function analytics()
     {
-        $modelCategories = new CategoriesModel();
-        $modelPayment = new PaymentTypesModel();
-        $modelOrders = new OrdersModel();
-        $modelUsers = new UsersModel();
-        $modelItems = new ItemsModel();
+        if (session()->get('utype') == 1) {
+            $modelCategories = new CategoriesModel();
+            $modelPayment = new PaymentTypesModel();
+            $modelOrders = new OrdersModel();
+            $modelUsers = new UsersModel();
+            $modelItems = new ItemsModel();
 
-        $data = [
-            'categories' => $modelCategories->getCategories(),
-            'paymenttypes' => $modelPayment->getPaymentTypes(),
-            'orders' => $modelOrders->getOrders(false, true),
-            'users' => $modelUsers->getTopSpendingUsers(),
-            'topproducts' => $modelItems->getTopPerformingProducts(),
-            'salestotal' => $modelOrders->getSalesTotal(),
-            'ordercount' => $modelOrders->countAll(),
-            'userscount' => $modelUsers->countAll(),
-            'categoryrevenue' => $modelItems->getRevenueByCategory(),
-            'title' => 'Analytics'
-        ];
+            $data = [
+                'categories' => $modelCategories->getCategories(),
+                'paymenttypes' => $modelPayment->getPaymentTypes(),
+                'orders' => $modelOrders->getOrders(false, true),
+                'users' => $modelUsers->getTopSpendingUsers(),
+                'topproducts' => $modelItems->getTopPerformingProducts(),
+                'salestotal' => $modelOrders->getSalesTotal(),
+                'ordercount' => $modelOrders->countAll(),
+                'userscount' => $modelUsers->countAll(),
+                'categoryrevenue' => $modelItems->getRevenueByCategory(),
+                'title' => 'Analytics'
+            ];
 
-        return view('pages/admin/analytics', $data);
+            return view('pages/admin/analytics', $data);
+        } else {
+            return view('errors/html/unauthorized');
+        }
     }
 }

@@ -14,38 +14,46 @@ class UsersController extends BaseController
 
     public function index()
     {
-        $modelUsers = new UsersModel();
-        $modelCat = new CategoriesModel();
-        $modelPayment = new PaymentTypesModel();
+        if (session()->get('utype') == 1) {
+            $modelUsers = new UsersModel();
+            $modelCat = new CategoriesModel();
+            $modelPayment = new PaymentTypesModel();
 
-        $data = [
-            'categories' => $modelCat->getCategories(),
-            'paymenttypes' => $modelPayment->getPaymentTypes(),
-            'users' => $modelUsers->getUsers(),
-            'title' => 'Users List'
-        ];
+            $data = [
+                'categories' => $modelCat->getCategories(),
+                'paymenttypes' => $modelPayment->getPaymentTypes(),
+                'users' => $modelUsers->getUsers(),
+                'title' => 'Users List'
+            ];
 
-        return view('users/admin/view-users', $data);
+            return view('users/admin/view-users', $data);
+        } else {
+            return view('errors/html/unauthorized');
+        }
     }
     public function view($id = null)
     {
-        $modelUsers = new UsersModel();
-        $modelCat = new CategoriesModel();
-        $modelPayment = new PaymentTypesModel();
+        if (session()->get('utype') == 1) {
+            $modelUsers = new UsersModel();
+            $modelCat = new CategoriesModel();
+            $modelPayment = new PaymentTypesModel();
 
-        $data = [
-            'categories' => $modelCat->getCategories(),
-            'paymenttypes' => $modelPayment->getPaymentTypes(),
-            'user' => $modelUsers->getUsers($id)
-        ];
+            $data = [
+                'categories' => $modelCat->getCategories(),
+                'paymenttypes' => $modelPayment->getPaymentTypes(),
+                'user' => $modelUsers->getUsers($id)
+            ];
 
-        if (empty($data['user'])) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('User does not exist: ' . $id);
+            if (empty($data['user'])) {
+                throw new \CodeIgniter\Exceptions\PageNotFoundException('User does not exist: ' . $id);
+            }
+
+            $data['title'] = $data['user']['first_name'] . " " . $data['user']['last_name'];
+
+            return view('users/admin/view-user', $data);
+        } else {
+            return view('errors/html/unauthorized');
         }
-
-        $data['title'] = $data['user']['first_name'] . " " . $data['user']['last_name'];
-
-        return view('users/admin/view-user', $data);
     }
 
     public function register()
