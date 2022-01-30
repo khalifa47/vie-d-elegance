@@ -24,9 +24,38 @@
             <h2>Ksh. <?= $item['unit_price'] ?> </h2>
             <h4>Available: <?= $item['available_quantity'] ?> units</h4>
             <p style="font-size: 20px;"><?= $item['product_description'] ?></p>
-            <button class="btn btn-primary" type="submit" style="background: rgb(86,198,198);border-radius: 20px; margin-left: 150px; margin-bottom: 50px;">Add To Cart</button>
+            <button class="btn btn-primary" type="button" onclick="addToCart(<?= $item['product_id'] ?>)" style="background: rgb(86,198,198);border-radius: 20px; margin-left: 150px; margin-bottom: 50px;">Add To Cart</button>
         </div>
     </div>
 </div>
+<script>
+    const addToCart = (cartItem) => {
+        $.ajax({
+            type: 'POST',
+            url: '<?= base_url('CartController/addToCart') ?>',
+            data: {
+                productID: cartItem
+            },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded',
+            cache: false,
+
+            success: (response) => {
+                if (response.status == 1) {
+                    alert(response.message);
+                } else if (response.status == 2) {
+                    alert(response.message);
+                } else {
+                    alert(response.message);
+                    location.replace('/login');
+                }
+            }
+
+        });
+    };
+</script>
 <script src="<?= base_url('assets/js/Image-Tab-Gallery-Horizontal.js') ?>"></script>
 <?php echo view('templates/footer'); ?>

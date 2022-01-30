@@ -166,10 +166,6 @@
 <?php echo view('templates/footer'); ?>
 
 <script>
-    // from clicking categories on navbar
-
-    // maybe can be fixed by placing the ajax filtering thing in a function then reusing it here
-
     if (window.location.href.includes('?')) {
         const url = window.location.href.split("?");
 
