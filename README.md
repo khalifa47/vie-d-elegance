@@ -19,3 +19,5 @@ The following tools were used to create the web application:
 5. [ChartistJS](https://gionkunz.github.io/chartist-js/) - for making simple responsive charts for analytics
 
 Hosted web application coming soon! :crossed_fingers:
+
+[API documentation](https://documenter.getpostman.com/view/16312077/UVeCQoDT)
