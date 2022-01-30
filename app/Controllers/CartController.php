@@ -46,6 +46,7 @@ class CartController extends BaseController
     public function addToCart()
     {
         $model = new CartModel();
+        $modelProduct = new ItemsModel();
 
         $response = array(
             'status' => 0,
@@ -53,16 +54,21 @@ class CartController extends BaseController
         );
 
         if (session()->get('isLogged')) {
-            if ($model->getCartID(session()->get('id'), $_POST['productID'])) {
-                $response['status'] = 2;
-                $response['message'] = "Item is already in the cart!";
+            if ($modelProduct->getItems($_POST['productID'])['available_quantity'] > 0) {
+                if ($model->getCartID(session()->get('id'), $_POST['productID'])) {
+                    $response['status'] = 2;
+                    $response['message'] = "Item is already in the cart!";
+                } else {
+                    $model->save([
+                        'user_id' => session()->get('id'),
+                        'product_id' => $_POST['productID']
+                    ]);
+                    $response['status'] = 1;
+                    $response['message'] = "Added to cart!";
+                }
             } else {
-                $model->save([
-                    'user_id' => session()->get('id'),
-                    'product_id' => $_POST['productID']
-                ]);
-                $response['status'] = 1;
-                $response['message'] = "Added to cart!";
+                $response['status'] = 2;
+                $response['message'] = "Sorry. Item is out of stock!";
             }
         } else {
             $response['status'] = 0;

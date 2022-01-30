@@ -11,6 +11,7 @@ use App\Models\OrderDetailsModel;
 use App\Models\CartModel;
 
 use App\Models\CategoriesModel;
+use App\Models\ItemsModel;
 use App\Models\PaymentTypesModel;
 use App\Models\UsersModel;
 use App\Models\WalletModel;
@@ -53,6 +54,7 @@ class OrdersController extends BaseController
         $modelOrderDetails = new OrderDetailsModel();
         $modelCart = new CartModel();
         $modelWallet = new WalletModel();
+        $modelProducts = new ItemsModel();
 
         $response = array(
             'status' => 0,
@@ -66,44 +68,59 @@ class OrdersController extends BaseController
             $response['status'] = 0;
             $response['message'] = 'Please select a payment type';
         } else {
-            if ($_POST['ptype'] == 4) {
-                $orderStatus = 'paid';
-                $balance = $modelWallet->getWalletAtUser($_POST['userID'])['amount_available'];
-                $newBalance = $balance - $_POST['orderAmt'];
-                if ($newBalance < 0) {
-                    $response['status'] = 0;
-                    $response['message'] = 'Insufficient balance in the wallet. Please top up or select a different payment type.';
-                    echo json_encode($response);
-                    return;
-                } else {
-                    $modelWallet->update($modelWallet->getWalletAtUser($_POST['userID'])['wallet_id'], [
-                        'amount_available' => $newBalance
-                    ]);
-
-                    session()->set(['walletBal' => $newBalance]);
-                }
-            }
-            $orderID = $modelOrders->insertOrder([
-                'customer_id' => $_POST['userID'],
-                'order_amount' => $_POST['orderAmt'],
-                'order_status' => $orderStatus,
-                'payment_type' => $_POST['ptype']
-            ]);
+            $allItemsValid = TRUE;
+            $altMessage = 'Could not complete the order';
 
             foreach ($_POST['cartItems'] as $cartItem) {
-                $modelOrderDetails->save([
-                    'order_id' => $orderID,
-                    'product_id' => $cartItem['product_id'],
-                    'product_price' => $cartItem['unit_price'],
-                    'order_quantity' => $cartItem['quantityVal'],
-                    'orderdetails_total' => ($cartItem['unit_price'] * $cartItem['quantityVal'])
-                ]);
-                $modelCart->delete($modelCart->getCartID($_POST['userID'], $cartItem['product_id'])['cart_id']);
+                if ($modelProducts->getItems($cartItem['product_id'])['available_quantity'] < $cartItem['quantityVal']) {
+                    $allItemsValid = FALSE;
+                    $altMessage .= '. Item with ID: ' . $cartItem['product_id'] . ' exceeded stock limit: ' . $modelProducts->getItems($cartItem['product_id'])['available_quantity'];
+                }
             }
 
-            $response['status'] = 1;
-            $response['message'] = "Order completed successfully!";
-            $response['orderID'] = $orderID;
+            if ($allItemsValid) {
+                if ($_POST['ptype'] == 4) {
+                    $orderStatus = 'paid';
+                    $balance = $modelWallet->getWalletAtUser($_POST['userID'])['amount_available'];
+                    $newBalance = $balance - $_POST['orderAmt'];
+                    if ($newBalance < 0) {
+                        $response['status'] = 0;
+                        $response['message'] = 'Insufficient balance in the wallet. Please top up or select a different payment type.';
+                        echo json_encode($response);
+                        return;
+                    } else {
+                        $modelWallet->update($modelWallet->getWalletAtUser($_POST['userID'])['wallet_id'], [
+                            'amount_available' => $newBalance
+                        ]);
+
+                        session()->set(['walletBal' => $newBalance]);
+                    }
+                }
+                $orderID = $modelOrders->insertOrder([
+                    'customer_id' => $_POST['userID'],
+                    'order_amount' => $_POST['orderAmt'],
+                    'order_status' => $orderStatus,
+                    'payment_type' => $_POST['ptype']
+                ]);
+
+                foreach ($_POST['cartItems'] as $cartItem) {
+                    $modelOrderDetails->save([
+                        'order_id' => $orderID,
+                        'product_id' => $cartItem['product_id'],
+                        'product_price' => $cartItem['unit_price'],
+                        'order_quantity' => $cartItem['quantityVal'],
+                        'orderdetails_total' => ($cartItem['unit_price'] * $cartItem['quantityVal'])
+                    ]);
+                    $modelCart->delete($modelCart->getCartID($_POST['userID'], $cartItem['product_id'])['cart_id']);
+                }
+
+                $response['status'] = 1;
+                $response['message'] = "Order completed successfully!";
+                $response['orderID'] = $orderID;
+            } else {
+                $response['status'] = 0;
+                $response['message'] = $altMessage;
+            }
         }
         echo json_encode($response);
     }
