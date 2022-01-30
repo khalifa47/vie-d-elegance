@@ -28,6 +28,9 @@ class ProductsAPI extends BaseController
             if ($this->request->getGet('namesearch')) {
                 return $this->respond($itemsModel->searchProduct($_GET['namesearch']), 200);
             }
+            if ($this->request->getGet('category')) {
+                return $this->respond($itemsModel->getMinProducts(false, $sort_option, 'category_id', $_GET['category']), 200);
+            }
 
             $authKey = $this->request->getGet('key') && $this->request->getGet('key') == $apiUsers->getApiUsers($this->request->getGet('uname'))['key'];
             $authToken = $this->request->getGet('token') && $this->request->getGet('token') == $apiTokens->getSpecificToken($apiUsers->getApiUsers($this->request->getGet('uname'))['apiuser_id'], 2)['api_token'];
